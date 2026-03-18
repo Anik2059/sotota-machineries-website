@@ -30,8 +30,7 @@ app = Flask(__name__)
 
 # Config
 app.config['SECRET_KEY']           = os.getenv('SECRET_KEY', 'dev-secret-key-change-me')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'DATABASE_URL',
+app.config['SQLALCHEMY_DATABASE_URI'] = (
     f"postgresql://{os.getenv('DB_USER','postgres')}:"
     f"{os.getenv('DB_PASSWORD','')}@"
     f"{os.getenv('DB_HOST','localhost')}:"
@@ -51,9 +50,6 @@ PHONE       = os.getenv('PHONE_NUMBER',   '+8801771110646')
 Path(app.config['UPLOAD_FOLDER']).mkdir(parents=True, exist_ok=True)
 
 db.init_app(app)
-
-with app.app_context():
-    db.create_all()
 
 # ──────────────────────────────────────────────────────────────────────
 # HELPERS
@@ -509,19 +505,25 @@ def admin_add_product():
         is_new      = bool(request.form.get('is_new_arrival'))
         is_featured = bool(request.form.get('is_featured'))
         image_url   = request.form.get('image_url', '').strip() or None
+        image_url_2 = request.form.get('image_url_2', '').strip() or None
+        image_url_3 = request.form.get('image_url_3', '').strip() or None
         wa_message  = request.form.get('wa_message', '').strip() or None
 
         if not name or not category_id:
             flash('Product name and category are required.', 'danger')
             return render_template('admin/product_form.html', categories=categories, product=None)
 
-        image_file = None
-        file = request.files.get('image_file')
-        if file and file.filename and allowed_file(file.filename):
-            try:
-                image_file = save_uploaded_image(file)
-            except Exception as e:
-                flash(f'Image upload failed: {e}', 'warning')
+        image_file = image_file_2 = image_file_3 = None
+        for fname, attr in [('image_file',''), ('image_file_2','_2'), ('image_file_3','_3')]:
+            f = request.files.get(fname)
+            if f and f.filename and allowed_file(f.filename):
+                try:
+                    val = save_uploaded_image(f)
+                    if attr == '': image_file = val
+                    elif attr == '_2': image_file_2 = val
+                    else: image_file_3 = val
+                except Exception as e:
+                    flash(f'Image upload failed: {e}', 'warning')
 
         product = Product(
             name=name, brand=brand, model_no=model_no,
@@ -529,6 +531,8 @@ def admin_add_product():
             badge=badge, is_hot=is_hot, is_new_arrival=is_new,
             is_featured=is_featured, image_url=image_url,
             image_file=image_file, wa_message=wa_message,
+            image_url_2=image_url_2, image_url_3=image_url_3,
+            image_file_2=image_file_2, image_file_3=image_file_3,
         )
         db.session.add(product)
         db.session.commit()
@@ -556,19 +560,22 @@ def admin_edit_product(pid):
         product.is_featured = bool(request.form.get('is_featured'))
         product.is_active   = bool(request.form.get('is_active'))
         product.image_url   = request.form.get('image_url', '').strip() or None
+        product.image_url_2 = request.form.get('image_url_2', '').strip() or None
+        product.image_url_3 = request.form.get('image_url_3', '').strip() or None
         product.wa_message  = request.form.get('wa_message', '').strip() or None
 
-        file = request.files.get('image_file')
-        if file and file.filename and allowed_file(file.filename):
-            try:
-                # Delete old uploaded file if exists
-                if product.image_file:
-                    old = os.path.join(app.config['UPLOAD_FOLDER'], product.image_file)
-                    if os.path.exists(old):
-                        os.remove(old)
-                product.image_file = save_uploaded_image(file)
-            except Exception as e:
-                flash(f'Image upload failed: {e}', 'warning')
+        for fname, attr in [('image_file', 'image_file'), ('image_file_2', 'image_file_2'), ('image_file_3', 'image_file_3')]:
+            f = request.files.get(fname)
+            if f and f.filename and allowed_file(f.filename):
+                try:
+                    old_val = getattr(product, attr)
+                    if old_val:
+                        old_path = os.path.join(app.config['UPLOAD_FOLDER'], old_val)
+                        if os.path.exists(old_path):
+                            os.remove(old_path)
+                    setattr(product, attr, save_uploaded_image(f))
+                except Exception as e:
+                    flash(f'Image upload failed: {e}', 'warning')
 
         db.session.commit()
         flash(f'✅ "{product.name}" updated successfully!', 'success')
@@ -829,6 +836,55 @@ def admin_delete_prebook_offer(oid):
 
 
 # ──────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────
+# MIGRATION & SEED ROUTES (run once)
+# ──────────────────────────────────────────────────────────────────────
+
+@app.route('/migrate-add-gallery-columns')
+def migrate_gallery():
+    try:
+        with db.engine.connect() as conn:
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS image_url_2 TEXT"))
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS image_url_3 TEXT"))
+            conn.commit()
+        return "Migration done! Gallery columns added."
+    except Exception as e:
+        return f"Error: {e}"
+@app.route('/seed-categories-once')
+def seed_categories():
+    from models import Category
+    if Category.query.count() > 0:
+        return "Already seeded!"
+    categories = [
+        Category(name='Machines & Engines', slug='machines', icon='⚙️', description='Diesel engines, power tillers, harvesters', sort_order=1, is_active=True),
+        Category(name='Generators & Power', slug='generators', icon='⚡', description='Generator sets, shallow machines, alternators', sort_order=2, is_active=True),
+        Category(name='Motors & Pumps', slug='motors', icon='🔧', description='Jet pumps, centrifugal, submersible, electric motors', sort_order=3, is_active=True),
+        Category(name='Oils & Lubricants', slug='oils', icon='🛢️', description='Engine oil, gear oil for machines', sort_order=4, is_active=True),
+        Category(name='Home & Kitchen', slug='home-kitchen', icon='🏠', description='Doors, bathtubs, basins, taps, gas stoves, tanks', sort_order=5, is_active=True),
+        Category(name='Fittings', slug='fittings', icon='🔩', description='All plumbing and hardware fittings', sort_order=6, is_active=True),
+        Category(name='Pipes', slug='pipes', icon='\U0001F6B0', description='PVC, HDPE, GI and metal pipes', sort_order=7, is_active=True),
+        Category(name='Tubewell', slug='tubewell', icon='\U0001F4A7', description='Hand tubewells, shallow, deep, all types', sort_order=8, is_active=True),
+    ]
+    db.session.add_all(categories)
+    db.session.commit()
+    return "Categories seeded successfully!"
+
+
+@app.route('/migrate-add-image-columns')
+def migrate_add_image_columns():
+    try:
+        with db.engine.connect() as conn:
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS image_url_2 TEXT"))
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS image_file_2 VARCHAR(200)"))
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS image_url_3 TEXT"))
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS image_file_3 VARCHAR(200)"))
+            conn.commit()
+        return "Migration successful! Columns added."
+    except Exception as e:
+        return f"Error: {e}"
+
+
+# ──────────────────────────────────────────────────────────────────────
 # ERROR HANDLERS
 # ──────────────────────────────────────────────────────────────────────
 
@@ -861,25 +917,6 @@ def order_confirm(order_num):
 def order_track():
     order_num = request.args.get('order_number', '')
     return redirect(url_for('preorder_track', order_number=order_num))
-
-@app.route('/seed-categories-once')
-def seed_categories():
-    from models import Category
-    if Category.query.count() > 0:
-        return "Already seeded!"
-    categories = [
-        Category(name='Machines & Engines', slug='machines', icon='⚙️', description='Diesel engines, power tillers, harvesters', sort_order=1, is_active=True),
-        Category(name='Generators & Power', slug='generators', icon='⚡', description='Generator sets, shallow machines, alternators', sort_order=2, is_active=True),
-        Category(name='Motors & Pumps', slug='motors', icon='🔧', description='Jet pumps, centrifugal, submersible, electric motors', sort_order=3, is_active=True),
-        Category(name='Oils & Lubricants', slug='oils', icon='🛢️', description='Engine oil, gear oil for machines', sort_order=4, is_active=True),
-        Category(name='Home & Kitchen', slug='home-kitchen', icon='🏠', description='Doors, bathtubs, basins, taps, gas stoves, tanks', sort_order=5, is_active=True),
-        Category(name='Fittings', slug='fittings', icon='🔩', description='All plumbing and hardware fittings', sort_order=6, is_active=True),
-        Category(name='Pipes', slug='pipes', icon='\U0001F6B0', description='PVC, HDPE, GI and metal pipes', sort_order=7, is_active=True),
-        Category(name='Tubewell', slug='tubewell', icon='\U0001F4A7', description='Hand tubewells, shallow, deep, all types', sort_order=8, is_active=True),
-    ]
-    db.session.add_all(categories)
-    db.session.commit()
-    return "Categories seeded successfully!"    
 
 
 if __name__ == '__main__':

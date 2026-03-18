@@ -123,6 +123,32 @@
                alt="URL preview"/>
         </div>
 
+        <!-- Extra Image 2 -->
+        <div class="form-group">
+          <label>Extra Image 2 — Upload</label>
+          <input type="file" name="image_file_2" accept="image/*" onchange="previewExtra(this,'prev2')" style="padding:8px;background:var(--gray1);border-radius:7px;cursor:pointer;"/>
+          <img id="prev2" class="img-preview" {% if product and product.image_file_2 %}src="/static/uploads/{{ product.image_file_2 }}" style="display:block;"{% endif %} alt=""/>
+        </div>
+
+        <!-- Extra Image 2 URL -->
+        <div class="form-group">
+          <label>OR Extra Image 2 URL</label>
+          <input type="text" name="image_url_2" value="{{ product.image_url_2 if product else '' }}" placeholder="https://..."/>
+        </div>
+
+        <!-- Extra Image 3 -->
+        <div class="form-group">
+          <label>Extra Image 3 — Upload</label>
+          <input type="file" name="image_file_3" accept="image/*" onchange="previewExtra(this,'prev3')" style="padding:8px;background:var(--gray1);border-radius:7px;cursor:pointer;"/>
+          <img id="prev3" class="img-preview" {% if product and product.image_file_3 %}src="/static/uploads/{{ product.image_file_3 }}" style="display:block;"{% endif %} alt=""/>
+        </div>
+
+        <!-- Extra Image 3 URL -->
+        <div class="form-group">
+          <label>OR Extra Image 3 URL</label>
+          <input type="text" name="image_url_3" value="{{ product.image_url_3 if product else '' }}" placeholder="https://..."/>
+        </div>
+
         <!-- Custom WhatsApp Message -->
         <div class="form-group full">
           <label>Custom WhatsApp Message (optional)</label>
@@ -174,5 +200,18 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+function previewExtra(input, previewId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+</script>
 </body>
 </html>

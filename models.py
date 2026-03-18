@@ -180,6 +180,10 @@ class Product(db.Model):
     description    = db.Column(db.Text)
     image_url      = db.Column(db.Text)        # external image URL
     image_file     = db.Column(db.String(200)) # uploaded file path
+    image_url_2    = db.Column(db.Text)        # extra image 2 (URL)
+    image_file_2   = db.Column(db.String(200)) # extra image 2 (uploaded)
+    image_url_3    = db.Column(db.Text)        # extra image 3 (URL)
+    image_file_3   = db.Column(db.String(200)) # extra image 3 (uploaded)
     badge          = db.Column(db.String(20))  # Hot | New | Sale | Popular
     is_featured    = db.Column(db.Boolean,     default=False)
     is_new_arrival = db.Column(db.Boolean,     default=False)
@@ -197,6 +201,17 @@ class Product(db.Model):
             return f"/static/uploads/{self.image_file}"
         return self.image_url or ""
 
+    def all_images(self):
+        """Return list of all available image URLs (up to 3)."""
+        imgs = []
+        main = self.image()
+        if main: imgs.append(main)
+        img2 = f"/static/uploads/{self.image_file_2}" if self.image_file_2 else (self.image_url_2 or "")
+        if img2: imgs.append(img2)
+        img3 = f"/static/uploads/{self.image_file_3}" if self.image_file_3 else (self.image_url_3 or "")
+        if img3: imgs.append(img3)
+        return imgs
+
     def to_dict(self):
         return {
             'id':          self.id,
@@ -205,6 +220,7 @@ class Product(db.Model):
             'model':       self.model_no,
             'description': self.description,
             'image':       self.image(),
+            'images':      self.all_images(),
             'badge':       self.badge,
             'category':    self.category.name if self.category else '',
             'wa_message':  self.wa_message or f"{self.name} সম্পর্কে দাম ও স্টক জানতে চাই।",
