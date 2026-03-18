@@ -890,13 +890,30 @@ def seed_reviews():
     if Review.query.count() > 0:
         return "Already seeded!"
     reviews = [
-        Review(reviewer_name='Md. Karim Hossain', reviewer_location='Jamalpur Sadar', review_text='খুব ভালো দোকান। সততা মেশিনারিজ থেকে Changchai ইঞ্জিন কিনেছি। দাম সহনীয় এবং পণ্য আসল।', rating=5, is_approved=True),
-        Review(reviewer_name='Abdul Mannan', reviewer_location='Islampur, Jamalpur', review_text='LEO পাম্প কিনেছিলাম। খুব টেকসই। দোকানদার অনেক সৎ এবং সহযোগিতাপূর্ণ।', rating=5, is_approved=True),
-        Review(reviewer_name='Fatema Begum', reviewer_location='Sarishabari, Jamalpur', review_text='WhatsApp-এ যোগাযোগ করেছিলাম, খুব দ্রুত রিপ্লাই পেয়েছি। হোম ডেলিভারি পেয়েছি।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Karim Hossain', reviewer_location='জামালপুর সদর', review_text='Changchai S1100A2 ইঞ্জিন কিনেছি। প্রথমে একটু সন্দেহ ছিল কিন্তু দোকানে এসে দেখলাম সব আসল মাল। দাম নিয়ে একটু কথা বললাম, ভালোই দিল। এখন ৬ মাস হলো, ইঞ্জিন একদম ঠিকঠাক চলছে।', rating=5, is_approved=True),
+        Review(reviewer_name='Abdul Mannan Mia', reviewer_location='ইসলামপুর, জামালপুর', review_text='LEO 1HP পাম্প নিয়েছিলাম সেচের জন্য। অনেক দোকান ঘুরেছি, এখানেই সবচেয়ে কম দামে পেলাম। তবে দোকানে একটু ভিড় ছিল, একটু অপেক্ষা করতে হয়েছে। মোটামুটি ভালো অভিজ্ঞতা।', rating=4, is_approved=True),
+        Review(reviewer_name='Fatema Begum', reviewer_location='সরিষাবাড়ী, জামালপুর', review_text='আমার স্বামী WhatsApp-এ যোগাযোগ করেছিল Marquis পাম্পের জন্য। দাম জিজ্ঞেস করলে সাথে সাথে জানাল। পরে বাড়িতে ডেলিভারি দিয়েছে। প্যাকেজিং ভালো ছিল, পণ্য অক্ষত অবস্থায় পেয়েছি।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Jahangir Alam', reviewer_location='ময়মনসিংহ সদর', review_text='ACI পাওয়ার টিলার কিনতে ময়মনসিংহ থেকে গিয়েছিলাম। দোকানের পরিবেশ ভালো, মালিক নিজেই সব বুঝিয়ে দিলেন। দাম একটু বেশি মনে হয়েছিল কিন্তু আসল পণ্য দেওয়ায় কোনো অভিযোগ নেই।', rating=4, is_approved=True),
+        Review(reviewer_name='Rahim Uddin', reviewer_location='গফরগাঁও, ময়মনসিংহ', review_text='Walton জেট পাম্প নিয়েছি বাড়ির পানির জন্য। ভিডিও কলে আগে দেখিয়েছে, তারপর কিনেছি। এটা সত্যিই চমৎকার সুবিধা। দূরে থেকেও নিশ্চিন্তে কেনা যায়।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Shafiqul Islam', reviewer_location='টাঙ্গাইল সদর', review_text='Changfa ZS1115 ইঞ্জিন কিনেছি। সততা মেশিনারিজের নাম আগে থেকেই শুনেছিলাম। সত্যিই নামের সাথে মিল আছে। দাম নিয়ে কোনো লুকোচুরি নেই, সরাসরি বলে দেয়।', rating=5, is_approved=True),
+        Review(reviewer_name='Nur Mohammad', reviewer_location='নেত্রকোণা সদর', review_text='Shimge সাবমার্সিবল পাম্প কিনতে এসেছিলাম। দোকানে অনেক ধরনের পাম্প দেখলাম। কোনটা ভালো হবে সেটা নিয়ে মালিক নিজে পরামর্শ দিলেন। আমার কাজের জন্য সঠিক পণ্যটাই নিলাম।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Rafiqul Alam', reviewer_location='শেরপুর সদর', review_text='Changchai ইঞ্জিন এবং LEO পাম্প একসাথে কিনেছি। দুটো আলাদা জায়গায় কিনলে বেশি খরচ হতো। এখানে একসাথে পেলাম এবং দামেও একটু ছাড় দিল। আমার এলাকায় সবাইকে রেফার করব।', rating=5, is_approved=True),
+        Review(reviewer_name='Sumaiya Begum', reviewer_location='নালিতাবাড়ী, শেরপুর', review_text='অনলাইনে অর্ডার করেছিলাম Gazi মোটর। ডেলিভারি একটু দেরি হয়েছে তবে পণ্য ঠিকই এসেছে। পরে ফোন করে জিজ্ঞেস করেছে পণ্য ঠিকমতো পেয়েছি কিনা। এটা ভালো লেগেছে।', rating=4, is_approved=True),
+        Review(reviewer_name='Abul Kashem', reviewer_location='কিশোরগঞ্জ সদর', review_text='Mobil 15W-40 ইঞ্জিন অয়েল এবং Shimge পাম্প একসাথে নিয়েছি। তেল আসল কিনা নিয়ে সন্দেহ ছিল। দোকানদার সিলসহ প্যাকেট দেখিয়ে বুঝিয়ে দিলেন। এখন নিশ্চিন্ত।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Bellal Hossain', reviewer_location='দেওয়ানগঞ্জ, জামালপুর', review_text='CBM পাওয়ার টিলার কিনেছিলাম দুই বছর আগে। এখনও দারুণ চলছে। মাঝে একবার সমস্যা হলে ফোন করেছিলাম, দোকান থেকে পরামর্শ দিয়েছে বিনামূল্যে। এটাই সততা মেশিনারিজের বিশেষত্ব।', rating=5, is_approved=True),
+        Review(reviewer_name='Hasina Akter', reviewer_location='মেলান্দহ, জামালপুর', review_text='RFL পানির ট্যাংক এবং প্লাস্টিক পাইপ কিনেছি। দাম একদম ঠিকঠাক। তবে দোকানে পার্কিংয়ের একটু সমস্যা আছে। পণ্যের মান নিয়ে কোনো অভিযোগ নেই।', rating=4, is_approved=True),
+        Review(reviewer_name='Md. Selim Reza', reviewer_location='মুক্তাগাছা, ময়মনসিংহ', review_text='Jiangdong ডিজেল ইঞ্জিন কিনেছি ধানক্ষেতে সেচের জন্য। এই ইঞ্জিন সম্পর্কে আগে জানতাম না। দোকানদার ভালোভাবে বুঝিয়ে দিলেন কোনটা আমার জমির জন্য ভালো হবে। খুব উপকার হয়েছে।', rating=5, is_approved=True),
+        Review(reviewer_name='Tofazzal Hossain', reviewer_location='ভালুকা, ময়মনসিংহ', review_text='Pedrollo পাম্প কিনতে চেয়েছিলাম। স্টকে ছিল না। Pre-Order দিয়েছিলাম, ১০ দিনের মধ্যে পেয়েছি। অর্ডার নম্বর দিয়ে ট্র্যাক করতে পেরেছি। সিস্টেমটা অনেক সুন্দর।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Nazrul Islam', reviewer_location='হালুয়াঘাট, ময়মনসিংহ', review_text='XPART স্পেয়ার পার্টস কিনেছি আমার পুরনো ইঞ্জিনের জন্য। সঠিক পার্টস পাবো কিনা চিন্তায় ছিলাম। দোকানদার নিজে খুঁজে বের করে দিলেন। এই সার্ভিস অন্য কোথাও পাওয়া কঠিন।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Alamgir Hossain', reviewer_location='ধনবাড়ী, টাঙ্গাইল', review_text='Sifang ডিজেল ইঞ্জিন কিনেছিলাম। দামটা একটু বেশি মনে হয়েছিল। পরে বুঝলাম আসল পণ্যের দাম এরকমই হয়। বাজারে নকল অনেক আছে, তাই এখানে কেনাটাই নিরাপদ।', rating=4, is_approved=True),
+        Review(reviewer_name='Md. Mozammel Haq', reviewer_location='কালিহাতী, টাঙ্গাইল', review_text='ACI মোটর কিনেছি। ওয়ারেন্টি কার্ড দিয়েছে। পরে একটা সমস্যা হলে সার্ভিস সেন্টারে নিয়ে গেলাম, কোনো সমস্যা হয়নি। আসল পণ্যের সুবিধা এটাই।', rating=5, is_approved=True),
+        Review(reviewer_name='Jahanara Begum', reviewer_location='ফুলবাড়িয়া, ময়মনসিংহ', review_text='আমার ছেলে WhatsApp-এ যোগাযোগ করে Marquis পাম্পের অর্ডার দিয়েছিল। ঢাকায় থাকে, আমাদের বাড়িতে ডেলিভারি দিয়েছে। পণ্য ভালো, সার্ভিস ভালো। ধন্যবাদ সততা মেশিনারিজকে।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Sirajul Islam', reviewer_location='নকলা, শেরপুর', review_text='LEO সেন্ট্রিফিউগাল পাম্প কিনেছি মাছের খামারের জন্য। দোকানদার জিজ্ঞেস করলেন কী কাজে লাগবে, তারপর সঠিক সাইজটা বেছে দিলেন। এই পরামর্শ না পেলে ভুল পণ্য কিনতাম।', rating=5, is_approved=True),
+        Review(reviewer_name='Md. Anwar Hossain', reviewer_location='কেন্দুয়া, নেত্রকোণা', review_text='Walton জেনারেটর কিনেছি। লোডশেডিং বেশি হওয়ায় দরকার ছিল। দাম দিয়ে মান ভালো পেয়েছি। তবে ডেলিভারিতে একটু সময় লেগেছে। সব মিলিয়ে ঠিক আছে, আবার কিনতে আসব।', rating=4, is_approved=True),
     ]
     db.session.add_all(reviews)
     db.session.commit()
-    return "Reviews seeded successfully!"        
+    return "Reviews seeded successfully!"      
 
 
 # ──────────────────────────────────────────────────────────────────────
