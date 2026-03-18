@@ -109,7 +109,7 @@ def index():
                                  .order_by(Product.created_at.desc()).limit(10).all()
     categories    = Category.query.filter_by(is_active=True).order_by(Category.sort_order).all()
     reviews       = Review.query.filter_by(is_approved=True)\
-                                .order_by(Review.created_at.desc()).limit(20).all()
+                                .order_by(Review.created_at.desc()).limit(8).all()
     prebook_offers_data = PreBookOffer.query.filter_by(is_active=True)\
                                            .order_by(PreBookOffer.sort_order).limit(10).all()
     return render_template('index.html',
@@ -382,6 +382,12 @@ def submit_review():
 
 
 # ──────────────────────────────────────────────────────────────────────
+@app.route('/reviews')
+def all_reviews():
+    reviews = Review.query.filter_by(is_approved=True)                          .order_by(Review.created_at.desc()).all()
+    return render_template('reviews.html', reviews=reviews)
+
+
 # JSON API  (used by frontend JS for dynamic loading)
 # ──────────────────────────────────────────────────────────────────────
 

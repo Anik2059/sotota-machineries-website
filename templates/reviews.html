@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Customer Reviews – M/S. Sotota Machineries Store | Jamalpur{% endblock %}
+{% block meta_desc %}Read real customer reviews from farmers across Jamalpur, Mymensingh, Tangail, Netrokona, and Sherpur about M/S. Sotota Machineries Store.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">Customer Feedback</span>
+    <h1>All Customer Reviews</h1>
+    <p>Real experiences from farmers and customers across Bangladesh who bought from M/S. Sotota Machineries Store.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>›</span><span>Reviews</span></div></div>
+
+<section class="section section-alt">
+  <div class="container">
+
+    <!-- Stats bar -->
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;" class="reveal">
+      <div style="background:#fff;border-radius:14px;padding:18px 28px;text-align:center;box-shadow:var(--sh);min-width:120px;">
+        <div style="font-size:2rem;font-weight:900;color:var(--g3);">{{ reviews|length }}</div>
+        <div style="font-size:.78rem;color:var(--tlt);font-weight:600;">Total Reviews</div>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:18px 28px;text-align:center;box-shadow:var(--sh);min-width:120px;">
+        <div style="font-size:2rem;font-weight:900;color:var(--gold);">★ {{ "%.1f"|format(reviews|map(attribute='rating')|sum / reviews|length) if reviews else '0.0' }}</div>
+        <div style="font-size:.78rem;color:var(--tlt);font-weight:600;">Average Rating</div>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:18px 28px;text-align:center;box-shadow:var(--sh);min-width:120px;">
+        <div style="font-size:2rem;font-weight:900;color:var(--g3);">{{ reviews|selectattr('rating','equalto',5)|list|length }}</div>
+        <div style="font-size:.78rem;color:var(--tlt);font-weight:600;">5 Star Reviews</div>
+      </div>
+    </div>
+
+    <!-- All reviews grid -->
+    <div class="rev-grid">
+      {% for r in reviews %}
+      <article class="rev-card reveal">
+        <div class="rev-stars">{% for i in range(r.rating) %}★{% endfor %}{% for i in range(5 - r.rating) %}☆{% endfor %}</div>
+        <p class="rev-text">"{{ r.review_text }}"</p>
+        <div class="rev-author">
+          <div class="rev-av">{{ r.reviewer_name[0] }}</div>
+          <div>
+            <div class="rev-name">{{ r.reviewer_name }}</div>
+            {% if r.reviewer_location %}<div class="rev-loc">📍 {{ r.reviewer_location }}</div>{% endif %}
+            <div class="rev-loc" style="color:var(--tlt);font-size:.68rem;margin-top:2px;">🗓️ {{ r.created_at.strftime("%d %b %Y") }}</div>
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <p style="color:var(--tlt);padding:20px;">No reviews yet. Be the first to leave a review!</p>
+      {% endfor %}
+    </div>
+
+    <!-- Leave a review form -->
+    <div style="margin-top:52px;background:#fff;border-radius:var(--rxl);padding:32px;box-shadow:var(--sh);" class="reveal" id="leave-review">
+      <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:6px;">Leave Your Review</h3>
+      <p style="color:var(--tlt);font-size:.85rem;margin-bottom:20px;">Share your experience with other farmers. Your review will appear after admin approval.</p>
+      <form action="{{ url_for('submit_review') }}" method="POST">
+        <div class="form-grid" style="margin-bottom:14px;">
+          <div class="form-group"><label>Your Name *</label><input type="text" name="name" required placeholder="e.g. Md. Karim Hossain"/></div>
+          <div class="form-group"><label>Your Location</label><input type="text" name="location" placeholder="e.g. Jamalpur Sadar"/></div>
+          <div class="form-group">
+            <label>Rating *</label>
+            <select name="rating">
+              <option value="5">★★★★★ — Excellent</option>
+              <option value="4">★★★★☆ — Very Good</option>
+              <option value="3">★★★☆☆ — Good</option>
+              <option value="2">★★☆☆☆ — Fair</option>
+              <option value="1">★☆☆☆☆ — Poor</option>
+            </select>
+          </div>
+          <div class="form-group full"><label>Your Review *</label><textarea name="review" rows="4" required placeholder="Share your experience in Bangla or English..."></textarea></div>
+        </div>
+        <button type="submit" class="btn btn-green"><i class="fas fa-paper-plane"></i> Submit Review</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

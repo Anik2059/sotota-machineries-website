@@ -246,34 +246,20 @@
           <div>
             <div class="rev-name">{{ r.reviewer_name }}</div>
             {% if r.reviewer_location %}<div class="rev-loc">📍 {{ r.reviewer_location }}</div>{% endif %}
+            <div class="rev-loc" style="color:var(--tlt);font-size:.68rem;margin-top:2px;">🗓️ {{ r.created_at.strftime("%d %b %Y") }}</div>
           </div>
         </div>
       </article>
       {% endfor %}
-      <!-- Static Sherpur review always shown -->
-      <article class="rev-card reveal">
-        <div class="rev-stars">★★★★★</div>
-        <p class="rev-text">"শেরপুর থেকে এসেছিলাম সততা মেশিনারিজ স্টোরে। Changchai ইঞ্জিন এবং LEO পাম্প কিনেছি। দাম অনেক কম এবং পণ্যের মান চমৎকার। মালিক খুব সৎ এবং আন্তরিক মানুষ। আমার এলাকার সবাইকে এই দোকান থেকে কেনার পরামর্শ দেব।"</p>
-        <div class="rev-author">
-          <div class="rev-av">RA</div>
-          <div>
-            <div class="rev-name">Md. Rafiqul Alam</div>
-            <div class="rev-loc">📍 শেরপুর সদর, শেরপুর জেলা</div>
-          </div>
-        </div>
-      </article>
-      <article class="rev-card reveal">
-        <div class="rev-stars">★★★★★</div>
-        <p class="rev-text">"শেরপুর জেলা থেকে অনলাইনে WhatsApp-এ যোগাযোগ করেছিলাম। ভিডিও কলে পণ্য দেখিয়েছেন, দাম মিলিয়ে নিয়েছি, তারপর হোম ডেলিভারি পেয়েছি। সততা মেশিনারিজ স্টোর সত্যিই বিশ্বাসযোগ্য।"</p>
-        <div class="rev-author">
-          <div class="rev-av">SB</div>
-          <div>
-            <div class="rev-name">Sumaiya Begum</div>
-            <div class="rev-loc">📍 নালিতাবাড়ী, শেরপুর</div>
-          </div>
-        </div>
-      </article>
     </div>
+
+    <!-- See All Reviews Button -->
+    <div style="text-align:center;margin-top:32px;" class="reveal">
+      <a href="{{ url_for('all_reviews') }}" class="btn btn-green" style="padding:12px 28px;font-size:.95rem;">
+        <i class="fas fa-arrow-right"></i> See All Reviews
+      </a>
+    </div>
+
     <!-- Review form -->
     <div style="margin-top:40px;background:#fff;border-radius:var(--rxl);padding:28px;box-shadow:var(--sh);" class="reveal">
       <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:18px;">Leave Your Review</h3>
