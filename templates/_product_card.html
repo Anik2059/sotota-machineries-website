@@ -1,10 +1,7 @@
 {# Reusable product card — include as: {% include "_product_card.html" %} #}
 {# Variable `p` must be a Product object in context #}
 <article class="prod-card reveal"
-         data-name="{{ p.name }}"
-         data-brand="{{ p.brand or '' }}"
-         data-model="{{ p.model_no or '' }}"
-         data-badge="{{ p.badge or '' }}"
+         data-product='{"name":"{{ p.name|e }}","brand":"{{ (p.brand or "")|e }}","model":"{{ (p.model_no or "")|e }}","desc":"{{ (p.description or "")|e }}","badge":"{{ (p.badge or "")|e }}","image":"{{ p.image() or "" }}","waMsg":"{{ (p.wa_message or (p.name ~ " সম্পর্কে দাম ও স্টক জানতে চাই।"))|urlencode }}"}'
          itemscope itemtype="https://schema.org/Product">
   <div class="prod-img">
     {% if p.badge %}
