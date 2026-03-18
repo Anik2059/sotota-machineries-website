@@ -884,6 +884,20 @@ def migrate_add_image_columns():
     except Exception as e:
         return f"Error: {e}"
 
+@app.route('/seed-reviews-once')
+def seed_reviews():
+    from models import Review
+    if Review.query.count() > 0:
+        return "Already seeded!"
+    reviews = [
+        Review(reviewer_name='Md. Karim Hossain', reviewer_location='Jamalpur Sadar', review_text='খুব ভালো দোকান। সততা মেশিনারিজ থেকে Changchai ইঞ্জিন কিনেছি। দাম সহনীয় এবং পণ্য আসল।', rating=5, is_approved=True),
+        Review(reviewer_name='Abdul Mannan', reviewer_location='Islampur, Jamalpur', review_text='LEO পাম্প কিনেছিলাম। খুব টেকসই। দোকানদার অনেক সৎ এবং সহযোগিতাপূর্ণ।', rating=5, is_approved=True),
+        Review(reviewer_name='Fatema Begum', reviewer_location='Sarishabari, Jamalpur', review_text='WhatsApp-এ যোগাযোগ করেছিলাম, খুব দ্রুত রিপ্লাই পেয়েছি। হোম ডেলিভারি পেয়েছি।', rating=5, is_approved=True),
+    ]
+    db.session.add_all(reviews)
+    db.session.commit()
+    return "Reviews seeded successfully!"        
+
 
 # ──────────────────────────────────────────────────────────────────────
 # ERROR HANDLERS
