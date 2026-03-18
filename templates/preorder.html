@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block title %}Pre-Order Products – Out of Stock Items | M/S. Sotota Machineries Store{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label" style="background:var(--g3);color:#fff;">🛒 Pre-Order</span>
+    <h1>Pre-Order a Product</h1>
+    <p>Can't find the product you need in your local market? Place a pre-order and we will source it specially for you — from Jamalpur, Mymensingh Division and beyond.</p>
+  </div>
+</section>
+
+<div class="breadcrumb">
+  <div class="bc-wrap">
+    <a href="{{ url_for('index') }}">Home</a><span>›</span><span>Pre-Order</span>
+  </div>
+</div>
+
+<!-- DIFFERENCE BETWEEN PRE-BOOK AND PRE-ORDER -->
+<section style="background:var(--cream);padding:32px 20px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px;margin:0 auto;">
+      <div style="background:#fff;border-radius:var(--rl);padding:20px;box-shadow:var(--sh);border-top:4px solid var(--gold);">
+        <div style="font-size:1.5rem;margin-bottom:8px;">📋</div>
+        <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:8px;">Pre-Book</h3>
+        <p style="font-size:.82rem;color:var(--tmid);line-height:1.65;">For products <strong>already in our stock</strong> whose price may increase soon. Book now at today's price.</p>
+        <a href="{{ url_for('prebook') }}" class="btn btn-primary btn-sm" style="margin-top:12px;"><i class="fas fa-bookmark"></i> Go to Pre-Book</a>
+      </div>
+      <div style="background:#fff;border-radius:var(--rl);padding:20px;box-shadow:var(--sh);border-top:4px solid var(--g3);">
+        <div style="font-size:1.5rem;margin-bottom:8px;">🛒</div>
+        <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:8px;">Pre-Order ← You are here</h3>
+        <p style="font-size:.82rem;color:var(--tmid);line-height:1.65;">For products <strong>not currently in your local market</strong>. We source it specially and deliver to you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW PRE-ORDER WORKS -->
+<section style="background:var(--g1);padding:36px 20px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;">
+      {% for icon, step, title, desc in [
+        ('📝','Step 1','Fill the Form','Tell us exactly what product you need with all details'),
+        ('📞','Step 2','We Contact You','We call/WhatsApp to confirm order and deposit amount'),
+        ('🔍','Step 3','We Source It','We find your product from trusted suppliers and distributors'),
+        ('📦','Step 4','We Confirm','We confirm availability, price and delivery timeline'),
+        ('🚚','Step 5','We Deliver','Product delivered to your home or pick up from our store'),
+      ] %}
+      <div style="padding:20px 16px;{% if not loop.last %}border-right:1px solid rgba(255,255,255,.07);{% endif %}text-align:center;">
+        <div style="font-size:1.6rem;margin-bottom:6px;">{{ icon }}</div>
+        <div style="font-size:.64rem;color:var(--gl);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">{{ step }}</div>
+        <div style="color:#fff;font-weight:700;font-size:.85rem;margin-bottom:4px;">{{ title }}</div>
+        <div style="color:rgba(255,255,255,.55);font-size:.74rem;line-height:1.5;">{{ desc }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- PRE-ORDER FORM -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;">
+
+      <div>
+        <div class="sec-head reveal">
+          <span class="sec-label">🛒 Pre-Order Form</span>
+          <h2>Tell Us What You Need</h2>
+          <p>Fill in as much detail as possible — brand, model, size, power etc. This helps us find exactly the right product for you.</p>
+          <div class="divider"></div>
+        </div>
+
+        <form action="{{ url_for('preorder') }}" method="POST" style="margin-top:28px;">
+
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;"><span>👤</span> Your Details</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Full Name <span style="color:var(--rust);">*</span></label>
+                <input type="text" name="customer_name" required placeholder="e.g. Md. Karim Hossain"/>
+              </div>
+              <div class="form-group">
+                <label>Phone Number <span style="color:var(--rust);">*</span></label>
+                <input type="tel" name="customer_phone" required placeholder="01XXXXXXXXX"/>
+              </div>
+              <div class="form-group">
+                <label>Your District</label>
+                <select name="customer_district">
+                  <option value="">-- Select --</option>
+                  <optgroup label="Nearby"><option>Jamalpur</option><option>Sherpur</option><option>Mymensingh</option><option>Netrokona</option><option>Tangail</option></optgroup>
+                  <optgroup label="Other"><option>Dhaka</option><option>Rajshahi</option><option>Sylhet</option><option>Other</option></optgroup>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Full Address</label>
+                <input type="text" name="customer_address" placeholder="Village, Upazila, District"/>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;"><span>📦</span> Product Details</h3>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>Product Name <span style="color:var(--rust);">*</span></label>
+                <input type="text" name="product_name" required placeholder="e.g. Changchai 40HP Diesel Engine, Pedrollo Submersible Pump 2HP"/>
+              </div>
+              <div class="form-group">
+                <label>Product Category</label>
+                <select name="product_category">
+                  <option value="">-- Category --</option>
+                  <option>Machines & Engines</option><option>Generators</option>
+                  <option>Motors & Pumps</option><option>Oils</option>
+                  <option>Pipes & Tubewell</option><option>Spare Parts</option>
+                  <option>Home & Kitchen</option><option>Fittings</option><option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" name="quantity" min="1" value="1"/>
+              </div>
+              <div class="form-group full">
+                <label>Full Description / Specifications <span style="color:var(--rust);">*</span></label>
+                <textarea name="product_description" rows="4" required
+                  placeholder="Please be as specific as possible:&#10;• Brand and model number (if known)&#10;• Size / power (HP, KW, inch, liter etc.)&#10;• What it will be used for&#10;• Why it's not available locally&#10;• Any other important specifications"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;"><span>⚙️</span> Order Preferences</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>How Urgent?</label>
+                <select name="urgency">
+                  <option value="normal">Normal — 1–2 weeks is fine</option>
+                  <option value="urgent">Urgent — need ASAP</option>
+                  <option value="flexible">Flexible — no rush</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Preferred Delivery Time</label>
+                <input type="text" name="preferred_delivery" placeholder="e.g. Within 1 week, Before Eid"/>
+              </div>
+              <div class="form-group">
+                <label>Deposit You Can Pay</label>
+                <input type="text" name="deposit_amount" placeholder="e.g. ৳500, ৳1000, Negotiable"/>
+              </div>
+              <div class="form-group full">
+                <label>Special Notes or Questions</label>
+                <textarea name="special_notes" rows="2" placeholder="Anything else we should know..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--cream);border-radius:12px;padding:14px 16px;font-size:.82rem;color:var(--tmid);line-height:1.7;margin-bottom:18px;" class="reveal">
+            <strong style="color:var(--g1);">📋 What happens after you submit?</strong><br>
+            Our team will call or WhatsApp you at <strong>{{ phone }}</strong> within 24 hours. We will check availability, confirm the price and discuss the deposit amount.
+          </div>
+
+          <button type="submit" class="btn btn-green reveal" style="width:100%;justify-content:center;padding:14px;font-size:.95rem;">
+            <i class="fas fa-shopping-cart"></i> Submit Pre-Order Request
+          </button>
+        </form>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div style="background:var(--g1);border-radius:var(--rl);padding:22px;margin-bottom:16px;" class="reveal">
+          <h3 style="font-family:var(--fh);color:#fff;font-size:1rem;margin-bottom:12px;">📞 Prefer to call?</h3>
+          <p style="color:rgba(255,255,255,.68);font-size:.8rem;line-height:1.65;margin-bottom:14px;">Call or WhatsApp us directly to place your pre-order by phone.</p>
+          <a href="tel:{{ phone }}" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:10px;"><i class="fas fa-phone"></i> {{ phone }}</a>
+          <a href="https://wa.me/{{ whatsapp }}?text=আমি একটি পণ্য প্রি-অর্ডার করতে চাই যা বাজারে পাওয়া যাচ্ছে না।" class="btn btn-wa" style="width:100%;justify-content:center;" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Pre-Order</a>
+        </div>
+        <div style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);margin-bottom:16px;" class="reveal">
+          <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:12px;">🔍 Track Your Pre-Order</h3>
+          <form action="{{ url_for('preorder_track') }}" method="GET">
+            <div class="form-group" style="margin-bottom:10px;">
+              <input type="text" name="order_number" placeholder="Enter order no. e.g. PO-2024-1234" style="text-transform:uppercase;"/>
+            </div>
+            <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;"><i class="fas fa-search"></i> Track Order</button>
+          </form>
+        </div>
+        <div style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);" class="reveal">
+          <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:12px;">📋 What Can You Pre-Order?</h3>
+          {% for icon, cat in [('⚙️','Any Diesel Engine or Machine'),('🚜','Power Tillers & Harvesters'),('⚡','Generators & Alternators'),('💧','All Types of Pumps & Motors'),('🔵','Special Pipes & Tubewell Parts'),('🛢️','Industrial Oils & Lubricants'),('🔩','Rare Spare Parts & Fittings'),('🏠','Home & Kitchen Equipment')] %}
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;{% if not loop.last %}border-bottom:1px solid var(--gray2);{% endif %}font-size:.81rem;color:var(--tmid);">
+            <span>{{ icon }}</span> {{ cat }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

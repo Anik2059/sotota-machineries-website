@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Motors & Water Pumps – LEO, Gazi, ACI, Marquis | Sotota Machineries Jamalpur{% endblock %}
+{% block meta_desc %}Buy LEO, Gazi, ACI, Marquis, Walton jet pumps and electric motors in Jamalpur.{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">Products</span>
+    <h1>Motors & Water Pumps</h1>
+    <p>Jet Pumps, Centrifugal, Submersible & Electric Motors from LEO, Gazi, ACI, Marquis, Walton, Shimge, Pedrollo.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>&rsaquo;</span><span>Motors & Pumps</span></div></div>
+<section class="section"><div class="container">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="switchTab(this,'panel-jet')">💧 Jet Pumps</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-centrifugal')">⚙️ Centrifugal Pumps</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-sub')">🔽 Submersible</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-electric')">⚡ Electric Motors</button>
+    </div>
+    {% set jet_brands = ['Gazi','LEO Pump','ACI Motors','Marquis','Walton','Shimge','XPART','D.Swan','Pedrollo'] %}
+    {% set cent_keywords = ['Centrifugal','centrifugal','3HP','Centrifuge'] %}
+    {% set sub_keywords = ['Submersible','submersible'] %}
+    {% set elec_keywords = ['Motor','motor','Electric','electric'] %}
+    <div id="panel-jet" class="sub-panel active">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Jet Pumps (জেট পাম্প)</h2><p>Gazi, LEO, ACI, Marquis, Walton, Shimge, XPART, D.Swan, Pedrollo</p></div>
+      <div class="prod-grid">
+        {% for p in products if 'Jet' in p.name or 'jet' in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No jet pumps found.</p>{% endfor %}
+      </div>
+    </div>
+    <div id="panel-centrifugal" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Centrifugal Pumps</h2></div>
+      <div class="prod-grid">
+        {% for p in products if 'Centrifugal' in p.name or 'centrifugal' in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No centrifugal pumps found.</p>{% endfor %}
+      </div>
+    </div>
+    <div id="panel-sub" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Submersible Pumps</h2></div>
+      <div class="prod-grid">
+        {% for p in products if 'Submersible' in p.name or 'submersible' in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No submersible pumps found.</p>{% endfor %}
+      </div>
+    </div>
+    <div id="panel-electric" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Electric Motors</h2></div>
+      <div class="prod-grid">
+        {% for p in products if 'Motor' in p.name and 'Diesel' not in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No electric motors found.</p>{% endfor %}
+      </div>
+    </div>
+</div></section>
+<section style="background:var(--g1);padding:38px 20px;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:var(--fh);color:#fff;margin-bottom:9px;">Have a question about any product?</h2>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">Chat with us on WhatsApp for price, stock and delivery details.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/{{ whatsapp }}?text=পাম্প+বা+মোটর+সম্পর্কে+দাম+জানতে+চাই।" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="tel:{{ phone }}" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Login – Sotota Machineries</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+<div class="login-wrap">
+  <div class="login-box">
+    <div style="font-size:2.8rem;margin-bottom:11px;">🔐</div>
+    <h2>Admin Login</h2>
+    <p>M/S. Sotota Machineries Store<br>Product Management Panel</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }}" style="margin-bottom:12px;text-align:left;">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+    <form method="POST">
+      <input type="password" name="password" placeholder="Enter admin password" required autofocus/>
+      <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;">
+        <i class="fas fa-unlock"></i> Login
+      </button>
+    </form>
+    <p style="margin-top:14px;font-size:.72rem;color:var(--tlt);">
+      <a href="{{ url_for('index') }}" style="color:var(--g3);">← Back to Website</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

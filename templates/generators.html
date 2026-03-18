@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Generators & Shallow Machines – Sotota Machineries Jamalpur{% endblock %}
+{% block meta_desc %}Diesel generators, shallow machines (সেলো মেশিন), alternators in Jamalpur. WhatsApp for price.{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">Products</span>
+    <h1>Generators & Shallow Machines</h1>
+    <p>Complete generator sets, shallow machines (শ্যালো মেশিন/Selo) for paddy irrigation, and alternators.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>&rsaquo;</span><span>Generators & Power</span></div></div>
+<section class="section"><div class="container">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="switchTab(this,'panel-gen')">⚡ Diesel Generators</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-shallow')">💧 Shallow Machines (সেলো)</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-alt')">🔌 Alternators</button>
+    </div>
+    {% set gen_kw = ['Generator','generator'] %}
+    {% set shallow_kw = ['Shallow','shallow','সেলো'] %}
+    {% set alt_kw = ['Alternator','alternator'] %}
+    <div id="panel-gen" class="sub-panel active">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Diesel Generators (জেনারেটর)</h2></div>
+      <div class="prod-grid">
+        {% for p in products if 'Generator' in p.name or 'generator' in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No generators found.</p>{% endfor %}
+      </div>
+    </div>
+    <div id="panel-shallow" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Shallow Machines (শ্যালো মেশিন)</h2></div>
+      <div class="prod-grid">
+        {% for p in products if 'Shallow' in p.name or 'shallow' in p.name or 'সেলো' in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No shallow machines found.</p>{% endfor %}
+      </div>
+    </div>
+    <div id="panel-alt" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Alternators</h2></div>
+      <div class="prod-grid">
+        {% for p in products if 'Alternator' in p.name or 'alternator' in p.name %}{% include "_product_card.html" %}{% else %}<p style="color:var(--tlt);padding:20px;">No alternators found.</p>{% endfor %}
+      </div>
+    </div>
+</div></section>
+<section style="background:var(--g1);padding:38px 20px;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:var(--fh);color:#fff;margin-bottom:9px;">Have a question about any product?</h2>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">Chat with us on WhatsApp for price, stock and delivery details.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/{{ whatsapp }}?text=জেনারেটর+বা+সেলো+মেশিন+সম্পর্কে+দাম+জানতে+চাই।" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="tel:{{ phone }}" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

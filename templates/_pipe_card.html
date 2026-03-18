@@ -1,0 +1,30 @@
+<article class="prod-card reveal"
+  data-product='{"name":"{{ p.name|e }}","brand":"{{ p.brand|e }}","model":"{{ p.model|e }}","image":"{{ p.img|e }}","badge":"{{ p.badge|e }}","desc":"{{ p.desc|e }}","specs":{{ p.specs|tojson }},"waMsg":"{{ p.wa|e }}"}'
+  style="cursor:pointer;">
+  <div class="prod-img">
+    {% if p.badge %}
+    <span class="badge badge-{{ p.badge|lower }}">
+      {{ '🔥' if p.badge=='Hot' else '🆕' if p.badge=='New' else '🏷️' if p.badge=='Sale' else '⭐' }} {{ p.badge }}
+    </span>
+    {% endif %}
+    <img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="no-img" style="display:none;">📦</div>
+  </div>
+  <div class="prod-body">
+    <div class="prod-brand">{{ p.brand }}</div>
+    <h3 class="prod-name">{{ p.name }}</h3>
+    {% if p.model %}<div class="prod-model">{{ p.model }}</div>{% endif %}
+    <p class="prod-desc">{{ p.desc }}</p>
+    <div class="prod-no-price"><i class="fas fa-tag"></i> Click for sizes & details</div>
+  </div>
+  <div class="prod-actions">
+    <a href="https://wa.me/{{ whatsapp }}?text={{ p.wa|urlencode }}"
+       class="p-wa" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+      <i class="fab fa-whatsapp"></i> Get Price
+    </a>
+    <a href="tel:{{ phone }}" class="p-call" onclick="event.stopPropagation()">
+      <i class="fas fa-phone"></i>
+    </a>
+  </div>
+</article>

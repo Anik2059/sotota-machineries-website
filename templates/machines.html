@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Machines & Diesel Engines – Sotota Machineries | Jamalpur{% endblock %}
+{% block meta_desc %}Buy Changchai, Jiangdong, Sifang diesel engines and power tillers in Jamalpur. Best prices, genuine products. WhatsApp for price.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">Agricultural Machinery</span>
+    <h1>Machines & Engines</h1>
+    <p>Diesel Engines, Power Tillers & Harvesters from Changchai, Jiangdong, Sifang, CBM and more — all in stock at Station Road, Jamalpur.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>›</span><span>Machines & Engines</span></div></div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Search -->
+    <div class="search-bar reveal">
+      <input type="text" id="srch" placeholder="🔍 Search by name, brand or model..." oninput="filterProducts()"/>
+      <select id="badge-filter" onchange="filterProducts()">
+        <option value="">All Badges</option>
+        <option value="Hot">🔥 Hot</option>
+        <option value="New">🆕 New</option>
+        <option value="Popular">⭐ Popular</option>
+      </select>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="switchTab(this,'panel-diesel')">⚙️ Diesel Engines</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-tiller')">🚜 Power Tillers</button>
+      <button class="sub-tab" onclick="switchTab(this,'panel-other')">🌾 Harvesters & Other</button>
+    </div>
+
+    {% set diesel_brands = ['Changchai','Jiangdong','Sifang'] %}
+    {% set tiller_brands = ['ACI Motors','CBM Builders'] %}
+    {% set other_brands  = ['CBM'] %}
+
+    <!-- Diesel Engines -->
+    <div id="panel-diesel" class="sub-panel active">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Diesel Engines (ডিজেল ইঞ্জিন)</h2><p>Changchai, Jiangdong, Sifang — full range stocked at Jamalpur Station Road</p></div>
+      <div class="prod-grid">
+        {% for p in products if p.brand in diesel_brands %}
+          {% include "_product_card.html" %}
+        {% else %}
+        <p style="color:var(--tlt);padding:20px;">No diesel engines in database yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Power Tillers -->
+    <div id="panel-tiller" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Power Tillers (পাওয়ার টিলার)</h2></div>
+      <div class="prod-grid">
+        {% for p in products if p.brand in tiller_brands %}
+          {% include "_product_card.html" %}
+        {% else %}
+        <p style="color:var(--tlt);padding:20px;">No power tillers in database yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Other -->
+    <div id="panel-other" class="sub-panel">
+      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Harvesters & Other Machines</h2></div>
+      <div class="prod-grid">
+        {% for p in products if p.brand in other_brands %}
+          {% include "_product_card.html" %}
+        {% else %}
+        <p style="color:var(--tlt);padding:20px;">No other machines in database yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+<section style="background:var(--g1);padding:38px 20px;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:var(--fh);color:#fff;margin-bottom:9px;">Need a specific engine model?</h2>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">Chat with us on WhatsApp — we'll check stock and give you the best price.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/{{ whatsapp }}?text=আমি+একটি+ইঞ্জিনের+দাম+ও+স্টক+জানতে+চাই।" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="tel:{{ phone }}" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

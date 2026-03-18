@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if offer else 'Add' }} Pre-Book Offer – Admin | Sotota Machineries{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:700px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h1 style="font-family:var(--fh);color:var(--g1);">{{ '✏️ Edit' if offer else '➕ Add New' }} Pre-Book Offer</h1>
+      <a href="{{ url_for('admin_prebook_offers') }}" class="btn btn-outline" style="background:var(--g1);color:#fff;"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div style="background:#fff;border-radius:var(--rl);padding:28px;box-shadow:var(--sh);">
+      <form action="{{ url_for('admin_edit_prebook_offer', oid=offer.id) if offer else url_for('admin_add_prebook_offer') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Product Name <span style="color:var(--rust);">*</span></label>
+            <input type="text" name="product_name" required value="{{ offer.product_name if offer else '' }}" placeholder="e.g. Changchai ZS1110 Diesel Engine"/>
+          </div>
+          <div class="form-group">
+            <label>Brand</label>
+            <input type="text" name="product_brand" value="{{ offer.product_brand if offer else '' }}" placeholder="e.g. Changchai"/>
+          </div>
+          <div class="form-group">
+            <label>Model</label>
+            <input type="text" name="product_model" value="{{ offer.product_model if offer else '' }}" placeholder="e.g. ZS1110"/>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select name="category">
+              {% for c in ['Machines & Engines','Generators','Motors & Pumps','Oils','Pipes & Tubewell','Home & Kitchen','Fittings','Other'] %}
+              <option {{ 'selected' if offer and offer.category == c }}>{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Current Price (today's price)</label>
+            <input type="text" name="current_price" value="{{ offer.current_price if offer else '' }}" placeholder="e.g. ৳45,000"/>
+          </div>
+          <div class="form-group">
+            <label>Expected Future Price</label>
+            <input type="text" name="expected_price" value="{{ offer.expected_price if offer else '' }}" placeholder="e.g. ৳52,000"/>
+          </div>
+          <div class="form-group">
+            <label>Deposit Required</label>
+            <input type="text" name="deposit_required" value="{{ offer.deposit_required if offer else '' }}" placeholder="e.g. ৳500 deposit"/>
+          </div>
+          <div class="form-group">
+            <label>Offer Valid Until / Deadline</label>
+            <input type="text" name="offer_deadline" value="{{ offer.offer_deadline if offer else '' }}" placeholder="e.g. Valid until 31 Dec 2024"/>
+          </div>
+          <div class="form-group full">
+            <label>Why Will Price Increase?</label>
+            <input type="text" name="reason" value="{{ offer.reason if offer else '' }}" placeholder="e.g. Dollar rate increase expected, seasonal demand"/>
+          </div>
+          <div class="form-group full">
+            <label>Product Description</label>
+            <textarea name="description" rows="3" placeholder="Short description of the product...">{{ offer.description if offer else '' }}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Product Image URL (optional)</label>
+            <input type="url" name="image_url" value="{{ offer.image_url if offer else '' }}" placeholder="https://..."/>
+          </div>
+          <div class="form-group">
+            <label>Or Upload Image</label>
+            <input type="file" name="image_file" accept="image/*" style="padding:6px;border:2px dashed var(--gray2);border-radius:8px;background:var(--gray1);width:100%;"/>
+          </div>
+          <div class="form-group full">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" name="is_active" value="1" {{ 'checked' if not offer or offer.is_active }} style="width:16px;height:16px;accent-color:var(--g3);"/>
+              <span>Active — show on website homepage and Pre-Book page</span>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;margin-top:8px;padding:13px;font-size:.95rem;">
+          <i class="fas fa-save"></i> {{ 'Save Changes' if offer else 'Publish Pre-Book Offer' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

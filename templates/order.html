@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block title %}Pre-Book / Order Products – M/S. Sotota Machineries Store Jamalpur{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label" style="background:var(--gold);color:var(--g0);">📦 Pre-Book & Order</span>
+    <h1>Can't Find What You Need?</h1>
+    <p>Place a pre-book order. We will source the product and deliver it to you across Jamalpur, Mymensingh, Sherpur, Netrokona, Tangail and beyond.</p>
+  </div>
+</section>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="bc-wrap">
+    <a href="{{ url_for('index') }}">Home</a>
+    <span>›</span>
+    <span>Pre-Book / Order</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS STRIP -->
+<section style="background:var(--g1);padding:36px 20px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;">
+      {% for icon, step, title, desc in [
+        ('📝','Step 1','Fill the Form','Tell us exactly what you need with details'),
+        ('📞','Step 2','We Contact You','We call you to confirm order & deposit amount'),
+        ('🔍','Step 3','We Source It','We find your product from trusted suppliers'),
+        ('🚚','Step 4','We Deliver','Product delivered to your location')
+      ] %}
+      <div style="padding:22px 20px;{% if not loop.last %}border-right:1px solid rgba(255,255,255,.07);{% endif %}">
+        <div style="font-size:1.8rem;margin-bottom:8px;">{{ icon }}</div>
+        <div style="font-size:.66rem;color:var(--gl);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">{{ step }}</div>
+        <div style="color:#fff;font-weight:700;font-size:.9rem;margin-bottom:5px;">{{ title }}</div>
+        <div style="color:rgba(255,255,255,.58);font-size:.78rem;line-height:1.55;">{{ desc }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ORDER FORM + TRACK SIDEBAR -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start;">
+
+      <!-- MAIN FORM -->
+      <div>
+        <div class="sec-head reveal">
+          <span class="sec-label">Place Your Order</span>
+          <h2>Pre-Book Order Form</h2>
+          <p>Fill in as much detail as possible so we can find the exact product you need.</p>
+          <div class="divider"></div>
+        </div>
+
+        <form action="{{ url_for('order') }}" method="POST" style="margin-top:28px;">
+          <!-- Customer Details -->
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><span>👤</span> Your Details</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Full Name <span style="color:var(--rust);">*</span></label>
+                <input type="text" name="customer_name" required placeholder="e.g. Md. Karim Hossain"/>
+              </div>
+              <div class="form-group">
+                <label>Phone Number <span style="color:var(--rust);">*</span></label>
+                <input type="tel" name="customer_phone" required placeholder="01XXXXXXXXX"/>
+              </div>
+              <div class="form-group">
+                <label>Your District</label>
+                <select name="customer_district">
+                  <option value="">-- Select District --</option>
+                  <optgroup label="Nearby Districts">
+                    <option>Jamalpur</option>
+                    <option>Sherpur</option>
+                    <option>Mymensingh</option>
+                    <option>Netrokona</option>
+                    <option>Tangail</option>
+                    <option>Kishorganj</option>
+                  </optgroup>
+                  <optgroup label="Other Districts">
+                    <option>Dhaka</option>
+                    <option>Rajshahi</option>
+                    <option>Sylhet</option>
+                    <option>Chittagong</option>
+                    <option>Other</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Full Address / Area</label>
+                <input type="text" name="customer_address" placeholder="Village, Upazila, District"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Details -->
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><span>📦</span> Product Details</h3>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>Product Name <span style="color:var(--rust);">*</span></label>
+                <input type="text" name="product_name" required placeholder="e.g. Changchai Diesel Engine ZS1110, LEO Jet Pump, RFL PVC Pipe 2 inch"/>
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select name="product_category">
+                  <option value="">-- Select Category --</option>
+                  <option>Machines & Engines</option>
+                  <option>Generators & Power</option>
+                  <option>Motors & Pumps</option>
+                  <option>Oils & Lubricants</option>
+                  <option>Pipes & Tubewell</option>
+                  <option>Home & Kitchen</option>
+                  <option>Fittings & Parts</option>
+                  <option>Spare Parts</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" name="quantity" min="1" value="1" placeholder="How many pieces?"/>
+              </div>
+              <div class="form-group full">
+                <label>Product Description / Specifications</label>
+                <textarea name="product_description" rows="4"
+                  placeholder="Please describe exactly what you need:&#10;- Brand name (if specific)&#10;- Size / model / power (HP, KW, inch etc.)&#10;- What it will be used for&#10;- Any other important details"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Preferences -->
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><span>⚙️</span> Order Preferences</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Urgency</label>
+                <select name="urgency">
+                  <option value="normal">Normal — within 1–2 weeks</option>
+                  <option value="urgent">Urgent — as soon as possible</option>
+                  <option value="flexible">Flexible — no rush</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Preferred Delivery Time</label>
+                <input type="text" name="preferred_delivery" placeholder="e.g. Within 1 week, Before Eid, Anytime"/>
+              </div>
+              <div class="form-group">
+                <label>Deposit Amount You Can Pay Now</label>
+                <input type="text" name="deposit_amount" placeholder="e.g. ৳500, ৳1000, Negotiable"/>
+                <small style="color:var(--tlt);font-size:.74rem;margin-top:4px;display:block;">A deposit confirms your order. We will agree on the amount when we call you.</small>
+              </div>
+              <div class="form-group full">
+                <label>Special Notes or Questions</label>
+                <textarea name="special_notes" rows="3"
+                  placeholder="Any other information, questions, or special requests..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--cream);border-radius:12px;padding:16px 18px;font-size:.82rem;color:var(--tmid);line-height:1.7;margin-bottom:20px;" class="reveal">
+            <strong style="color:var(--g1);">📋 What happens next?</strong><br>
+            After submitting, our team will call or WhatsApp you within 24 hours to confirm your order and discuss the deposit. You will receive a unique order number to track your order status.
+          </div>
+
+          <button type="submit" class="btn btn-primary reveal" style="width:100%;justify-content:center;padding:14px;font-size:.95rem;">
+            <i class="fas fa-shopping-cart"></i> Submit Pre-Book Order
+          </button>
+        </form>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <!-- Track Order -->
+        <div style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);margin-bottom:18px;" class="reveal">
+          <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:14px;">🔍 Track Your Order</h3>
+          <form action="{{ url_for('order_track') }}" method="GET">
+            <div class="form-group" style="margin-bottom:10px;">
+              <input type="text" name="order_number" placeholder="Enter order no. e.g. SMS-2024-1234" style="text-transform:uppercase;"/>
+            </div>
+            <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;">
+              <i class="fas fa-search"></i> Track Order
+            </button>
+          </form>
+        </div>
+
+        <!-- Contact Box -->
+        <div style="background:var(--g1);border-radius:var(--rl);padding:22px;" class="reveal">
+          <h3 style="font-family:var(--fh);color:#fff;font-size:1rem;margin-bottom:14px;">💬 Prefer to Call?</h3>
+          <p style="color:rgba(255,255,255,.68);font-size:.8rem;line-height:1.65;margin-bottom:16px;">You can also place your order directly by calling or WhatsApp messaging us. Our staff will take your order details.</p>
+          <a href="tel:{{ phone }}" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:10px;">
+            <i class="fas fa-phone"></i> {{ phone }}
+          </a>
+          <a href="https://wa.me/{{ whatsapp }}?text=আমি একটি পণ্য প্রি-বুক করতে চাই। আমার প্রয়োজন:" class="btn btn-wa" style="width:100%;justify-content:center;" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i> WhatsApp Order
+          </a>
+        </div>
+
+        <!-- Categories can pre-book -->
+        <div style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);margin-top:18px;" class="reveal">
+          <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:14px;">📋 What Can You Order?</h3>
+          {% for icon, cat in [('⚙️','Diesel Engines'), ('🚜','Power Tillers'), ('⚡','Generators'), ('🔧','Motors & Pumps'), ('💧','Tubewells'), ('🔵','Pipes (all types)'), ('🛢️','Engine Oils'), ('🔩','Spare Parts'), ('🏠','Home & Kitchen'), ('🔨','Fittings')] %}
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;{% if not loop.last %}border-bottom:1px solid var(--gray2);{% endif %}font-size:.82rem;color:var(--tmid);">
+            <span>{{ icon }}</span> {{ cat }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

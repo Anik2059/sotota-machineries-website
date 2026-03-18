@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Admin — Pre-Orders | Sotota Machineries{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
+      <div>
+        <h1 style="font-family:var(--fh);color:var(--g1);font-size:1.6rem;">🛒 Pre-Orders</h1>
+        <p style="color:var(--tlt);font-size:.85rem;margin-top:4px;">Products customers ordered that are not available in market</p>
+      </div>
+      <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline" style="background:var(--g1);color:#fff;"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:26px;">
+      {% for label, val, color in [('Total', stats.total, 'var(--g3)'), ('Pending', stats.pending, 'var(--rust)'), ('Sourcing', stats.sourcing, '#3498db'), ('Delivered', stats.delivered, 'var(--g3)')] %}
+      <div style="background:#fff;border-radius:var(--rl);padding:16px;box-shadow:var(--sh);text-align:center;border-top:4px solid {{ color }};">
+        <div style="font-family:var(--fh);font-size:1.7rem;color:{{ color }};font-weight:900;">{{ val }}</div>
+        <div style="font-size:.74rem;color:var(--tlt);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">{{ label }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Filter -->
+    <div class="sub-tabs" style="margin-bottom:22px;">
+      <a href="{{ url_for('admin_preorders') }}" class="sub-tab {{ 'active' if not status_filter }}">All</a>
+      <a href="{{ url_for('admin_preorders', status='pending') }}" class="sub-tab {{ 'active' if status_filter=='pending' }}">⏳ Pending</a>
+      <a href="{{ url_for('admin_preorders', status='confirmed') }}" class="sub-tab {{ 'active' if status_filter=='confirmed' }}">✅ Confirmed</a>
+      <a href="{{ url_for('admin_preorders', status='sourcing') }}" class="sub-tab {{ 'active' if status_filter=='sourcing' }}">🔍 Sourcing</a>
+      <a href="{{ url_for('admin_preorders', status='ready') }}" class="sub-tab {{ 'active' if status_filter=='ready' }}">📦 Ready</a>
+      <a href="{{ url_for('admin_preorders', status='delivered') }}" class="sub-tab {{ 'active' if status_filter=='delivered' }}">🎉 Delivered</a>
+    </div>
+
+    {% if orders %}
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      {% for o in orders %}
+      {% set sl = o.status_label() %}
+      <div style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);border-left:5px solid {{ 'var(--rust)' if o.status=='pending' else 'var(--g3)' if o.status in ['confirmed','delivered','ready'] else '#3498db' }};">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="font-family:var(--fh);font-size:1.05rem;color:var(--g1);font-weight:900;">{{ o.order_number }}</span>
+              <span style="background:{{ 'var(--rust)' if o.status=='pending' else 'var(--g3)' }};color:#fff;padding:3px 12px;border-radius:50px;font-size:.72rem;font-weight:700;">{{ sl[0] }}</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--tlt);margin-top:3px;">{{ o.created_at.strftime('%d %b %Y, %I:%M %p') }}</div>
+          </div>
+          <div style="font-size:.78rem;color:var(--tmid);">
+            <strong>{{ o.customer_name }}</strong> · {{ o.customer_phone }}
+            {% if o.customer_district %} · {{ o.customer_district }}{% endif %}
+          </div>
+        </div>
+        <div style="background:var(--gray1);border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+          <div style="font-weight:700;color:var(--g1);margin-bottom:3px;">🛒 {{ o.product_name }}</div>
+          {% if o.product_category %}<div style="font-size:.74rem;color:var(--tlt);">{{ o.product_category }} · Qty: {{ o.quantity }} · {{ o.urgency.title() }}</div>{% endif %}
+          {% if o.product_description %}<div style="font-size:.79rem;color:var(--tmid);margin-top:5px;line-height:1.55;">{{ o.product_description }}</div>{% endif %}
+          {% if o.deposit_amount %}<div style="font-size:.75rem;color:var(--tlt);margin-top:4px;">💰 Deposit: {{ o.deposit_amount }}</div>{% endif %}
+        </div>
+        <form action="{{ url_for('admin_update_preorder', oid=o.id) }}" method="POST">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+            <div>
+              <label style="font-size:.75rem;font-weight:600;color:var(--g1);display:block;margin-bottom:3px;">Update Status</label>
+              <select name="status" style="width:100%;padding:8px 10px;border:2px solid var(--gray2);border-radius:8px;font-family:var(--fb);font-size:.82rem;">
+                {% for s in ['pending','confirmed','sourcing','ready','delivered','cancelled'] %}
+                <option value="{{ s }}" {{ 'selected' if o.status == s }}>{{ s.title() }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label style="font-size:.75rem;font-weight:600;color:var(--g1);display:block;margin-bottom:3px;">Estimated Price</label>
+              <input type="text" name="estimated_price" value="{{ o.estimated_price or '' }}" placeholder="e.g. ৳45,000" style="width:100%;padding:8px 10px;border:2px solid var(--gray2);border-radius:8px;font-family:var(--fb);font-size:.82rem;"/>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:.75rem;font-weight:600;color:var(--g1);display:block;margin-bottom:3px;">Message to Customer (shown on tracking)</label>
+            <textarea name="admin_notes" rows="2" style="width:100%;padding:8px 10px;border:2px solid var(--gray2);border-radius:8px;font-family:var(--fb);font-size:.82rem;"
+              placeholder="e.g. আপনার পণ্য পাওয়া গেছে। ৩ দিনের মধ্যে ডেলিভারি দেওয়া হবে।">{{ o.admin_notes or '' }}</textarea>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button type="submit" class="btn btn-green btn-sm"><i class="fas fa-save"></i> Update</button>
+            <a href="tel:{{ o.customer_phone }}" class="btn btn-primary btn-sm"><i class="fas fa-phone"></i> Call</a>
+            <a href="https://wa.me/880{{ o.customer_phone.lstrip('0') }}?text=আপনার প্রি-অর্ডার {{ o.order_number }} সম্পর্কে আপডেট আছে।" class="btn btn-wa btn-sm" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          </div>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="big-icon">🛒</div>
+      <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:8px;">No Pre-Orders Yet</h3>
+      <p style="color:var(--tlt);">Customer pre-orders will appear here.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

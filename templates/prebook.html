@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block title %}Pre-Book Products – Lock Today's Price | M/S. Sotota Machineries Store{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label" style="background:var(--gold);color:var(--g0);">📋 Pre-Book</span>
+    <h1>Pre-Book a Product</h1>
+    <p>Book a product today at the current price before it goes up. Pay a small deposit to lock in today's price — collect or receive delivery at your preferred time.</p>
+  </div>
+</section>
+
+<div class="breadcrumb">
+  <div class="bc-wrap">
+    <a href="{{ url_for('index') }}">Home</a><span>›</span><span>Pre-Book</span>
+  </div>
+</div>
+
+<!-- HOW PRE-BOOK WORKS -->
+<section style="background:var(--g1);padding:36px 20px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;">
+      {% for icon, title, desc in [
+        ('📋','Book Today','Choose a product from our Pre-Book offers or any product you want to book'),
+        ('💰','Pay Deposit','Pay a small deposit to lock today\'s price. Deposit is deducted from final amount'),
+        ('📈','Price Locked','Even if price rises tomorrow — you pay today\'s price when you collect'),
+        ('🚚','Collect / Deliver','Pick up from our shop or get home delivery at your preferred time'),
+      ] %}
+      <div style="padding:22px 20px;{% if not loop.last %}border-right:1px solid rgba(255,255,255,.07);{% endif %}text-align:center;">
+        <div style="font-size:1.8rem;margin-bottom:8px;">{{ icon }}</div>
+        <div style="color:#fff;font-weight:700;font-size:.9rem;margin-bottom:5px;">{{ title }}</div>
+        <div style="color:rgba(255,255,255,.58);font-size:.78rem;line-height:1.55;">{{ desc }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- SPECIAL PRE-BOOK OFFERS (from admin) -->
+{% if offers %}
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <span class="sec-label" style="background:var(--rust);color:#fff;">🔥 Special Pre-Book Offers</span>
+      <h2>Book Now Before Price Rises</h2>
+      <p>These products have been identified as likely to increase in price soon. Book now at today's price.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="prod-grid" style="margin-top:28px;">
+      {% for o in offers %}
+      <div class="reveal" style="background:#fff;border-radius:var(--rl);overflow:hidden;box-shadow:var(--shl);border:2px solid var(--gold);display:flex;flex-direction:column;position:relative;">
+        <!-- HOT badge -->
+        <div style="position:absolute;top:10px;left:10px;z-index:2;background:var(--rust);color:#fff;font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:50px;">🔥 PRE-BOOK</div>
+        <!-- Image -->
+        <div style="aspect-ratio:4/3;background:var(--gray1);overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          {% if o.image() %}
+          <img src="{{ o.image() }}" alt="{{ o.product_name }}" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:10px;"/>
+          {% else %}
+          <div style="font-size:2.5rem;opacity:.2;">📦</div>
+          {% endif %}
+        </div>
+        <div style="padding:14px 14px 8px;flex:1;display:flex;flex-direction:column;gap:6px;">
+          {% if o.product_brand %}<div style="font-size:.68rem;font-weight:700;color:var(--g3);text-transform:uppercase;letter-spacing:.06em;">{{ o.product_brand }}</div>{% endif %}
+          <h3 style="font-size:.92rem;font-weight:700;color:var(--text);line-height:1.3;">{{ o.product_name }}</h3>
+          {% if o.product_model %}<div style="font-size:.72rem;color:var(--tlt);font-style:italic;">{{ o.product_model }}</div>{% endif %}
+          {% if o.description %}<p style="font-size:.78rem;color:var(--tmid);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ o.description }}</p>{% endif %}
+
+          <!-- Price comparison -->
+          <div style="background:var(--cream);border-radius:8px;padding:10px 12px;font-size:.8rem;">
+            {% if o.current_price %}
+            <div style="display:flex;justify-content:space-between;padding:3px 0;">
+              <span style="color:var(--tlt);">Current Price:</span>
+              <span style="font-weight:700;color:var(--g3);">{{ o.current_price }}</span>
+            </div>
+            {% endif %}
+            {% if o.expected_price %}
+            <div style="display:flex;justify-content:space-between;padding:3px 0;border-top:1px dashed var(--gray2);margin-top:3px;">
+              <span style="color:var(--tlt);">Expected Price:</span>
+              <span style="font-weight:700;color:var(--rust);">{{ o.expected_price }}</span>
+            </div>
+            {% endif %}
+            {% if o.deposit_required %}
+            <div style="display:flex;justify-content:space-between;padding:3px 0;border-top:1px dashed var(--gray2);margin-top:3px;">
+              <span style="color:var(--tlt);">Deposit:</span>
+              <span style="font-weight:700;color:var(--gold);">{{ o.deposit_required }}</span>
+            </div>
+            {% endif %}
+          </div>
+
+          {% if o.reason %}
+          <div style="font-size:.74rem;color:var(--tlt);font-style:italic;line-height:1.5;">
+            ℹ️ {{ o.reason }}
+          </div>
+          {% endif %}
+          {% if o.offer_deadline %}
+          <div style="font-size:.73rem;font-weight:600;color:var(--rust);">⏰ {{ o.offer_deadline }}</div>
+          {% endif %}
+        </div>
+        <div style="padding:9px 14px 14px;display:flex;gap:7px;">
+          <a href="https://wa.me/{{ whatsapp }}?text={{ (o.product_name + ' Pre-Book করতে চাই — আজকের দামে বুক করব।')|urlencode }}"
+             class="p-wa" target="_blank" rel="noopener" style="flex:1;">
+            <i class="fab fa-whatsapp"></i> Book via WhatsApp
+          </a>
+          <a href="#booking-form" class="p-call" style="background:var(--gold);color:var(--g0);" title="Fill booking form">
+            <i class="fas fa-edit"></i>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- BOOKING FORM -->
+<section class="section" id="booking-form">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start;">
+      <div>
+        <div class="sec-head reveal">
+          <span class="sec-label" style="background:var(--gold);color:var(--g0);">📋 Pre-Book Form</span>
+          <h2>Book Any Product at Today's Price</h2>
+          <p>Fill in the details below to pre-book any product. We will contact you to confirm the deposit and finalize your booking.</p>
+          <div class="divider"></div>
+        </div>
+
+        <form action="{{ url_for('prebook') }}" method="POST" style="margin-top:28px;">
+          <!-- Customer Details -->
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;"><span>👤</span> Your Details</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Full Name <span style="color:var(--rust);">*</span></label>
+                <input type="text" name="customer_name" required placeholder="e.g. Md. Karim Hossain"/>
+              </div>
+              <div class="form-group">
+                <label>Phone Number <span style="color:var(--rust);">*</span></label>
+                <input type="tel" name="customer_phone" required placeholder="01XXXXXXXXX"/>
+              </div>
+              <div class="form-group">
+                <label>Your District</label>
+                <select name="customer_district">
+                  <option value="">-- Select District --</option>
+                  <option>Jamalpur</option><option>Sherpur</option><option>Mymensingh</option>
+                  <option>Netrokona</option><option>Tangail</option><option>Kishorganj</option>
+                  <option>Dhaka</option><option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Full Address</label>
+                <input type="text" name="customer_address" placeholder="Village, Upazila, District"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Details -->
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;"><span>📦</span> Product to Pre-Book</h3>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>Product Name <span style="color:var(--rust);">*</span></label>
+                <input type="text" name="product_name" required placeholder="e.g. Changchai Engine ZS1110, LEO Jet Pump 1HP"/>
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select name="product_category">
+                  <option value="">-- Category --</option>
+                  <option>Machines & Engines</option><option>Generators</option>
+                  <option>Motors & Pumps</option><option>Oils</option>
+                  <option>Pipes & Tubewell</option><option>Home & Kitchen</option>
+                  <option>Fittings</option><option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" name="quantity" min="1" value="1"/>
+              </div>
+              <div class="form-group full">
+                <label>Description / Specifications</label>
+                <textarea name="product_description" rows="3" placeholder="Any specific size, model, brand preference..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Preferences -->
+          <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;" class="reveal">
+            <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.05rem;margin-bottom:18px;"><span>⚙️</span> Booking Preferences</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Preferred Collection / Delivery</label>
+                <input type="text" name="preferred_delivery" placeholder="e.g. Within 2 months, Before Eid"/>
+              </div>
+              <div class="form-group">
+                <label>Deposit Amount You Can Pay</label>
+                <input type="text" name="deposit_amount" placeholder="e.g. ৳500, ৳1000"/>
+              </div>
+              <div class="form-group full">
+                <label>Special Notes</label>
+                <textarea name="special_notes" rows="2" placeholder="Any additional information..."></textarea>
+              </div>
+            </div>
+            <input type="hidden" name="urgency" value="flexible"/>
+          </div>
+
+          <div style="background:var(--cream);border-radius:12px;padding:14px 16px;font-size:.82rem;color:var(--tmid);line-height:1.7;margin-bottom:18px;" class="reveal">
+            <strong style="color:var(--g1);">📋 What happens next?</strong><br>
+            We will call or WhatsApp you within 24 hours to confirm the deposit amount and finalize your pre-booking. Your booking number will be sent to you.
+          </div>
+          <button type="submit" class="btn btn-primary reveal" style="width:100%;justify-content:center;padding:14px;font-size:.95rem;">
+            <i class="fas fa-bookmark"></i> Confirm Pre-Book Request
+          </button>
+        </form>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div style="background:var(--g1);border-radius:var(--rl);padding:22px;margin-bottom:16px;" class="reveal">
+          <h3 style="font-family:var(--fh);color:#fff;font-size:1rem;margin-bottom:14px;">💬 Book via WhatsApp</h3>
+          <p style="color:rgba(255,255,255,.68);font-size:.8rem;line-height:1.65;margin-bottom:16px;">Prefer to chat directly? Message us on WhatsApp with the product name and we will arrange your pre-booking.</p>
+          <a href="https://wa.me/{{ whatsapp }}?text=আমি একটি পণ্য প্রি-বুক করতে চাই আজকের দামে।" class="btn btn-wa" style="width:100%;justify-content:center;" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i> WhatsApp Pre-Book
+          </a>
+        </div>
+        <div style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);" class="reveal">
+          <h3 style="font-family:var(--fh);color:var(--g1);font-size:1rem;margin-bottom:12px;">🔍 Track Your Pre-Book</h3>
+          <form action="{{ url_for('prebook_track') }}" method="GET">
+            <div class="form-group" style="margin-bottom:10px;">
+              <input type="text" name="order_number" placeholder="Enter booking no. e.g. PB-2024-1234" style="text-transform:uppercase;"/>
+            </div>
+            <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;"><i class="fas fa-search"></i> Track</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

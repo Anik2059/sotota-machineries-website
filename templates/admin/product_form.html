@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>{{ 'Edit' if product else 'Add' }} Product – Sotota Machineries Admin</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+
+<div class="admin-nav">
+  <a href="{{ url_for('index') }}" class="admin-nav-brand">
+    <div class="admin-nav-box">⚙️</div>
+    <div><div class="admin-nav-name">Sotota Machineries</div><div class="admin-nav-sub">Product Admin Panel</div></div>
+  </a>
+  <div style="display:flex;gap:8px;">
+    <a href="{{ url_for('admin_products') }}" class="btn btn-outline btn-sm" style="font-size:.77rem;padding:6px 13px;"><i class="fas fa-arrow-left"></i> Back</a>
+    <a href="{{ url_for('admin_logout') }}" class="btn btn-sm" style="background:var(--rust);color:#fff;font-size:.77rem;padding:6px 13px;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</div>
+
+<div class="admin-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}<div class="alert alert-{{ cat }}">{{ msg }}</div>{% endfor %}
+  {% endwith %}
+
+  <div class="admin-sidebar">
+    <a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="{{ url_for('admin_products') }}"><i class="fas fa-box"></i> Products</a>
+    <a href="{{ url_for('admin_add_product') }}" class="{{ 'active' if not product }}"><i class="fas fa-plus"></i> Add Product</a>
+    <a href="{{ url_for('admin_reviews') }}"><i class="fas fa-star"></i> Reviews</a>
+  </div>
+
+  <div class="admin-form">
+    <h2>
+      <i class="fas fa-{{ 'edit' if product else 'plus-circle' }}" style="color:var(--g3);margin-right:8px;"></i>
+      {{ 'Edit Product: ' + product.name if product else 'Add New Product' }}
+    </h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      <div class="form-grid">
+
+        <!-- Name -->
+        <div class="form-group full">
+          <label>Product Name *</label>
+          <input type="text" name="name" required value="{{ product.name if product else '' }}"
+                 placeholder="e.g. Changchai ZS1110 Diesel Engine"/>
+        </div>
+
+        <!-- Brand -->
+        <div class="form-group">
+          <label>Brand *</label>
+          <input type="text" name="brand" required value="{{ product.brand if product else '' }}"
+                 placeholder="e.g. Changchai, LEO Pump, ACI Motors"/>
+        </div>
+
+        <!-- Model -->
+        <div class="form-group">
+          <label>Model / Specification</label>
+          <input type="text" name="model_no" value="{{ product.model_no if product else '' }}"
+                 placeholder="e.g. ZS1110, 1HP, 3×3 inch"/>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label>Category *</label>
+          <select name="category_id" required>
+            <option value="">— Select Category —</option>
+            {% for c in categories %}
+            <option value="{{ c.id }}" {{ 'selected' if product and product.category_id == c.id }}>
+              {{ c.icon }} {{ c.name }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Badge -->
+        <div class="form-group">
+          <label>Badge / Label</label>
+          <select name="badge">
+            <option value="">No Badge</option>
+            {% for b in ['Hot','New','Sale','Popular'] %}
+            <option value="{{ b }}" {{ 'selected' if product and product.badge == b }}>
+              {% if b == 'Hot' %}🔥{% elif b == 'New' %}🆕{% elif b == 'Sale' %}🏷️{% else %}⭐{% endif %} {{ b }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group full">
+          <label>Product Description *</label>
+          <textarea name="description" rows="4" required
+                    placeholder="Describe the product — key specs, use case, and why customers should buy it...">{{ product.description if product else '' }}</textarea>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group full">
+          <label>Product Image — Upload from Device</label>
+          <input type="file" name="image_file" accept="image/*" onchange="previewImage(this)"
+                 style="padding:8px;background:var(--gray1);border-radius:7px;cursor:pointer;"/>
+          <img id="img-preview" class="img-preview"
+               {% if product and product.image_file %}src="{{ product.image() }}" style="display:block;"{% endif %}
+               alt="Image preview"/>
+          <small style="color:var(--tlt);">JPG, PNG, WEBP — max 5MB. Will be resized to 800px width automatically.</small>
+        </div>
+
+        <!-- Image URL -->
+        <div class="form-group full">
+          <label>OR — Paste External Image URL</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="image_url" name="image_url"
+                   value="{{ product.image_url if product else '' }}"
+                   placeholder="https://example.com/product-image.jpg"
+                   oninput="previewImageUrl()"/>
+            <button type="button" onclick="previewImageUrl()" class="btn btn-sm btn-green">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+          </div>
+          <img id="img-preview-url" class="img-preview"
+               {% if product and product.image_url and not product.image_file %}src="{{ product.image_url }}" style="display:block;"{% endif %}
+               alt="URL preview"/>
+        </div>
+
+        <!-- Custom WhatsApp Message -->
+        <div class="form-group full">
+          <label>Custom WhatsApp Message (optional)</label>
+          <input type="text" name="wa_message" value="{{ product.wa_message if product else '' }}"
+                 placeholder="Leave blank to auto-generate from product name"/>
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="form-group">
+          <label>Product Flags</label>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+            <label class="form-check">
+              <input type="checkbox" name="is_hot" {{ 'checked' if product and product.is_hot }}/> 🔥 Mark as Hot Product
+            </label>
+            <label class="form-check">
+              <input type="checkbox" name="is_new_arrival" {{ 'checked' if product and product.is_new_arrival }}/> 🆕 Mark as New Arrival
+            </label>
+            <label class="form-check">
+              <input type="checkbox" name="is_featured" {{ 'checked' if product and product.is_featured }}/> ⭐ Feature on Homepage
+            </label>
+            {% if product %}
+            <label class="form-check">
+              <input type="checkbox" name="is_active" {{ 'checked' if product.is_active }}/> ✅ Active / Visible to customers
+            </label>
+            {% endif %}
+          </div>
+        </div>
+
+      </div><!-- /form-grid -->
+
+      <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;">
+        <button type="submit" class="btn btn-green">
+          <i class="fas fa-save"></i> {{ 'Update Product' if product else 'Save Product' }}
+        </button>
+        <a href="{{ url_for('admin_products') }}" class="btn" style="background:var(--gray2);color:var(--tmid);">
+          <i class="fas fa-times"></i> Cancel
+        </a>
+        {% if product %}
+        <form action="{{ url_for('admin_delete_product', pid=product.id) }}" method="POST"
+              style="display:inline;" onsubmit="return confirmDelete('{{ product.name }}')">
+          <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Delete Product
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{# Reusable product card — include as: {% include "_product_card.html" %} #}
+{# Variable `p` must be a Product object in context #}
+<article class="prod-card reveal"
+         data-name="{{ p.name }}"
+         data-brand="{{ p.brand or '' }}"
+         data-model="{{ p.model_no or '' }}"
+         data-badge="{{ p.badge or '' }}"
+         itemscope itemtype="https://schema.org/Product">
+  <div class="prod-img">
+    {% if p.badge %}
+      <span class="badge badge-{{ p.badge|lower }}">
+        {% if p.badge == 'Hot' %}🔥{% elif p.badge == 'New' %}🆕{% elif p.badge == 'Sale' %}🏷️{% elif p.badge == 'Popular' %}⭐{% endif %}
+        {{ p.badge }}
+      </span>
+    {% endif %}
+    {% if p.image() %}
+      <img src="{{ p.image() }}" alt="{{ p.name }}" loading="lazy" itemprop="image"/>
+    {% else %}
+      <div class="no-img">📦</div>
+    {% endif %}
+  </div>
+  <div class="prod-body">
+    {% if p.brand %}<div class="prod-brand" itemprop="brand">{{ p.brand }}</div>{% endif %}
+    <h3 class="prod-name" itemprop="name">{{ p.name }}</h3>
+    {% if p.model_no %}<div class="prod-model">Model: {{ p.model_no }}</div>{% endif %}
+    {% if p.description %}<p class="prod-desc" itemprop="description">{{ p.description }}</p>{% endif %}
+    <div class="prod-no-price"><i class="fas fa-tag"></i> Contact for price & availability</div>
+  </div>
+  <div class="prod-actions">
+    <a href="https://wa.me/{{ whatsapp }}?text={{ (p.wa_message or (p.name + ' সম্পর্কে দাম ও স্টক জানতে চাই।'))|urlencode }}"
+       class="p-wa" target="_blank" rel="noopener">
+      <i class="fab fa-whatsapp"></i> Get Price
+    </a>
+    <a href="tel:{{ phone }}" class="p-call" aria-label="Call Now">
+      <i class="fas fa-phone"></i>
+    </a>
+  </div>
+</article>

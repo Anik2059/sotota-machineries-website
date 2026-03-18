@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Contact Us – Sotota Machineries Store | Station Road Jamalpur{% endblock %}
+{% block meta_desc %}Contact M/S. Sotota Machineries Store at Station Road, Jamalpur. WhatsApp, phone, video call or visit us in person.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">Get In Touch</span>
+    <h1>Contact & Support</h1>
+    <p>WhatsApp, phone, video call, or visit us in person — we're always here to help.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>›</span><span>Contact</span></div></div>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- Contact Info -->
+      <div class="c-card reveal">
+        <h3>📞 Quick Contact</h3>
+        <div class="c-item"><div class="c-icon"><i class="fas fa-map-marker-alt"></i></div><div class="c-info"><div class="lbl">Address</div><div class="val">Station Road, Jamalpur<br>Mymensingh Division, Bangladesh</div></div></div>
+        <div class="c-item"><div class="c-icon"><i class="fas fa-phone"></i></div><div class="c-info"><div class="lbl">Phone</div><div class="val"><a href="tel:{{ phone }}">{{ phone }}</a></div></div></div>
+        <div class="c-item"><div class="c-icon"><i class="fab fa-whatsapp"></i></div><div class="c-info"><div class="lbl">WhatsApp</div><div class="val"><a href="https://wa.me/{{ whatsapp }}" target="_blank">{{ phone }}</a></div></div></div>
+        <div class="c-item"><div class="c-icon"><i class="fab fa-facebook"></i></div><div class="c-info"><div class="lbl">Facebook</div><div class="val"><a href="https://www.facebook.com/SototaMachineriesStore" target="_blank">SototaMachineriesStore</a></div></div></div>
+        <div class="c-item"><div class="c-icon"><i class="fas fa-clock"></i></div><div class="c-info"><div class="lbl">Working Hours</div><div class="val">Sat–Thu: 9:00 AM – 9:30 PM<br><small style="color:var(--rust);">Friday: Closed (Juma prayers)</small></div></div></div>
+        <div class="cta-stack">
+          <a href="https://wa.me/{{ whatsapp }}?text=আমি+সততা+মেশিনারিজ+থেকে+পণ্যের+দাম+জানতে+চাই।" class="cta-btn wa" target="_blank" rel="noopener"><div class="ci"><i class="fab fa-whatsapp"></i></div><div class="ct"><div class="t">Chat on WhatsApp</div><div class="s">Get price, order, ask anything</div></div></a>
+          <a href="tel:{{ phone }}" class="cta-btn call"><div class="ci"><i class="fas fa-phone"></i></div><div class="ct"><div class="t">Call Now</div><div class="s">Direct line to our shop</div></div></a>
+          <a href="https://wa.me/{{ whatsapp }}?text=Video+call+এ+product+demo+দেখতে+চাই" class="cta-btn vc" target="_blank" rel="noopener"><div class="ci"><i class="fas fa-video"></i></div><div class="ct"><div class="t">Request Video Call Demo</div><div class="s">Live product viewing</div></div></a>
+          <a href="https://www.facebook.com/SototaMachineriesStore" class="cta-btn fb" target="_blank" rel="noopener"><div class="ci"><i class="fab fa-facebook"></i></div><div class="ct"><div class="t">Follow on Facebook</div><div class="s">Latest products & offers</div></div></a>
+        </div>
+      </div>
+
+      <!-- Map + Hours -->
+      <div class="reveal">
+        <div class="map-wrap">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14546.0!2d89.9458!3d24.8984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fc8a24f5fdcf19%3A0x2a32a5d3a01e5c1a!2sStation%20Road%2C%20Jamalpur!5e0!3m2!1sen!2sbd!4v1700000000000"
+                  allowfullscreen="" loading="lazy" title="Sotota Machineries Store Location Jamalpur"></iframe>
+        </div>
+        <div class="c-card">
+          <h3>🕐 Working Hours</h3>
+          <table class="hours-table">
+            <tr><td>Saturday</td><td>9:00 AM – 9:30 PM <span class="open-tag">Open</span></td></tr>
+            <tr><td>Sunday</td><td>9:00 AM – 9:30 PM</td></tr>
+            <tr><td>Monday</td><td>9:00 AM – 9:30 PM</td></tr>
+            <tr><td>Tuesday</td><td>9:00 AM – 9:30 PM</td></tr>
+            <tr><td>Wednesday</td><td>9:00 AM – 9:30 PM</td></tr>
+            <tr><td>Thursday</td><td>9:00 AM – 9:30 PM</td></tr>
+            <tr class="closed-day"><td>Friday</td><td>Closed (Juma)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Support -->
+    <div style="margin-top:56px;" id="support">
+      <div class="sec-head center reveal"><span class="sec-label">Support</span><h2>How Can We Help?</h2><div class="divider"></div></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:26px;">
+        <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);text-align:center;"><div style="font-size:2rem;margin-bottom:12px;">💬</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;">WhatsApp Support</h3><p style="font-size:.82rem;color:var(--tmid);line-height:1.65;margin-bottom:16px;">Chat anytime for product inquiries, pricing, and orders during working hours.</p><a href="https://wa.me/{{ whatsapp }}" class="btn btn-wa" style="width:100%;justify-content:center;" target="_blank"><i class="fab fa-whatsapp"></i> Start Chat</a></div>
+        <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);text-align:center;"><div style="font-size:2rem;margin-bottom:12px;">📹</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;">Video Call Demo</h3><p style="font-size:.82rem;color:var(--tmid);line-height:1.65;margin-bottom:16px;">Can't visit? Request a live video call and we'll demonstrate products before you buy.</p><a href="https://wa.me/{{ whatsapp }}?text=Video+call+demo+চাই" class="btn btn-primary" style="width:100%;justify-content:center;" target="_blank"><i class="fas fa-video"></i> Request Demo</a></div>
+        <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);text-align:center;"><div style="font-size:2rem;margin-bottom:12px;">🚚</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;">Delivery</h3><p style="font-size:.82rem;color:var(--tmid);line-height:1.65;margin-bottom:16px;">Affordable delivery across Jamalpur and Mymensingh Division. Ask for delivery cost to your area.</p><a href="https://wa.me/{{ whatsapp }}?text=Delivery+cost+জানতে+চাই" class="btn btn-wa" style="width:100%;justify-content:center;" target="_blank"><i class="fab fa-whatsapp"></i> Check Delivery</a></div>
+        <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);text-align:center;"><div style="font-size:2rem;margin-bottom:12px;">🔄</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;">Return Policy</h3><p style="font-size:.82rem;color:var(--tmid);line-height:1.65;margin-bottom:16px;">Returns accepted conditionally. Products must be unused & in original packaging. Call to discuss.</p><a href="tel:{{ phone }}" class="btn btn-green" style="width:100%;justify-content:center;"><i class="fas fa-phone"></i> Call to Discuss</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

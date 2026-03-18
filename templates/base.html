@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>{% block title %}M/S. Sotota Machineries Store – Jamalpur{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}Your one-stop shop for top-quality agricultural and home essentials in Jamalpur. Diesel engines, power tillers, generators, motors, pumps.{% endblock %}"/>
+  <meta name="keywords" content="agricultural machinery Jamalpur, diesel engine Bangladesh, shallow machine, power tiller, Changchai, LEO pump, জামালপুর মেশিনারিজ"/>
+  <!-- Favicon using store logo -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/store-logo.png') }}"/>
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/store-logo.png') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────────────── -->
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="nav-wrap">
+    <a href="{{ url_for('index') }}" class="logo" aria-label="Sotota Machineries Home">
+      <div class="logo-box" style="background:transparent;padding:0;overflow:hidden;flex-shrink:0;">
+        <img src="{{ url_for('static', filename='img/store-logo.png') }}"
+             alt="M/S. Sotota Machineries Store Logo"
+             style="width:46px;height:46px;object-fit:cover;border-radius:9px;display:block;">
+      </div>
+      <div class="logo-text" style="text-align:left;">
+        <div class="logo-n" style="font-size:.82rem;color:#0d2618;font-weight:900;line-height:1.2;white-space:nowrap;">M/S. Sotota Machineries Store</div>
+        <div class="logo-s" style="font-size:.6rem;color:#333;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">Station Road, Jamalpur &nbsp;·&nbsp; Est. 2005</div>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="menubar">
+      <li class="{{ 'active' if request.endpoint == 'index' }}">
+        <a href="{{ url_for('index') }}">Home</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'machines' }}">
+        <a href="{{ url_for('machines') }}">Machines</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'generators' }}">
+        <a href="{{ url_for('generators') }}">Generators</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'motors' }}">
+        <a href="{{ url_for('motors') }}">Motors & Pumps</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'oils' }}">
+        <a href="{{ url_for('oils') }}">Oils</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'home_kitchen' }}">
+        <a href="{{ url_for('home_kitchen') }}">Home & Kitchen</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'fittings' }}">
+        <a href="{{ url_for('fittings') }}">Fittings</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'pipes' }}">
+        <a href="{{ url_for('pipes') }}">Pipes</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'tubewell' }}">
+        <a href="{{ url_for('tubewell') }}">Tubewell</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'videos' }}">
+        <a href="{{ url_for('videos') }}">📹 Videos</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'about' }}">
+        <a href="{{ url_for('about') }}">About</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'prebook' }}">
+        <a href="{{ url_for('prebook') }}" style="background:#d4a017;color:#071510;border-radius:7px;font-weight:700;">📋 Pre-Book</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'preorder' }}">
+        <a href="{{ url_for('preorder') }}" style="background:#256b3e;color:#fff;border-radius:7px;font-weight:700;">🛒 Pre-Order</a>
+      </li>
+      <li class="{{ 'active' if request.endpoint == 'contact' }}">
+        <a href="{{ url_for('contact') }}" style="background:#c0392b;color:#fff;border-radius:7px;font-weight:700;">📞 Contact</a>
+      </li>
+      <li>
+        <a href="https://wa.me/{{ whatsapp }}?text=আমি+সততা+মেশিনারিজ+থেকে+পণ্যের+দাম+জানতে+চাই।"
+           class="nav-wa" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+      </li>
+    </ul>
+
+    <button class="hamburger" id="hbtn" onclick="toggleMob()" aria-label="Toggle Navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mob-nav" id="mobnav" role="dialog" aria-modal="true">
+  <div class="mob-head">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="{{ url_for('static', filename='img/store-logo.png') }}" alt="Logo" style="width:36px;height:36px;border-radius:8px;object-fit:cover;">
+      <div>
+        <div style="color:#fff;font-family:'Playfair Display',serif;font-size:.88rem;font-weight:900;line-height:1.2;">M/S. Sotota Machineries Store</div>
+        <div style="color:rgba(255,255,255,.55);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;">Station Road, Jamalpur</div>
+      </div>
+    </div>
+    <button class="mob-close" onclick="closeMob()" aria-label="Close">✕</button>
+  </div>
+  <a class="mob-link" href="{{ url_for('index') }}" onclick="closeMob()">🏠 Home</a>
+  <a class="mob-link" href="{{ url_for('machines') }}" onclick="closeMob()">⚙️ Machines & Engines</a>
+  <a class="mob-link" href="{{ url_for('generators') }}" onclick="closeMob()">⚡ Generators & Power</a>
+  <a class="mob-link" href="{{ url_for('motors') }}" onclick="closeMob()">🔧 Motors & Pumps</a>
+  <a class="mob-link" href="{{ url_for('oils') }}" onclick="closeMob()">🛢️ Oils & Lubricants</a>
+  <a class="mob-link" href="{{ url_for('home_kitchen') }}" onclick="closeMob()">🏠 Home & Kitchen</a>
+  <a class="mob-link" href="{{ url_for('fittings') }}" onclick="closeMob()">🔩 Fittings</a>
+  <a class="mob-link" href="{{ url_for('pipes') }}" onclick="closeMob()">🔵 Pipes</a>
+  <a class="mob-link" href="{{ url_for('tubewell') }}" onclick="closeMob()">💧 Tubewell</a>
+  <a class="mob-link" href="{{ url_for('videos') }}" onclick="closeMob()">📹 Product Videos</a>
+  <a class="mob-link" href="{{ url_for('prebook') }}" onclick="closeMob()" style="color:var(--gl);">📋 Pre-Book (Lock Price Early)</a>
+  <a class="mob-link" href="{{ url_for('preorder') }}" onclick="closeMob()" style="color:#7dffb3;">🛒 Pre-Order (Out of Stock)</a>
+  <a class="mob-link" href="{{ url_for('about') }}" onclick="closeMob()">🏢 About Us</a>
+  <a class="mob-link" href="{{ url_for('contact') }}" onclick="closeMob()">📞 Contact</a>
+  <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">
+    <a href="https://wa.me/{{ whatsapp }}?text=আমি+সততা+মেশিনারিজ+থেকে+পণ্যের+তথ্য+জানতে+চাই।"
+       class="btn btn-wa" style="justify-content:center;" target="_blank" rel="noopener">
+      <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+    </a>
+   <a href="tel:{{ phone }}" class="btn btn-green" style="justify-content:center;">
+      <i class="fas fa-phone"></i> Call Now
+    </a>
+  </div>
+</div><!-- /.mob-nav -->
+
+<!-- ── FLASH MESSAGES
+
+<!-- ── FLASH MESSAGES ───────────────────────────────────────────────── -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {% if category == 'success' %}✅{% elif category == 'danger' %}❌{% else %}⚠️{% endif %}
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- ── PAGE CONTENT ─────────────────────────────────────────────────── -->
+{% block content %}{% endblock %}
+
+<!-- ── FOOTER ───────────────────────────────────────────────────────── -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="foot-name">M/S. Sotota Machineries Store</div>
+      <p>"Where Quality Meets Convenience — your one-stop shop for top-quality agricultural and home essentials at Station Road, Jamalpur."</p>
+      <div class="foot-socials">
+        <a href="https://www.facebook.com/SototaMachineriesStore" class="soc" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://wa.me/{{ whatsapp }}" class="soc" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('machines') }}">Machines & Engines</a></li>
+        <li><a href="{{ url_for('generators') }}">Generators & Power</a></li>
+        <li><a href="{{ url_for('motors') }}">Motors & Pumps</a></li>
+        <li><a href="{{ url_for('oils') }}">Oils & Lubricants</a></li>
+        <li><a href="{{ url_for('home_kitchen') }}">Home & Kitchen</a></li>
+        <li><a href="{{ url_for('fittings') }}">Fittings</a></li>
+        <li><a href="{{ url_for('pipes') }}">Pipes</a></li>
+        <li><a href="{{ url_for('tubewell') }}">Tubewell</a></li>
+        <li><a href="{{ url_for('videos') }}">📹 Product Videos</a></li>
+        <li><a href="{{ url_for('prebook') }}" style="color:var(--gl);">📋 Pre-Book (Lock Price)</a></li>
+        <li><a href="{{ url_for('preorder') }}" style="color:#7dffb3;">🛒 Pre-Order (Out of Stock)</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Information</h4>
+      <ul>
+        <li><a href="{{ url_for('about') }}">About Us</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact & Support</a></li>
+        <li><a href="{{ url_for('admin_dashboard') }}">Product Admin</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Store Info</h4>
+      <div class="return-box">
+        <strong>📍 Station Road, Jamalpur</strong><br>
+        Mymensingh Division, Bangladesh<br><br>
+        <strong>🕐 Open:</strong> Saturday – Thursday<br>
+        9:00 AM – 9:30 PM<br>
+        <strong>📵 Closed:</strong> Friday (Juma)<br><br>
+        <strong>↩️ Return Policy:</strong> Conditional returns — contact via phone or WhatsApp. Products must be unused & in original packaging.
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    © {{ now.year }} M/S. Sotota Machineries Store, Station Road, Jamalpur, Bangladesh. All Rights Reserved. |
+    <a href="https://www.facebook.com/SototaMachineriesStore" target="_blank" rel="noopener">Facebook Page</a>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/{{ whatsapp }}?text=আমি+সততা+মেশিনারিজ+থেকে+পণ্যের+তথ্য+জানতে+চাই।"
+   class="float-wa" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

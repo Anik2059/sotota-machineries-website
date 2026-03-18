@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}About Us – M/S. Sotota Machineries Store, Jamalpur Bangladesh{% endblock %}
+{% block meta_desc %}About M/S. Sotota Machineries Store. Serving farmers and households of Mymensingh Division since 2005, Station Road Jamalpur.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">About Us</span>
+    <h1>Our Story</h1>
+    <p>Serving the farmers and households of Jamalpur and Mymensingh Division since 2005.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>›</span><span>About Us</span></div></div>
+
+<section class="section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img class="about-img" src="{{ url_for('static', filename='img/store-front.png') }}" alt="M/S. Sotota Machineries Store — Station Road Jamalpur"/>
+        <div class="about-badge"><div class="num">20+</div><div class="lbl">Years of Trust</div></div>
+      </div>
+      <div class="about-content reveal">
+        <span class="sec-label">Our History</span>
+        <h2>Trusted Since 2005</h2>
+        <p>M/S. Sotota Machineries Store was established at Station Road, Jamalpur, Mymensingh Division — the commercial heart of Jamalpur. For over 20 years we have been the go-to destination for agricultural machinery, home accessories, and plumbing fittings.</p>
+        <p>Our mission: bring top-quality products at honest prices to the farmers and households of Jamalpur. Today we stock 500+ products from 18+ trusted global brands, serving Jamalpur Sadar, Islampur, Sarishabari, Dewanganj, Melandaha, and neighboring districts including Tangail, Netrokona, Sherpur, and beyond.</p>
+        <ul class="about-list">
+          <li>Original products from 18+ reputed international brands</li>
+          <li>Live video call demos — see products before you buy</li>
+          <li>Home delivery across Mymensingh Division</li>
+          <li>Flexible pricing — negotiate via WhatsApp or phone</li>
+          <li>Friendly, knowledgeable staff in Bangla &amp; English</li>
+          <li>Conditional returns — handled fairly and quickly</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:18px;margin-top:56px;">
+      <div class="reveal" style="background:var(--g3);border-radius:var(--rl);padding:26px;text-align:center;color:#fff;"><div style="font-family:var(--fh);font-size:2.3rem;font-weight:900;">20+</div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;opacity:.85;margin-top:4px;">Years Serving</div></div>
+      <div class="reveal" style="background:var(--gold);border-radius:var(--rl);padding:26px;text-align:center;"><div style="font-family:var(--fh);font-size:2.3rem;font-weight:900;color:var(--g0);">500+</div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--g0);opacity:.85;margin-top:4px;">Products</div></div>
+      <div class="reveal" style="background:var(--g3);border-radius:var(--rl);padding:26px;text-align:center;color:#fff;"><div style="font-family:var(--fh);font-size:2.3rem;font-weight:900;">18+</div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;opacity:.85;margin-top:4px;">Brands</div></div>
+      <div class="reveal" style="background:var(--gold);border-radius:var(--rl);padding:26px;text-align:center;"><div style="font-family:var(--fh);font-size:2.3rem;font-weight:900;color:var(--g0);">10K+</div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--g0);opacity:.85;margin-top:4px;">Happy Customers</div></div>
+    </div>
+
+    <!-- Commitment cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:50px;">
+      <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);border-top:4px solid var(--g3);"><div style="font-size:1.9rem;margin-bottom:9px;">🌾</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;font-size:1.05rem;">For Farmers</h3><p style="font-size:.83rem;color:var(--tmid);line-height:1.65;">Diesel engines to power tillers — we provide tools that maximise productivity for Bangladesh's farming community.</p></div>
+      <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);border-top:4px solid var(--gold);"><div style="font-size:1.9rem;margin-bottom:9px;">🏠</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;font-size:1.05rem;">For Homes</h3><p style="font-size:.83rem;color:var(--tmid);line-height:1.65;">Complete home accessories — bathroom fittings to kitchen essentials. Everything under one roof at Station Road.</p></div>
+      <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);border-top:4px solid var(--g3);"><div style="font-size:1.9rem;margin-bottom:9px;">🤝</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;font-size:1.05rem;">Our Promise</h3><p style="font-size:.83rem;color:var(--tmid);line-height:1.65;">100% genuine products, honest pricing, and excellent after-sales support. Your satisfaction is our highest priority.</p></div>
+      <div class="reveal" style="background:#fff;border-radius:var(--rl);padding:22px;box-shadow:var(--sh);border-top:4px solid var(--gold);"><div style="font-size:1.9rem;margin-bottom:9px;">🚚</div><h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:7px;font-size:1.05rem;">Delivery & Pre-Book</h3><p style="font-size:.83rem;color:var(--tmid);line-height:1.65;">Can't find what you need locally? Place a pre-book order — we source it and deliver it to Jamalpur, Sherpur, Netrokona, Tangail and beyond.</p></div>
+    </div>
+
+    <!-- Districts we serve -->
+    <div style="background:var(--cream);border-radius:var(--rxl);padding:32px;margin-top:50px;" class="reveal">
+      <div class="sec-head center" style="margin-bottom:24px;">
+        <span class="sec-label">📍 Areas We Serve</span>
+        <h2 style="font-family:var(--fh);color:var(--g1);font-size:1.5rem;margin-top:8px;">Customers Come From Across Bangladesh</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        {% for district, upazilas in [
+          ('Jamalpur', 'Sadar, Islampur, Sarishabari, Dewanganj, Melandaha, Madarganj, Bakshiganj'),
+          ('Sherpur', 'Sadar, Nalitabari, Nakla, Sreebordi, Jhenaigati'),
+          ('Mymensingh', 'Sadar, Trishal, Bhaluka, Gaffargaon, Muktagacha'),
+          ('Netrokona', 'Sadar, Kendua, Mohanganj, Kalmakanda'),
+          ('Tangail', 'Sadar, Mirzapur, Gopalpur, Basail'),
+          ('Kishorganj', 'Sadar, Bhairab, Kuliarchar'),
+        ] %}
+        <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:var(--sh);">
+          <div style="font-weight:700;color:var(--g1);font-size:.88rem;margin-bottom:5px;">📍 {{ district }}</div>
+          <div style="font-size:.73rem;color:var(--tlt);line-height:1.6;">{{ upazilas }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Sherpur Customer Reviews -->
+    <div style="margin-top:50px;" class="reveal">
+      <div class="sec-head center" style="margin-bottom:24px;">
+        <span class="sec-label">💬 Customer Reviews</span>
+        <h2 style="font-family:var(--fh);color:var(--g1);font-size:1.5rem;margin-top:8px;">What Customers Say About Us</h2>
+        <p style="color:var(--tmid);font-size:.88rem;">Real feedback from farmers and households across Bangladesh</p>
+      </div>
+      <div class="rev-grid">
+        <article class="rev-card reveal">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"শেরপুর থেকে এসেছিলাম সততা মেশিনারিজ স্টোরে। Changchai ইঞ্জিন এবং LEO পাম্প কিনেছি। দাম অনেক কম এবং পণ্যের মান চমৎকার। মালিক খুব সৎ এবং আন্তরিক মানুষ।"</p>
+          <div class="rev-author">
+            <div class="rev-av">RA</div>
+            <div><div class="rev-name">Md. Rafiqul Alam</div><div class="rev-loc">📍 শেরপুর সদর, শেরপুর</div></div>
+          </div>
+        </article>
+        <article class="rev-card reveal">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"শেরপুর জেলা থেকে WhatsApp-এ যোগাযোগ করেছিলাম। ভিডিও কলে পণ্য দেখিয়েছেন, দাম মিলিয়ে নিয়েছি, তারপর হোম ডেলিভারি পেয়েছি। সততা মেশিনারিজ সত্যিই বিশ্বাসযোগ্য।"</p>
+          <div class="rev-author">
+            <div class="rev-av">SB</div>
+            <div><div class="rev-name">Sumaiya Begum</div><div class="rev-loc">📍 নালিতাবাড়ী, শেরপুর</div></div>
+          </div>
+        </article>
+        <article class="rev-card reveal">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"জামালপুর স্টেশন রোডে এসে ACI Power Tiller কিনেছি। দাম নেগোশিয়েবল এবং সার্ভিস অনেক ভালো। ২০+ বছরের পুরনো দোকান — বিশ্বাস করা যায়।"</p>
+          <div class="rev-author">
+            <div class="rev-av">MK</div>
+            <div><div class="rev-name">Md. Karim Hossain</div><div class="rev-loc">📍 জামালপুর সদর</div></div>
+          </div>
+        </article>
+        <article class="rev-card reveal">
+          <div class="rev-stars">★★★★★</div>
+          <p class="rev-text">"Came from Netrokona for a LEO pump. Best collection of motors and pumps in the entire Mymensingh region. Worth every kilometre of the journey!"</p>
+          <div class="rev-author">
+            <div class="rev-av">SR</div>
+            <div><div class="rev-name">Sohel Rana</div><div class="rev-loc">📍 Netrokona Sadar</div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Videos CTA -->
+    <div style="background:var(--g1);border-radius:var(--rxl);padding:32px;margin-top:50px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;" class="reveal">
+      <div>
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gl);margin-bottom:6px;">📹 Product Videos</div>
+        <h3 style="font-family:var(--fh);color:#fff;font-size:1.3rem;margin-bottom:8px;">Watch Our Products in Action</h3>
+        <p style="color:rgba(255,255,255,.68);font-size:.85rem;line-height:1.65;">Watch real demos of our products. Customers also share videos after buying from us.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0;">
+        <a href="{{ url_for('videos') }}" class="btn btn-primary"><i class="fas fa-play-circle"></i> Watch Videos</a>
+        <a href="{{ url_for('videos') }}#submit" class="btn btn-outline"><i class="fas fa-upload"></i> Share Your Video</a>
+      </div>
+    </div>
+
+    <!-- Pre-Book CTA -->
+    <div style="background:var(--cream);border:2px solid var(--gray2);border-radius:var(--rxl);padding:32px;margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;" class="reveal">
+      <div>
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g3);margin-bottom:6px;">📦 Pre-Book & Order</div>
+        <h3 style="font-family:var(--fh);color:var(--g1);font-size:1.3rem;margin-bottom:8px;">Can't Find What You Need?</h3>
+        <p style="color:var(--tmid);font-size:.85rem;line-height:1.65;">Place a pre-book order. We will source and deliver any product you need.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0;">
+        <a href="{{ url_for('order') }}" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Place Pre-Book Order</a>
+        <a href="{{ url_for('order_track') }}" class="btn btn-green"><i class="fas fa-search"></i> Track My Order</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

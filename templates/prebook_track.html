@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Track Pre-Book – M/S. Sotota Machineries Store{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:640px;margin:0 auto;">
+    <div class="sec-head center reveal">
+      <span class="sec-label" style="background:var(--gold);color:var(--g0);">📋 Pre-Book Tracking</span>
+      <h2>Track Your Pre-Book</h2>
+      <p>Enter your booking number (e.g. PB-2024-1234) to check your pre-book status.</p>
+      <div class="divider"></div>
+    </div>
+
+    <form action="{{ url_for('prebook_track') }}" method="GET" style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin:28px 0 20px;" class="reveal">
+      <div style="display:flex;gap:10px;">
+        <input type="text" name="order_number" value="{{ order_num or '' }}"
+               placeholder="Enter Booking Number e.g. PB-2024-1234"
+               style="flex:1;padding:11px 14px;border:2px solid var(--gray2);border-radius:9px;font-family:var(--fb);font-size:.88rem;outline:none;text-transform:uppercase;" required/>
+        <button type="submit" class="btn btn-green"><i class="fas fa-search"></i> Track</button>
+      </div>
+    </form>
+
+    {% if booking %}
+    {% set sl = booking.status_label() %}
+    <div style="background:#fff;border-radius:var(--rl);padding:28px;box-shadow:var(--shl);" class="reveal">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--gray2);">
+        <div>
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tlt);">Booking Number</div>
+          <div style="font-family:var(--fh);font-size:1.4rem;color:var(--g1);font-weight:900;">{{ booking.order_number }}</div>
+        </div>
+        <div style="background:var(--gold);color:var(--g0);padding:7px 16px;border-radius:50px;font-size:.78rem;font-weight:700;">{{ sl[0] }}</div>
+      </div>
+      <h4 style="font-family:var(--fh);color:var(--g1);margin-bottom:12px;font-size:.95rem;">📦 Pre-Book Details</h4>
+      {% for label, value in [('Product', booking.product_name), ('Your Phone', booking.customer_phone), ('District', booking.customer_district or '—'), ('Collection / Delivery', booking.preferred_delivery or '—'), ('Booked On', booking.created_at.strftime('%d %b %Y'))] %}
+      <div style="display:flex;gap:12px;padding:8px 0;{% if not loop.last %}border-bottom:1px solid var(--gray2);{% endif %}font-size:.84rem;">
+        <span style="font-weight:600;color:var(--g1);min-width:160px;">{{ label }}</span>
+        <span style="color:var(--tmid);">{{ value }}</span>
+      </div>
+      {% endfor %}
+      {% if booking.estimated_price %}
+      <div style="background:var(--cream);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:.84rem;">
+        <strong style="color:var(--g1);">💰 Agreed Price:</strong>
+        <span style="color:var(--g3);font-weight:700;margin-left:8px;">{{ booking.estimated_price }}</span>
+      </div>
+      {% endif %}
+      {% if booking.admin_notes %}
+      <div style="background:#e8f5e9;border-left:4px solid var(--g3);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:12px;font-size:.84rem;">
+        <strong style="color:var(--g1);">📝 Message from us:</strong>
+        <p style="color:var(--tmid);margin-top:4px;line-height:1.6;">{{ booking.admin_notes }}</p>
+      </div>
+      {% endif %}
+      <div style="display:flex;gap:10px;margin-top:20px;padding-top:16px;border-top:2px solid var(--gray2);">
+        <a href="https://wa.me/{{ whatsapp }}?text=আমার প্রি-বুক নম্বর {{ booking.order_number }} — আপডেট জানতে চাই।" class="btn btn-wa" style="flex:1;justify-content:center;" target="_blank"><i class="fab fa-whatsapp"></i> Ask for Update</a>
+        <a href="tel:{{ phone }}" class="btn btn-green" style="flex:1;justify-content:center;"><i class="fas fa-phone"></i> Call Us</a>
+      </div>
+    </div>
+    {% elif order_num %}
+    <div style="background:#fff;border-radius:var(--rl);padding:36px;box-shadow:var(--sh);text-align:center;" class="reveal">
+      <div style="font-size:2.8rem;margin-bottom:12px;">🔍</div>
+      <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:8px;">Booking Not Found</h3>
+      <p style="color:var(--tlt);font-size:.88rem;margin-bottom:20px;">No pre-book found with number <strong>{{ order_num }}</strong>. Please check and try again.</p>
+      <a href="https://wa.me/{{ whatsapp }}?text=প্রি-বুক খুঁজে পাচ্ছি না। নম্বর: {{ order_num }}" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp for Help</a>
+    </div>
+    {% endif %}
+
+    <div style="text-align:center;margin-top:24px;" class="reveal">
+      <a href="{{ url_for('prebook') }}" class="btn btn-primary"><i class="fas fa-plus"></i> New Pre-Book</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

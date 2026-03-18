@@ -1,0 +1,534 @@
+{% extends "base.html" %}
+{% block title %}M/S. Sotota Machineries Store – Agricultural & Home Essentials | Jamalpur Bangladesh{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ──────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><i class="fas fa-star"></i> Jamalpur's #1 Online Agricultural Machinery Store</div>
+      <h1>Quality Tools for<span>Bangladesh's Farmers</span></h1>
+      <p class="hero-sub">Welcome to M/S. Sotota Machineries Store — your one-stop destination for top-quality agricultural engines, power tillers, generators, motors, pumps, and home essentials at Station Road, Jamalpur.</p>
+      <div class="hero-btns">
+        <a href="{{ url_for('machines') }}" class="btn btn-primary"><i class="fas fa-cog"></i> Browse Products</a>
+        <a href="https://wa.me/{{ whatsapp }}?text=আমি+সততা+মেশিনারিজ+থেকে+পণ্যের+দাম+জানতে+চাই।" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Price</a>
+        <a href="tel:{{ phone }}" class="btn btn-outline"><i class="fas fa-phone"></i> Call Now</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-box"><div class="num">500+</div><div class="lbl">Products</div></div>
+        <div class="stat-box"><div class="num">30+</div><div class="lbl">Brands</div></div>
+        <div class="stat-box"><div class="num">20+</div><div class="lbl">Years</div></div>
+        <div class="stat-box"><div class="num">150K+</div><div class="lbl">Customers Served</div></div>
+      </div>
+    </div>
+    <div class="hero-imgs" style="grid-template-columns:1fr;grid-template-rows:1fr;">
+      <div class="h-card" style="border-radius:16px;overflow:hidden;border:2px solid rgba(255,255,255,.18);">
+        <img src="{{ url_for('static', filename='img/store-banner.png') }}"
+             alt="M/S. Sotota Machineries Store — Station Road Jamalpur"
+             style="width:100%;height:320px;object-fit:cover;display:block;"/>
+        <div class="hlbl" style="font-size:.82rem;padding:20px 14px 12px;">
+          🏪 M/S. Sotota Machineries Store — Station Road, Jamalpur
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ────────────────────────────────────────────────────── -->
+<div class="marquee-bar" aria-hidden="true">
+  <div class="mq-track">
+    {% set brands = ['Changchai Diesel Engines','ACI Power Tillers','LEO Pumps','Gazi Motors','Marquis Pumps','Walton Jet Pumps','Shallow Machines(সেলো মেশিন)','Mobil Engine Oil','Changfa Engines','Shimge Pumps','Aluminum Motors','CBM Machines','Amanat(সেলো মেশিন)','চিটাগং বিল্ডার্স পাওয়ার টিলার','A1 Motors','JD Water Pump','Sifang Diesel Engines','Generators','Tubewells','Plastic and Metal Pipes','Water Tanks','Plastic and GI Fittings','Orix Water Pump','kazoli Generato'] %}
+    {% for b in brands %}<span class="mq-item">{{ b }}</span>{% endfor %}
+    {% for b in brands %}<span class="mq-item">{{ b }}</span>{% endfor %}
+  </div>
+</div>
+
+<!-- ── FEATURES ───────────────────────────────────────────────────── -->
+<section style="padding:34px 20px;background:var(--g1)">
+  <div class="container">
+    <div class="feat-strip">
+      <div class="feat-item"><div class="fi">🚚</div><div class="ft"><div class="t">Fast Delivery</div><div class="s">Across Mymensingh Division</div></div></div>
+      <div class="feat-item"><div class="fi">📹</div><div class="ft"><div class="t">Video Call Demo</div><div class="s">Live viewing via WhatsApp</div></div></div>
+      <div class="feat-item"><div class="fi">💬</div><div class="ft"><div class="t">WhatsApp Support</div><div class="s">Chat for price & order</div></div></div>
+      <div class="feat-item"><div class="fi">✅</div><div class="ft"><div class="t">Genuine Products</div><div class="s">100% original, warranty</div></div></div>
+      <div class="feat-item"><div class="fi">🔄</div><div class="ft"><div class="t">Return Policy</div><div class="s">Conditional, negotiate via phone</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORIES ─────────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <span class="sec-label">Shop by Category</span>
+      <h2>Our Product Categories</h2>
+      <p>From heavy diesel engines to home accessories — everything Jamalpur and Mymensingh Division needs.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="cat-grid">
+      {% for cat in categories %}
+      <a href="{{ url_for(cat.slug.replace('-','_')) }}" class="cat-card reveal">
+        <div class="cat-icon">{{ cat.icon }}</div>
+        <div class="cat-name">{{ cat.name }}</div>
+        <div class="cat-sub">{{ cat.description }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── HOT PRODUCTS ───────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-head reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;">
+      <div>
+        <span class="sec-label">🔥 Hot Products</span>
+        <h2>Best Sellers</h2>
+        <div class="divider"></div>
+      </div>
+      <a href="{{ url_for('machines') }}" class="btn btn-green btn-sm"><i class="fas fa-arrow-right"></i> View All</a>
+    </div>
+    <div class="prod-grid">
+      {% for p in hot_products %}
+      <article class="prod-card reveal" data-name="{{ p.name }}" data-brand="{{ p.brand or '' }}" data-badge="{{ p.badge or '' }}">
+        <div class="prod-img">
+          {% if p.badge %}<span class="badge badge-{{ p.badge|lower }}">{{ p.badge }}</span>{% endif %}
+          {% if p.image() %}
+            <img src="{{ p.image() }}" alt="{{ p.name }}" loading="lazy"/>
+          {% else %}
+            <div class="no-img">📦</div>
+          {% endif %}
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">{{ p.brand or '' }}</div>
+          <h3 class="prod-name">{{ p.name }}</h3>
+          {% if p.model_no %}<div class="prod-model">Model: {{ p.model_no }}</div>{% endif %}
+          <p class="prod-desc">{{ p.description or '' }}</p>
+          <div class="prod-no-price"><i class="fas fa-tag"></i> Contact for price & availability</div>
+        </div>
+        <div class="prod-actions">
+          <a href="https://wa.me/{{ whatsapp }}?text={{ (p.wa_message or (p.name + ' সম্পর্কে দাম ও স্টক জানতে চাই।'))|urlencode }}"
+             class="p-wa" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i> Get Price
+          </a>
+          <a href="tel:{{ phone }}" class="p-call"><i class="fas fa-phone"></i></a>
+        </div>
+      </article>
+      {% else %}
+      <p style="color:var(--tlt);padding:20px;">No hot products yet. Add them from the admin panel.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── NEW ARRIVALS ───────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-head reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;">
+      <div>
+        <span class="sec-label">🆕 New Arrivals</span>
+        <h2>Just Arrived</h2>
+        <div class="divider"></div>
+      </div>
+      <a href="{{ url_for('motors') }}" class="btn btn-green btn-sm"><i class="fas fa-arrow-right"></i> View All</a>
+    </div>
+    <div class="prod-grid">
+      {% for p in new_arrivals %}
+      <article class="prod-card reveal">
+        <div class="prod-img">
+          <span class="badge badge-new">🆕 New</span>
+          {% if p.image() %}
+            <img src="{{ p.image() }}" alt="{{ p.name }}" loading="lazy"/>
+          {% else %}
+            <div class="no-img">📦</div>
+          {% endif %}
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">{{ p.brand or '' }}</div>
+          <h3 class="prod-name">{{ p.name }}</h3>
+          <p class="prod-desc">{{ p.description or '' }}</p>
+          <div class="prod-no-price"><i class="fas fa-tag"></i> Contact for price & availability</div>
+        </div>
+        <div class="prod-actions">
+          <a href="https://wa.me/{{ whatsapp }}?text={{ (p.name + ' নতুন স্টক — দাম জানতে চাই।')|urlencode }}"
+             class="p-wa" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i> Get Price
+          </a>
+          <a href="tel:{{ phone }}" class="p-call"><i class="fas fa-phone"></i></a>
+        </div>
+      </article>
+      {% else %}
+      <p style="color:var(--tlt);padding:20px;">No new arrivals yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── PRE-BOOK OFFERS ────────────────────────────────────────────── -->
+{% set prebook_offers = [] %}
+{% if prebook_offers is defined %}{% endif %}
+{# Load active prebook offers — rendered dynamically #}
+<section class="section section-alt" id="prebook-offers">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <span class="sec-label" style="background:var(--rust);color:#fff;">🔥 Pre-Book Offers</span>
+      <h2>Book Now — Price May Rise Soon!</h2>
+      <p>These products have been identified as likely to increase in price. Pre-Book today at current price — pay a small deposit to lock it in.</p>
+      <div class="divider"></div>
+    </div>
+    {% set offers = prebook_offers_data if prebook_offers_data is defined else [] %}
+    {% if offers %}
+    <div class="prod-grid" style="margin-top:28px;">
+      {% for o in offers %}
+      <div class="reveal" style="background:#fff;border-radius:var(--rl);overflow:hidden;box-shadow:var(--shl);border:2px solid var(--gold);display:flex;flex-direction:column;position:relative;">
+        <div style="position:absolute;top:10px;left:10px;z-index:2;background:var(--rust);color:#fff;font-size:.63rem;font-weight:700;padding:3px 10px;border-radius:50px;">🔥 PRE-BOOK OFFER</div>
+        <div style="aspect-ratio:4/3;background:var(--gray1);overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          {% if o.image() %}<img src="{{ o.image() }}" alt="{{ o.product_name }}" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:10px;"/>
+          {% else %}<div style="font-size:2.5rem;opacity:.2;">📦</div>{% endif %}
+        </div>
+        <div style="padding:14px 14px 8px;flex:1;display:flex;flex-direction:column;gap:5px;">
+          {% if o.product_brand %}<div style="font-size:.68rem;font-weight:700;color:var(--g3);text-transform:uppercase;letter-spacing:.06em;">{{ o.product_brand }}</div>{% endif %}
+          <h3 style="font-size:.9rem;font-weight:700;color:var(--text);line-height:1.3;">{{ o.product_name }}</h3>
+          <div style="background:var(--cream);border-radius:8px;padding:8px 10px;font-size:.79rem;">
+            {% if o.current_price %}<div style="display:flex;justify-content:space-between;"><span style="color:var(--tlt);">Current:</span><span style="font-weight:700;color:var(--g3);">{{ o.current_price }}</span></div>{% endif %}
+            {% if o.expected_price %}<div style="display:flex;justify-content:space-between;margin-top:2px;"><span style="color:var(--tlt);">Expected:</span><span style="font-weight:700;color:var(--rust);">{{ o.expected_price }}</span></div>{% endif %}
+          </div>
+          {% if o.offer_deadline %}<div style="font-size:.72rem;color:var(--rust);font-weight:600;">⏰ {{ o.offer_deadline }}</div>{% endif %}
+        </div>
+        <div style="padding:9px 14px 14px;display:flex;gap:7px;">
+          <a href="https://wa.me/{{ whatsapp }}?text={{ (o.product_name + ' Pre-Book করতে চাই — আজকের দামে বুক করব।')|urlencode }}" class="p-wa" target="_blank" rel="noopener" style="flex:1;"><i class="fab fa-whatsapp"></i> Book Now</a>
+          <a href="{{ url_for('prebook') }}#booking-form" class="p-call" style="background:var(--gold);color:var(--g0);" title="Fill booking form"><i class="fas fa-edit"></i></a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align:center;padding:40px 20px;" class="reveal">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🏷️</div>
+      <p style="color:var(--tlt);font-size:.88rem;margin-bottom:18px;">No special pre-book offers at the moment. Check back soon!</p>
+    </div>
+    {% endif %}
+    <div style="text-align:center;margin-top:28px;" class="reveal">
+      <a href="{{ url_for('prebook') }}" class="btn btn-primary"><i class="fas fa-bookmark"></i> View All Pre-Book Options</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── BRANDS ─────────────────────────────────────────────────────── -->
+<section class="section section-alt" style="padding:42px 20px;">
+  <div class="container">
+    <div class="sec-head center reveal"><span class="sec-label">Trusted Brands</span><h2>Brands We Stock</h2><div class="divider"></div></div>
+    <div class="brands-row reveal" style="margin-top:22px;">
+      {% for brand in ['Changchai','Changfa','CD Original','EMEi','ACI Motors','CBM Builders','LEO Pump','Gazi','Marquis','Walton','Shimge','XPART','D.Swan','Pedrollo','BG','kazoli & Mingdong-Generator','Mobil','RFL','A1','PCL','Sifang','Amanat','Molla','Pump House','JD','Orix','Bengal Plastic','National polymers','RAK','BRB','Gulf'] %}
+      <div class="brand-pill">{{ brand }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── REVIEWS ────────────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <span class="sec-label">Customer Reviews</span>
+      <h2>What Our Customers Say</h2>
+      <p>Real feedback from farmers across Jamalpur, Mymensingh, Tangail, Netrokona, and Sherpur.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="rev-grid">
+      {% for r in reviews %}
+      <article class="rev-card reveal">
+        <div class="rev-stars">{% for i in range(r.rating) %}★{% endfor %}{% for i in range(5 - r.rating) %}☆{% endfor %}</div>
+        <p class="rev-text">"{{ r.review_text }}"</p>
+        <div class="rev-author">
+          <div class="rev-av">{{ r.reviewer_name[0] }}</div>
+          <div>
+            <div class="rev-name">{{ r.reviewer_name }}</div>
+            {% if r.reviewer_location %}<div class="rev-loc">📍 {{ r.reviewer_location }}</div>{% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+      <!-- Static Sherpur review always shown -->
+      <article class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"শেরপুর থেকে এসেছিলাম সততা মেশিনারিজ স্টোরে। Changchai ইঞ্জিন এবং LEO পাম্প কিনেছি। দাম অনেক কম এবং পণ্যের মান চমৎকার। মালিক খুব সৎ এবং আন্তরিক মানুষ। আমার এলাকার সবাইকে এই দোকান থেকে কেনার পরামর্শ দেব।"</p>
+        <div class="rev-author">
+          <div class="rev-av">RA</div>
+          <div>
+            <div class="rev-name">Md. Rafiqul Alam</div>
+            <div class="rev-loc">📍 শেরপুর সদর, শেরপুর জেলা</div>
+          </div>
+        </div>
+      </article>
+      <article class="rev-card reveal">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-text">"শেরপুর জেলা থেকে অনলাইনে WhatsApp-এ যোগাযোগ করেছিলাম। ভিডিও কলে পণ্য দেখিয়েছেন, দাম মিলিয়ে নিয়েছি, তারপর হোম ডেলিভারি পেয়েছি। সততা মেশিনারিজ স্টোর সত্যিই বিশ্বাসযোগ্য।"</p>
+        <div class="rev-author">
+          <div class="rev-av">SB</div>
+          <div>
+            <div class="rev-name">Sumaiya Begum</div>
+            <div class="rev-loc">📍 নালিতাবাড়ী, শেরপুর</div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <!-- Review form -->
+    <div style="margin-top:40px;background:#fff;border-radius:var(--rxl);padding:28px;box-shadow:var(--sh);" class="reveal">
+      <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:18px;">Leave Your Review</h3>
+      <form action="{{ url_for('submit_review') }}" method="POST">
+        <div class="form-grid" style="margin-bottom:14px;">
+          <div class="form-group"><label>Your Name *</label><input type="text" name="name" required placeholder="e.g. Md. Karim Hossain"/></div>
+          <div class="form-group"><label>Your Location</label><input type="text" name="location" placeholder="e.g. Jamalpur Sadar"/></div>
+          <div class="form-group full"><label>Your Review *</label><textarea name="review" rows="3" required placeholder="Share your experience in Bangla or English..."></textarea></div>
+        </div>
+        <button type="submit" class="btn btn-green"><i class="fas fa-paper-plane"></i> Submit Review</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT STRIP ────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--cream);">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img class="about-img" src="{{ url_for('static', filename='img/store-front.png') }}" alt="M/S. Sotota Machineries Store Station Road Jamalpur"/>
+        <div class="about-badge"><div class="num">20+</div><div class="lbl">Years of Trust</div></div>
+      </div>
+      <div class="about-content reveal">
+        <span class="sec-label">About Us</span>
+        <h2>Your Trusted Partner Since 2005</h2>
+        <p>M/S. Sotota Machineries Store has been serving the farmers and households of Jamalpur, Mymensingh Division for over 20 years from Station Road.</p>
+        <p>We serve customers from Jamalpur Sadar, Islampur, Sarishabari, Dewanganj, and neighboring districts including Tangail, Netrokona, Sherpur, and beyond.</p>
+        <ul class="about-list">
+          <li>Original products from 30+ reputed brands</li>
+          <li>Video call demos — see products live</li>
+          <li>Delivery across Mymensingh Division</li>
+          <li>Flexible pricing via WhatsApp or phone</li>
+        </ul>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+          <a href="{{ url_for('about') }}" class="btn btn-green"><i class="fas fa-info-circle"></i> Learn More</a>
+          <a href="{{ url_for('contact') }}" class="btn btn-primary"><i class="fas fa-map-marker-alt"></i> Find Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VIDEOS CTA ──────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--g1);padding:52px 20px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;">
+      <div class="reveal">
+        <span class="sec-label">📹 Product Videos</span>
+        <h2 style="font-family:var(--fh);font-size:clamp(1.6rem,2.8vw,2.2rem);color:#fff;margin:10px 0 14px;">See Our Products in Action</h2>
+        <p style="color:rgba(255,255,255,.72);line-height:1.75;margin-bottom:20px;">Watch real demos of diesel engines, power tillers, pumps and more. Our customers also share videos of products they bought from us — so you can see real quality before you buy.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="{{ url_for('videos') }}" class="btn btn-primary"><i class="fas fa-play-circle"></i> Watch Videos</a>
+          <a href="{{ url_for('videos') }}#submit" class="btn btn-outline"><i class="fas fa-upload"></i> Share Your Video</a>
+        </div>
+      </div>
+      <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:8px;">🎥</div>
+          <div style="color:#fff;font-weight:700;font-size:.88rem;">Admin Videos</div>
+          <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:4px;">Official product demos from our store</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:8px;">👨‍🌾</div>
+          <div style="color:#fff;font-weight:700;font-size:.88rem;">Customer Videos</div>
+          <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:4px;">Real buyers sharing their experience</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:8px;">✅</div>
+          <div style="color:#fff;font-weight:700;font-size:.88rem;">Admin Approved</div>
+          <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:4px;">Every video is reviewed before publishing</div>
+        </div>
+        <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:8px;">📱</div>
+          <div style="color:#fff;font-weight:700;font-size:.88rem;">Easy to Submit</div>
+          <div style="color:rgba(255,255,255,.55);font-size:.75rem;margin-top:4px;">Just Upload Your Videos!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRE-BOOK / ORDER CTA ───────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;">
+      <div class="reveal">
+        <span class="sec-label" style="background:var(--gold);color:var(--g0);">📦 Pre-Book & Order</span>
+        <h2 style="font-family:var(--fh);font-size:clamp(1.6rem,2.8vw,2.2rem);color:var(--g1);margin:10px 0 14px;">Can't Find What You Need?</h2>
+        <p style="color:var(--tmid);line-height:1.75;margin-bottom:14px;">If a product you need is not available in your local market — don't worry. Place a pre-book order with us. We will source it and deliver it to you.</p>
+        <ul style="list-style:none;padding:0;margin-bottom:22px;">
+          <li style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;color:var(--tmid);font-size:.88rem;"><span style="color:var(--g3);font-weight:700;margin-top:2px;">✓</span> Agricultural machines, motors, pumps, spare parts</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;color:var(--tmid);font-size:.88rem;"><span style="color:var(--g3);font-weight:700;margin-top:2px;">✓</span> Place order with a small deposit amount</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;color:var(--tmid);font-size:.88rem;"><span style="color:var(--g3);font-weight:700;margin-top:2px;">✓</span> We confirm, source and deliver to you</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;color:var(--tmid);font-size:.88rem;"><span style="color:var(--g3);font-weight:700;margin-top:2px;">✓</span> Track your order status with your order number</li>
+        </ul>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="{{ url_for('prebook') }}" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Pre-Book (Lock Price)</a>
+          <a href="{{ url_for('prebook_track') }}" class="btn btn-green"><i class="fas fa-search"></i> Track My Order</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shl);border:2px solid var(--gray2);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+            <div style="width:48px;height:48px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">📦</div>
+            <div>
+              <div style="font-weight:700;color:var(--g1);font-size:.95rem;">How It Works</div>
+              <div style="font-size:.75rem;color:var(--tlt);">Simple 4-step process</div>
+            </div>
+          </div>
+          {% for step, icon, title, desc in [
+            ('01', '📝', 'Fill the Form', 'Tell us what product you need with all details and specs'),
+            ('02', '📞', 'We Contact You', 'We call/WhatsApp you to confirm the order and deposit'),
+            ('03', '🔍', 'We Source It', 'We find and confirm your product from trusted suppliers'),
+            ('04', '🚚', 'We Deliver', 'Product delivered to you at your location')
+          ] %}
+          <div style="display:flex;gap:14px;padding:12px 0;{% if not loop.last %}border-bottom:1px solid var(--gray2);{% endif %}">
+            <div style="width:32px;height:32px;background:var(--g3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:700;flex-shrink:0;">{{ step }}</div>
+            <div>
+              <div style="font-weight:700;font-size:.85rem;color:var(--g1);">{{ icon }} {{ title }}</div>
+              <div style="font-size:.76rem;color:var(--tlt);line-height:1.5;margin-top:2px;">{{ desc }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORE INFO STRIP ───────────────────────────────────────────── -->
+<section style="background:var(--g0);padding:0">
+  <div style="max-width:1340px;margin:0 auto;padding:28px 20px;">
+    <div class="info-strip-grid">
+      <div class="info-strip-item">
+        <div class="info-icon" style="background:var(--g3);">📍</div>
+        <div>
+          <div class="info-label">Our Location</div>
+          <div class="info-val">Station Road, Jamalpur<br><span class="info-sub">Mymensingh Division, Bangladesh</span></div>
+        </div>
+      </div>
+      <div class="info-strip-item">
+        <div class="info-icon" style="background:var(--gold);">🕐</div>
+        <div>
+          <div class="info-label">Working Hours</div>
+          <div class="info-val">Saturday – Thursday<br><span class="info-sub">9:00 AM – 9:30 PM · Friday: Closed</span></div>
+        </div>
+      </div>
+      <div class="info-strip-item">
+        <div class="info-icon" style="background:#1877F2;"><i class="fab fa-facebook-f" style="color:#fff;font-size:.9rem;"></i></div>
+        <div>
+          <div class="info-label">Follow Us</div>
+          <a href="https://www.facebook.com/SototaMachineriesStore" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="info-val">Sotota Machineries<br><span class="info-sub">Latest products & offers</span></div>
+          </a>
+        </div>
+      </div>
+      <div class="info-strip-item">
+        <div class="info-icon" style="background:#25D366;"><i class="fab fa-whatsapp" style="color:#fff;font-size:.9rem;"></i></div>
+        <div>
+          <div class="info-label">WhatsApp</div>
+          <a href="https://wa.me/{{ whatsapp }}?text=আমি+সততা+মেশিনারিজ+থেকে+পণ্যের+দাম+জানতে+চাই।" target="_blank" rel="noopener" style="text-decoration:none;">
+            <div class="info-val">Chat for price & order<br><span class="info-sub">Quick reply during open hours</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Product Popup Modal -->
+<div id="prod-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)closeModal()">
+  <div style="background:#fff;border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3);">
+    <div style="position:relative;">
+      <img id="modal-img" src="" alt="" style="width:100%;height:260px;object-fit:cover;border-radius:20px 20px 0 0;display:block;" onerror="this.style.display='none'"/>
+      <button onclick="closeModal()" style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;">✕</button>
+      <span id="modal-badge" style="position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:50px;font-size:.7rem;font-weight:700;text-transform:uppercase;"></span>
+    </div>
+    <div style="padding:24px;">
+      <div id="modal-brand" style="font-size:.72rem;font-weight:700;color:var(--g3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;"></div>
+      <h2 id="modal-name" style="font-family:var(--fh);color:var(--g1);font-size:1.35rem;margin-bottom:6px;"></h2>
+      <div id="modal-model" style="font-size:.8rem;color:var(--tlt);font-style:italic;margin-bottom:12px;"></div>
+      <p id="modal-desc" style="color:var(--tmid);font-size:.88rem;line-height:1.7;margin-bottom:16px;"></p>
+      <div id="modal-specs" style="margin-bottom:18px;"></div>
+      <div style="background:var(--cream);border-radius:10px;padding:12px 14px;font-size:.8rem;color:var(--tmid);margin-bottom:18px;">
+        <i class="fas fa-tag" style="color:var(--g3);margin-right:6px;"></i>
+        Price is negotiable — contact us for the best deal!
+      </div>
+      <div style="display:flex;gap:10px;">
+        <a id="modal-wa" href="#" class="btn btn-wa" style="flex:1;justify-content:center;" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i> Get Price on WhatsApp
+        </a>
+        <a id="modal-call" href="tel:{{ phone }}" class="btn btn-green" style="padding:11px 16px;">
+          <i class="fas fa-phone"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function openProductModal(card) {
+  try {
+    const d = JSON.parse(card.dataset.product || '{}');
+    document.getElementById('modal-img').src   = d.image || '';
+    document.getElementById('modal-img').alt   = d.name  || '';
+    document.getElementById('modal-img').style.display = d.image ? 'block' : 'none';
+    document.getElementById('modal-brand').textContent = d.brand || '';
+    document.getElementById('modal-name').textContent  = d.name  || '';
+    document.getElementById('modal-model').textContent = d.model ? 'Model: ' + d.model : '';
+    document.getElementById('modal-desc').textContent  = d.desc  || d.description || '';
+    const badge = document.getElementById('modal-badge');
+    if (d.badge) {
+      badge.textContent = d.badge; badge.style.display = 'inline-block';
+      const colors = {Hot:'#c0392b',New:'#256b3e',Sale:'#d4a017',Popular:'#6c63ff'};
+      badge.style.background = colors[d.badge] || '#256b3e'; badge.style.color = '#fff';
+    } else { badge.style.display='none'; }
+    const specsEl = document.getElementById('modal-specs');
+    if (d.specs && d.specs.length) {
+      let html = '<div style="display:flex;flex-direction:column;gap:6px;">';
+      d.specs.forEach(([k,v]) => {
+        html += `<div style="display:flex;gap:8px;font-size:.82rem;"><span style="background:var(--gray1);padding:5px 10px;border-radius:6px;font-weight:600;color:var(--g1);min-width:130px;">${k}</span><span style="padding:5px 0;color:var(--tmid);">${v}</span></div>`;
+      });
+      html += '</div>'; specsEl.innerHTML = html;
+    } else { specsEl.innerHTML=''; }
+    const msg = d.waMsg || (d.name + ' সম্পর্কে দাম ও স্টক জানতে চাই।');
+    document.getElementById('modal-wa').href = 'https://wa.me/{{ whatsapp }}?text=' + encodeURIComponent(msg);
+    const modal = document.getElementById('prod-modal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  } catch(e) { console.error(e); }
+}
+function closeModal() {
+  document.getElementById('prod-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.prod-card').forEach(card => {
+    if (!card.dataset.product) {
+      const name  = card.querySelector('.prod-name')?.textContent.trim() || '';
+      const brand = card.querySelector('.prod-brand')?.textContent.trim() || '';
+      const model = card.querySelector('.prod-model')?.textContent.replace('Model: ','').trim() || '';
+      const desc  = card.querySelector('.prod-desc')?.textContent.trim() || '';
+      const img   = card.querySelector('.prod-img img')?.src || '';
+      const badge = card.querySelector('.badge')?.textContent.trim() || '';
+      card.dataset.product = JSON.stringify({name,brand,model,desc,image:img,badge});
+    }
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', e => {
+      if (!e.target.closest('.prod-actions')) openProductModal(card);
+    });
+  });
+});
+</script>
+{% endblock %}

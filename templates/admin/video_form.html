@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Add Video – Admin | Sotota Machineries{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:620px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h1 style="font-family:var(--fh);color:var(--g1);">📹 Add Store Video</h1>
+      <a href="{{ url_for('admin_videos') }}" class="btn btn-outline" style="background:var(--g1);color:#fff;"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <div style="background:#fff;border-radius:var(--rl);padding:28px;box-shadow:var(--sh);">
+      <form action="{{ url_for('admin_add_video') }}" method="POST">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Video Title <span style="color:var(--rust);">*</span></label>
+            <input type="text" name="title" required placeholder="e.g. Changchai ZS1110 Diesel Engine Live Demo"/>
+          </div>
+          <div class="form-group full">
+            <label>YouTube / Facebook Link <span style="color:var(--rust);">*</span></label>
+            <input type="url" name="video_url" required placeholder="https://www.youtube.com/watch?v=..."/>
+          </div>
+          <div class="form-group">
+            <label>Product Category</label>
+            <select name="category">
+              <option value="">-- Select --</option>
+              <option>Machines & Engines</option>
+              <option>Generators & Power</option>
+              <option>Motors & Pumps</option>
+              <option>Pipes & Tubewell</option>
+              <option>Oils & Lubricants</option>
+              <option>Home & Kitchen</option>
+              <option>General / Store</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Description</label>
+            <textarea name="description" rows="3" placeholder="Describe what the video shows..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;margin-top:8px;">
+          <i class="fas fa-upload"></i> Publish Video
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

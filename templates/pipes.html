@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Pipes – PVC, GI, HDPE | Sotota Machineries Jamalpur{% endblock %}
+{% block meta_desc %}All types and sizes of plastic and metal pipes — PVC, HDPE, GI, MS. RFL, Gazi, National Polymer brands. Click any product for full details and sizes.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">🔵 Pipes Category</span>
+    <h1>Pipes (পাইপ)</h1>
+    <p>PVC, HDPE, GI and metal pipes — all types, all sizes. RFL, Gazi, National Polymer brands. Click any product to see full details and sizes.</p>
+  </div>
+</section>
+
+<div class="breadcrumb">
+  <div class="bc-wrap">
+    <a href="{{ url_for('index') }}">Home</a> <span>›</span> <span>Pipes</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="switchTab(this,'pp1')">🔵 PVC Pipes</button>
+      <button class="sub-tab" onclick="switchTab(this,'pp2')">🟢 HDPE Pipes</button>
+      <button class="sub-tab" onclick="switchTab(this,'pp3')">🔘 GI / Metal Pipes</button>
+      <button class="sub-tab" onclick="switchTab(this,'pp4')">🌊 Hose Pipes</button>
+    </div>
+
+    <!-- PVC -->
+    <div id="pp1" class="sub-panel active">
+      <div class="sec-head"><h2>PVC Pressure Pipes (পিভিসি পাইপ)</h2>
+        <p>uPVC pressure pipes for water supply, irrigation and plumbing. Class B, C, D. 1/2 inch to 6 inch diameter. RFL, ACI, National Polymer brands.</p>
+      </div>
+      <div class="prod-grid">
+        {% set pvc_products = [
+          {'name':'RFL PVC Pipe Class B 1/2 inch to 6 inch 20ft','brand':'RFL','model':'PVC Pipe Class B','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'RFL uPVC pressure pipe Class B. For water supply, irrigation, plumbing. 1/2 inch to 6 inch. 20-foot lengths.',
+           'specs':[['Sizes','1/2 inch to 6 inch'],['Class','Class B (15 bar)'],['Length','20 feet per piece'],['Brand','RFL Bangladesh']],
+           'wa':'RFL PVC Pipe Class B 1/2 inch to 6 inch 20ft সম্পর্কে দাম ও স্টক জানতে চাই।'},
+          {'name':'RFL PVC Pipe Class C 1/2 inch to 4 inch 20ft','brand':'RFL','model':'PVC Pipe Class C','badge':'',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'RFL uPVC Class C pipe. Higher pressure rating. For mains water supply. 1/2 inch to 4 inch.',
+           'specs':[['Sizes','1/2 inch to 4 inch'],['Class','Class C (20 bar)']],'wa':'RFL PVC Pipe Class C সম্পর্কে দাম জানতে চাই।'},
+          {'name':'ACI PVC Pressure Pipe 1/2 inch to 4 inch','brand':'ACI','model':'PVC Pressure Pipe','badge':'New',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'ACI brand uPVC pressure pipe for water supply systems. 1/2 inch to 4 inch. ISO 4422 standard.',
+           'specs':[['Sizes','1/2 inch to 4 inch'],['Standard','ISO 4422']],'wa':'ACI PVC Pipe সম্পর্কে দাম জানতে চাই।'},
+          {'name':'National Polymer PVC Pipe All Classes','brand':'National Polymer','model':'PVC Pipe','badge':'',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'National Polymer PVC pipe. Class B, C and D. 1/2 inch to 6 inch. Made in Bangladesh.',
+           'specs':[['Sizes','1/2 inch to 6 inch'],['Classes','B, C, D']],'wa':'National Polymer PVC Pipe সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in pvc_products %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+    <!-- HDPE -->
+    <div id="pp2" class="sub-panel">
+      <div class="sec-head"><h2>HDPE Pipes (এইচডিপিই পাইপ)</h2>
+        <p>High-density polyethylene pipes for irrigation and water supply. Flexible, UV-resistant. Black color.</p>
+      </div>
+      <div class="prod-grid">
+        {% set hdpe_products = [
+          {'name':'HDPE Irrigation Pipe 1.5 inch to 4 inch Black','brand':'RFL / Bengal','model':'HDPE Pipe','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'Black HDPE irrigation and water supply pipe. UV-resistant, 50+ year lifespan. 1.5 inch to 4 inch.',
+           'specs':[['Sizes','1.5 inch to 4 inch'],['Color','Black'],['Feature','UV-Resistant, 50+ Year Lifespan']],'wa':'HDPE Irrigation Pipe সম্পর্কে দাম জানতে চাই।'},
+          {'name':'HDPE Coil Pipe 1/2 inch to 1 inch 25m and 50m Rolls','brand':'Various Brands','model':'HDPE Coil Pipe','badge':'New',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'HDPE flexible coil pipe for drip irrigation and garden water supply. 25m and 50m rolls.',
+           'specs':[['Sizes','1/2 inch to 1 inch'],['Length','25m, 50m rolls'],['Application','Drip Irrigation, Garden']],'wa':'HDPE Coil Pipe সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in hdpe_products %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+    <!-- GI / Metal -->
+    <div id="pp3" class="sub-panel">
+      <div class="sec-head"><h2>GI and MS Metal Pipes</h2>
+        <p>Galvanized iron and mild steel pipes for water supply, gas lines and structural use.</p>
+      </div>
+      <div class="prod-grid">
+        {% set gi_products = [
+          {'name':'GI Pipe Light Medium Heavy Class All Sizes','brand':'Various Brands','model':'GI Pipe','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80',
+           'desc':'Galvanized iron pipes. Light, medium and heavy class. 1/2 inch to 6 inch. 6-meter and 12-meter lengths. BS 1387 standard.',
+           'specs':[['Sizes','1/2 inch to 6 inch'],['Classes','Light, Medium, Heavy'],['Lengths','6m, 12m'],['Standard','BS 1387']],'wa':'GI Pipe সম্পর্কে দাম জানতে চাই।'},
+          {'name':'MS Round Pipe Various Diameter','brand':'Various Brands','model':'MS Round Pipe','badge':'',
+           'img':'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80',
+           'desc':'Mild steel round pipes for structural and water supply applications. 1/2 inch to 8 inch.',
+           'specs':[['Sizes','1/2 inch to 8 inch'],['Material','Mild Steel']],'wa':'MS Round Pipe সম্পর্কে দাম জানতে চাই।'},
+          {'name':'MS Square and Rectangular Pipe','brand':'Various Brands','model':'MS Square Pipe','badge':'New',
+           'img':'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80',
+           'desc':'MS square and rectangular hollow section pipes for construction, gates and structures.',
+           'specs':[['Types','Square, Rectangular'],['Sizes','20x20mm to 200x100mm']],'wa':'MS Square Pipe সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in gi_products %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+    <!-- Hose -->
+    <div id="pp4" class="sub-panel">
+      <div class="sec-head"><h2>Hose Pipes and Flexible Pipes</h2></div>
+      <div class="prod-grid">
+        {% set hose_products = [
+          {'name':'Garden Hose Pipe 1/2 inch and 3/4 inch 25m and 50m','brand':'RFL / Various','model':'Garden Hose','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'Flexible garden hose pipe. 1/2 inch and 3/4 inch. 25m and 50m rolls. UV-resistant PVC.',
+           'specs':[['Sizes','1/2 inch, 3/4 inch'],['Lengths','25m, 50m']],'wa':'Garden Hose Pipe সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Suction Hose 2 inch to 6 inch Heavy Duty','brand':'Various Brands','model':'Suction Hose','badge':'',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'Heavy-duty PVC spiral suction hose. 2 inch to 6 inch. Steel wire reinforced. For pump suction connections.',
+           'specs':[['Sizes','2 inch to 6 inch'],['Feature','Steel Wire Reinforced']],'wa':'Suction Hose সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Delivery Hose 2 inch to 4 inch Flat and Round','brand':'Various Brands','model':'Delivery Hose','badge':'New',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'PVC delivery hose for pump discharge. 2 inch to 4 inch. Flat lay-flat and round types.',
+           'specs':[['Sizes','2 inch to 4 inch'],['Types','Flat Lay-Flat, Round']],'wa':'Delivery Hose সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in hose_products %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--g1);padding:38px 20px;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:var(--fh);color:#fff;margin-bottom:9px;">Need a specific pipe size or brand?</h2>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">Chat on WhatsApp for price, stock and delivery.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/{{ whatsapp }}?text=পাইপ সম্পর্কে দাম ও স্টক জানতে চাই।" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="tel:{{ phone }}" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+      <a href="{{ url_for('order') }}" class="btn" style="background:var(--gold);color:var(--g0);"><i class="fas fa-shopping-cart"></i> Pre-Book Order</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+{% include '_product_popup_js.html' %}
+{% endblock %}

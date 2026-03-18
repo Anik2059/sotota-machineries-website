@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Pre-Book Confirmed – {{ booking.order_number }} | Sotota Machineries{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:580px;margin:0 auto;">
+    <div style="background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:20px;padding:36px 32px;text-align:center;margin-bottom:24px;">
+      <div style="font-size:3rem;margin-bottom:14px;">📋</div>
+      <h1 style="font-family:var(--fh);color:#fff;font-size:1.8rem;margin-bottom:8px;">Pre-Book Submitted!</h1>
+      <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">We received your pre-book request for <strong style="color:var(--gl);">{{ booking.product_name }}</strong>.</p>
+      <div style="background:rgba(212,160,23,.2);border:2px solid var(--gold);border-radius:12px;padding:16px 20px;display:inline-block;">
+        <div style="font-size:.72rem;color:var(--gl);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Your Booking Number</div>
+        <div style="font-family:var(--fh);font-size:1.9rem;color:var(--gl);font-weight:900;letter-spacing:.05em;">{{ booking.order_number }}</div>
+        <div style="font-size:.74rem;color:rgba(255,255,255,.55);margin-top:4px;">Save this number to track your pre-book</div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:var(--sh);margin-bottom:20px;">
+      <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:16px;">📦 Booking Summary</h3>
+      {% for label, value in [('Product', booking.product_name), ('Your Phone', booking.customer_phone), ('District', booking.customer_district or '—'), ('Deposit Offered', booking.deposit_amount or 'To be discussed'), ('Status', '⏳ Pending Confirmation')] %}
+      <div style="display:flex;gap:12px;padding:8px 0;{% if not loop.last %}border-bottom:1px solid var(--gray2);{% endif %}font-size:.85rem;">
+        <span style="font-weight:600;color:var(--g1);min-width:130px;">{{ label }}</span>
+        <span style="color:var(--tmid);">{{ value }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="{{ url_for('prebook_track') }}?order_number={{ booking.order_number }}" class="btn btn-green" style="flex:1;justify-content:center;"><i class="fas fa-search"></i> Track Booking</a>
+      <a href="https://wa.me/{{ whatsapp }}?text=আমার প্রি-বুক নম্বর {{ booking.order_number }} — আমি নিশ্চিত করতে চাই।" class="btn btn-wa" style="flex:1;justify-content:center;" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="{{ url_for('index') }}" class="btn btn-green" style="flex:1;justify-content:center;"><i class="fas fa-home"></i> Home</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

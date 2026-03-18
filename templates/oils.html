@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Engine Oil & Gear Oil – Sotota Machineries Jamalpur{% endblock %}
+{% block meta_desc %}Genuine Mobil engine oil and gear oil for diesel engines and power tillers. Jamalpur.{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">Products</span>
+    <h1>Oils & Lubricants</h1>
+    <p>Genuine Mobil engine oil and quality gear oil for all your diesel engines and power tillers.</p>
+  </div>
+</section>
+<div class="breadcrumb"><div class="bc-wrap"><a href="{{ url_for('index') }}">Home</a><span>&rsaquo;</span><span>Oils & Lubricants</span></div></div>
+<section class="section"><div class="container">
+    <div class="prod-grid">
+      {% for p in products %}{% include "_product_card.html" %}{% else %}
+      <p style="color:var(--tlt);padding:20px;">No products added yet. <a href="{{ url_for('admin_dashboard') }}" style="color:var(--g3);">Add via Admin Panel →</a></p>
+      {% endfor %}
+    </div>
+</div></section>
+<section style="background:var(--g1);padding:38px 20px;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:var(--fh);color:#fff;margin-bottom:9px;">Have a question about any product?</h2>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">Chat with us on WhatsApp for price, stock and delivery details.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/{{ whatsapp }}?text=Engine+Oil+বা+Gear+Oil+সম্পর্কে+দাম+জানতে+চাই।" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="tel:{{ phone }}" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

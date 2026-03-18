@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block title %}Product Videos – M/S. Sotota Machineries Store Jamalpur{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">📹 Product Videos</span>
+    <h1>See Our Products in Action</h1>
+    <p>Watch real demos of diesel engines, pumps, tillers and more. Customers also share their own videos after buying from us.</p>
+  </div>
+</section>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="bc-wrap">
+    <a href="{{ url_for('index') }}">Home</a>
+    <span>›</span>
+    <span>Product Videos</span>
+  </div>
+</div>
+
+<!-- VIDEOS GRID -->
+<section class="section">
+  <div class="container">
+    {% if videos %}
+    <!-- Filter tabs -->
+    <div class="sub-tabs" style="margin-bottom:28px;">
+      <button class="sub-tab active" onclick="filterVideos('all', this)">🎬 All Videos</button>
+      <button class="sub-tab" onclick="filterVideos('admin', this)">🏪 Store Videos</button>
+      <button class="sub-tab" onclick="filterVideos('customer', this)">👨‍🌾 Customer Videos</button>
+    </div>
+
+    <div class="prod-grid" id="video-grid">
+      {% for v in videos %}
+      <article class="vid-card reveal" data-type="{{ v.video_type }}">
+        <!-- Thumbnail / embed -->
+        <div class="vid-thumb" onclick="openVideo('{{ ('/static/uploads/' + v.video_file) if v.video_file else v.get_embed_url() }}', '{{ v.title|e }}', {{ 'true' if v.video_file else 'false' }})">
+          {% if v.video_file %}
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--g1),var(--g2));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+              <div style="font-size:2.5rem;">🎬</div>
+              <div style="color:rgba(255,255,255,.7);font-size:.72rem;font-weight:600;">Uploaded Video</div>
+            </div>
+          {% elif v.thumbnail_url %}
+            <img src="{{ v.thumbnail_url }}" alt="{{ v.title }}" loading="lazy"/>
+          {% else %}
+            <div style="width:100%;height:100%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:2.5rem;">📹</div>
+          {% endif %}
+          <div class="vid-play-btn"><i class="fas fa-play"></i></div>
+          <div class="vid-type-badge {{ 'admin-badge' if v.video_type == 'admin' else 'cust-badge' }}">
+            {{ '🏪 Store' if v.video_type == 'admin' else '👨‍🌾 Customer' }}
+          </div>
+        </div>
+        <div class="vid-body">
+          {% if v.category %}
+          <div style="font-size:.68rem;font-weight:700;color:var(--g3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">{{ v.category }}</div>
+          {% endif %}
+          <h3 class="vid-title">{{ v.title }}</h3>
+          {% if v.description %}
+          <p class="vid-desc">{{ v.description }}</p>
+          {% endif %}
+          <div class="vid-meta">
+            <span><i class="fas fa-user"></i> {{ v.uploader_name }}</span>
+            {% if v.uploader_location %}
+            <span><i class="fas fa-map-marker-alt"></i> {{ v.uploader_location }}</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="prod-actions">
+          <button onclick="openVideo('{{ ('/static/uploads/' + v.video_file) if v.video_file else v.get_embed_url() }}', '{{ v.title|e }}', {{ 'true' if v.video_file else 'false' }})" class="p-wa" style="background:var(--g3);">
+            <i class="fas fa-play"></i> Watch Video
+          </button>
+          <a href="https://wa.me/{{ whatsapp }}?text={{ (v.title + ' ভিডিও দেখলাম — এই পণ্যের দাম জানতে চাই।')|urlencode }}"
+             class="p-call" target="_blank" rel="noopener" title="WhatsApp about this product">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+      <div class="big-icon">📹</div>
+      <h3 style="font-family:var(--fh);color:var(--g1);margin-bottom:8px;">No Videos Yet</h3>
+      <p style="color:var(--tlt);font-size:.88rem;">Be the first to share a product video! Submit yours below.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- VIDEO SUBMIT FORM -->
+<section class="section section-alt" id="submit">
+  <div class="container">
+    <div style="max-width:680px;margin:0 auto;">
+      <div class="sec-head center reveal">
+        <span class="sec-label">📤 Share Your Video</span>
+        <h2>Did You Buy From Us?</h2>
+        <p>Record a video of our product and upload it directly. Max 100MB, max 5 minutes. After admin approval, your video will appear on this page to help other customers.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div style="background:#fff;border-radius:var(--rxl);padding:32px;box-shadow:var(--sh);margin-top:32px;" class="reveal">
+        <form action="{{ url_for('submit_video') }}" method="POST" enctype="multipart/form-data">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Video Title <span style="color:var(--rust);">*</span></label>
+              <input type="text" name="title" required placeholder="e.g. Changchai Engine Demo — আমার কেনা ইঞ্জিন"/>
+            </div>
+            <div class="form-group">
+              <label>Your Name <span style="color:var(--rust);">*</span></label>
+              <input type="text" name="uploader_name" required placeholder="e.g. Md. Karim Hossain"/>
+            </div>
+            <div class="form-group">
+              <label>Your Location</label>
+              <input type="text" name="uploader_location" placeholder="e.g. Jamalpur Sadar, Sherpur"/>
+            </div>
+            <div class="form-group">
+              <label>Your Phone (optional)</label>
+              <input type="tel" name="uploader_phone" placeholder="01XXXXXXXXX"/>
+            </div>
+            <div class="form-group">
+              <label>Product Category</label>
+              <select name="category">
+                <option value="">-- Select Category --</option>
+                <option>Machines & Engines</option>
+                <option>Generators & Power</option>
+                <option>Motors & Pumps</option>
+                <option>Oils & Lubricants</option>
+                <option>Pipes & Tubewell</option>
+                <option>Home & Kitchen</option>
+                <option>Fittings</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Upload Your Video <span style="color:var(--rust);">*</span></label>
+              <input type="file" name="video_file" required accept="video/mp4,video/mov,video/avi,video/webm,video/3gpp"
+                     style="padding:8px;border:2px dashed var(--gray2);border-radius:8px;background:var(--gray1);width:100%;"/>
+              <small style="color:var(--tlt);font-size:.74rem;margin-top:6px;display:block;">
+                📁 Accepted: MP4, MOV, AVI, WEBM · Max size: 100MB · Max duration: 5 minutes<br>
+                📱 You can record and upload directly from your phone.
+              </small>
+            </div>
+            <div class="form-group full">
+              <label>Description (optional)</label>
+              <textarea name="description" rows="3" placeholder="Tell us about the product, when you bought it, your experience..."></textarea>
+            </div>
+          </div>
+          <div style="background:var(--cream);border-radius:10px;padding:12px 14px;font-size:.8rem;color:var(--tmid);margin-bottom:18px;line-height:1.6;">
+            <strong>📋 Note:</strong> Your video will be reviewed by our admin before appearing on the site. This usually takes 1–2 business days.
+          </div>
+          <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> Submit Video for Review
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO LIGHTBOX MODAL -->
+<div id="vid-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)closeVid()">
+  <div style="width:100%;max-width:800px;position:relative;">
+    <button onclick="closeVid()" style="position:absolute;top:-44px;right:0;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;line-height:1;">✕</button>
+    <div class="vid-player-wrap" style="min-height:200px;"></div>
+    <div id="vid-modal-title" style="color:#fff;font-size:1rem;font-weight:600;margin-top:14px;text-align:center;"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openVideo(url, title, isFile) {
+  if (!url) return;
+  const modal = document.getElementById('vid-modal');
+  const wrap  = modal.querySelector('.vid-player-wrap');
+  wrap.innerHTML = ''; // clear previous
+  if (isFile) {
+    // Uploaded video file — use <video> tag
+    const vid = document.createElement('video');
+    vid.src = url; vid.controls = true; vid.autoplay = true;
+    vid.style.cssText = 'width:100%;border-radius:14px;max-height:70vh;background:#000;';
+    wrap.appendChild(vid);
+  } else {
+    // YouTube / embed — use iframe
+    const ifr = document.createElement('iframe');
+    ifr.src = url + '?autoplay=1';
+    ifr.frameBorder = '0'; ifr.allowFullscreen = true;
+    ifr.allow = 'autoplay; fullscreen';
+    ifr.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+    const ratio = document.createElement('div');
+    ratio.style.cssText = 'position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden;background:#000;';
+    ratio.appendChild(ifr);
+    wrap.appendChild(ratio);
+  }
+  document.getElementById('vid-modal-title').textContent = title || '';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeVid() {
+  const wrap = document.querySelector('.vid-player-wrap');
+  if (wrap) wrap.innerHTML = ''; // stop playback
+  document.getElementById('vid-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function filterVideos(type, btn) {
+  document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.vid-card').forEach(card => {
+    card.style.display = (type === 'all' || card.dataset.type === type) ? '' : 'none';
+  });
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeVid(); });
+</script>
+
+<style>
+.vid-card{background:#fff;border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);transition:.28s;display:flex;flex-direction:column;}
+.vid-card:hover{transform:translateY(-5px);box-shadow:var(--shl);}
+.vid-thumb{position:relative;aspect-ratio:16/9;background:var(--gray1);overflow:hidden;cursor:pointer;}
+.vid-thumb img{width:100%;height:100%;object-fit:cover;transition:.3s;}
+.vid-card:hover .vid-thumb img{transform:scale(1.04);}
+.vid-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);transition:.2s;}
+.vid-play-btn i{width:52px;height:52px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--g1);padding-left:4px;}
+.vid-card:hover .vid-play-btn{background:rgba(0,0,0,.45);}
+.vid-type-badge{position:absolute;bottom:8px;left:8px;font-size:.66rem;font-weight:700;padding:3px 10px;border-radius:50px;}
+.admin-badge{background:var(--g3);color:#fff;}
+.cust-badge{background:var(--gold);color:var(--g0);}
+.vid-body{padding:14px 14px 8px;flex:1;}
+.vid-title{font-size:.92rem;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:6px;}
+.vid-desc{font-size:.78rem;color:var(--tmid);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px;}
+.vid-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:.72rem;color:var(--tlt);}
+.vid-meta span{display:flex;align-items:center;gap:4px;}
+</style>
+{% endblock %}

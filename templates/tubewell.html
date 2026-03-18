@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}Tubewells – Hand, Shallow, Deep | Sotota Machineries Jamalpur{% endblock %}
+{% block meta_desc %}All types of tubewells for domestic and agricultural water supply — hand tubewell, shallow, deep. RFL, National Polymer, Bengal Group brands.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="ph-inner">
+    <span class="sec-label">💧 Tubewell Category</span>
+    <h1>Tubewells (নলকূপ)</h1>
+    <p>All types of tubewells for domestic and agricultural water supply — hand tubewells, shallow, deep. RFL, National Polymer, Bengal Group. Click any product for full details.</p>
+  </div>
+</section>
+
+<div class="breadcrumb">
+  <div class="bc-wrap">
+    <a href="{{ url_for('index') }}">Home</a> <span>›</span> <span>Tubewells</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="switchTab(this,'pt1')">🤲 Hand Tubewells</button>
+      <button class="sub-tab" onclick="switchTab(this,'pt2')">💧 Shallow Tubewells</button>
+      <button class="sub-tab" onclick="switchTab(this,'pt3')">🔽 Deep Tubewells</button>
+      <button class="sub-tab" onclick="switchTab(this,'pt4')">🔧 Tubewell Parts</button>
+    </div>
+
+    <!-- Hand Tubewells -->
+    <div id="pt1" class="sub-panel active">
+      <div class="sec-head">
+        <h2>Hand Tubewells (হ্যান্ড নলকূপ)</h2>
+        <p>Manual hand pump tubewells for domestic water supply in rural areas. RFL, National Polymer, Bengal Group — widely used across Jamalpur and Mymensingh Division.</p>
+      </div>
+      <div class="prod-grid">
+        {% set hand_tw = [
+          {'name':'RFL Hand Tubewell Standard 15ft to 40ft','brand':'RFL','model':'Standard Hand Tubewell','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'RFL hand tubewell — most popular in Bangladesh. Durable cast iron handle and body. 15ft, 20ft, 25ft, 30ft, 40ft strainer lengths.',
+           'specs':[['Depth','15ft to 40ft'],['Body','Cast Iron'],['Brand','RFL Bangladesh']],'wa':'RFL Hand Tubewell সম্পর্কে দাম ও স্টক জানতে চাই।'},
+          {'name':'National Polymer Hand Tubewell','brand':'National Polymer','model':'Hand Tubewell','badge':'New',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'National Polymer hand tubewell set. Complete kit with riser pipes and strainer. 15ft to 35ft models.',
+           'specs':[['Depth','15ft to 35ft'],['Brand','National Polymer']],'wa':'National Polymer Hand Tubewell সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Bengal Group Hand Tubewell Heavy Duty','brand':'Bengal Group','model':'Heavy Duty Tubewell','badge':'',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'Bengal Group heavy-duty hand tubewell. Extra strong cast iron body. For schools, mosques, community areas. 20ft to 50ft.',
+           'specs':[['Depth','20ft to 50ft'],['Grade','Heavy Duty']],'wa':'Bengal Group Hand Tubewell সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Stainless Steel Hand Tubewell Premium','brand':'Various Brands','model':'SS Hand Tubewell','badge':'Popular',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'Stainless steel body hand tubewell. Rust-free, long-lasting. Ideal for clean drinking water. 15ft to 30ft.',
+           'specs':[['Depth','15ft to 30ft'],['Material','Stainless Steel'],['Use','Drinking Water']],'wa':'Stainless Steel Hand Tubewell সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in hand_tw %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+    <!-- Shallow Tubewells -->
+    <div id="pt2" class="sub-panel">
+      <div class="sec-head">
+        <h2>Shallow Tubewells (শ্যালো নলকূপ)</h2>
+        <p>Machine-driven shallow tubewells for home water supply with pump. 20ft to 80ft depth. Works with jet pumps.</p>
+      </div>
+      <div class="prod-grid">
+        {% set shallow_tw = [
+          {'name':'Shallow Tubewell Set Complete 30ft to 50ft','brand':'Various Brands','model':'Shallow Tubewell 30-50ft','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'Complete shallow tubewell set — strainer, riser pipes, reducer, pump connector. 30ft to 50ft. Works with 1HP jet pump.',
+           'specs':[['Depth','30ft to 50ft'],['Compatible','1HP Jet Pump'],['Includes','Pipes + Strainer + Connector']],'wa':'Shallow Tubewell Set Complete সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Shallow Tubewell Set 50ft to 80ft Deep','brand':'Various Brands','model':'Shallow Tubewell 50-80ft','badge':'',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'Deep shallow tubewell for areas where water table is lower. 50ft to 80ft. Requires 1.5HP or 2HP pump.',
+           'specs':[['Depth','50ft to 80ft'],['Compatible','1.5HP – 2HP Pump']],'wa':'Shallow Tubewell Set 50ft-80ft সম্পর্কে দাম জানতে চাই।'},
+          {'name':'PVC Riser Pipe for Tubewell 1.5 inch 20ft','brand':'RFL / National Polymer','model':'PVC Riser Pipe','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'PVC schedule 40 riser pipes for tubewells. 1.5 inch diameter. 20ft lengths. Strong threaded ends.',
+           'specs':[['Size','1.5 inch'],['Length','20ft per piece'],['Thread','Both ends']],'wa':'PVC Riser Pipe Tubewell সম্পর্কে দাম জানতে চাই।'},
+          {'name':'GI Riser Pipe for Tubewell 1.5 inch and 2 inch','brand':'Various Brands','model':'GI Riser Pipe','badge':'Popular',
+           'img':'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80',
+           'desc':'Galvanized iron riser pipes for tubewells. 1.5 inch and 2 inch. 6m lengths. Strong, long-lasting.',
+           'specs':[['Sizes','1.5 inch, 2 inch'],['Length','6m per piece']],'wa':'GI Riser Pipe Tubewell সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in shallow_tw %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+    <!-- Deep Tubewells -->
+    <div id="pt3" class="sub-panel">
+      <div class="sec-head">
+        <h2>Deep Tubewells (গভীর নলকূপ)</h2>
+        <p>Deep borehole tubewells for agricultural irrigation and large-scale water supply. 100ft to 500ft+ depth. Requires submersible pump.</p>
+      </div>
+      <div class="prod-grid">
+        {% set deep_tw = [
+          {'name':'MS Casing Pipe for Deep Tubewell 4 inch to 10 inch','brand':'Various Brands','model':'MS Casing Pipe','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80',
+           'desc':'Mild steel casing pipes for deep tubewell boring. 4 inch to 10 inch diameter. 6m and 12m lengths. Standard wall thickness.',
+           'specs':[['Sizes','4 inch to 10 inch'],['Lengths','6m, 12m'],['Material','Mild Steel']],'wa':'MS Casing Pipe Deep Tubewell সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Stainless Steel Screen / Strainer for Deep Tubewell','brand':'Various Brands','model':'SS Strainer','badge':'New',
+           'img':'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80',
+           'desc':'Stainless steel wire-wound screen / strainer for deep tubewells. Prevents sand entry. 4 inch to 8 inch diameter.',
+           'specs':[['Sizes','4 inch to 8 inch'],['Material','Stainless Steel 304'],['Type','Wire Wound Screen']],'wa':'SS Screen Strainer Deep Tubewell সম্পর্কে দাম জানতে চাই।'},
+          {'name':'GMS Reducer and Connector for Tubewell','brand':'Various Brands','model':'GMS Reducer','badge':'',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'Galvanized mild steel reducers and connectors for tubewell assembly. All sizes available.',
+           'specs':[['Sizes','1 inch to 6 inch'],['Type','Reducer, Connector, Union']],'wa':'GMS Reducer Connector Tubewell সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in deep_tw %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+    <!-- Parts -->
+    <div id="pt4" class="sub-panel">
+      <div class="sec-head">
+        <h2>Tubewell Parts & Accessories (নলকূপের যন্ত্রাংশ)</h2>
+        <p>Spare parts, replacement parts and accessories for all types of tubewells.</p>
+      </div>
+      <div class="prod-grid">
+        {% set parts_tw = [
+          {'name':'Hand Tubewell Piston / Plunger Replacement','brand':'RFL / Bengal','model':'Tubewell Piston','badge':'Hot',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'Replacement piston / plunger sets for hand tubewells. Fits RFL, Bengal Group and most standard models.',
+           'specs':[['Compatible','RFL, Bengal, Standard'],['Includes','Piston + Leather Washer + Clamp']],'wa':'Hand Tubewell Piston Replacement সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Tubewell Check Valve / Foot Valve','brand':'Various Brands','model':'Check Valve','badge':'',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'Foot valve / check valve for tubewells and pumps. 1 inch, 1.5 inch, 2 inch. Prevents backflow.',
+           'specs':[['Sizes','1 inch, 1.5 inch, 2 inch'],['Type','Foot Valve, Check Valve']],'wa':'Tubewell Check Valve Foot Valve সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Tubewell Coupling and Union All Sizes','brand':'Various Brands','model':'Pipe Coupling','badge':'New',
+           'img':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+           'desc':'GI and PVC couplings and unions for joining tubewell riser pipes. All standard sizes available.',
+           'specs':[['Sizes','1/2 inch to 4 inch'],['Materials','GI, PVC']],'wa':'Tubewell Coupling Union সম্পর্কে দাম জানতে চাই।'},
+          {'name':'Strainer Jali / Filter Screen for Hand Tubewell','brand':'Various Brands','model':'Strainer Jali','badge':'',
+           'img':'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=80',
+           'desc':'Replacement strainer / filter screen for hand tubewells. Prevents sand and debris. 1.5 inch and 2 inch.',
+           'specs':[['Sizes','1.5 inch, 2 inch'],['Lengths','5ft, 10ft, 15ft']],'wa':'Strainer Jali Hand Tubewell সম্পর্কে দাম জানতে চাই।'},
+        ] %}
+        {% for p in parts_tw %}{% include '_pipe_card.html' %}{% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--g1);padding:38px 20px;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:var(--fh);color:#fff;margin-bottom:9px;">Need a specific tubewell or parts?</h2>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:20px;">Chat on WhatsApp for price, stock and delivery info.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/{{ whatsapp }}?text=নলকূপ সম্পর্কে দাম ও স্টক জানতে চাই।" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="tel:{{ phone }}" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+      <a href="{{ url_for('order') }}" class="btn" style="background:var(--gold);color:var(--g0);"><i class="fas fa-shopping-cart"></i> Pre-Book Order</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+{% include '_product_popup_js.html' %}
+{% endblock %}
