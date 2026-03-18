@@ -26,7 +26,7 @@ function initReveal() {
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.07 });
+ }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 
