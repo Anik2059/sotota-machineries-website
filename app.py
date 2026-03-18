@@ -104,14 +104,14 @@ def inject_globals():
 @app.route('/')
 def index():
     hot_products  = Product.query.filter_by(is_active=True, is_hot=True)\
-                                 .order_by(Product.sort_order).limit(8).all()
+                                 .order_by(Product.sort_order).limit(10).all()
     new_arrivals  = Product.query.filter_by(is_active=True, is_new_arrival=True)\
-                                 .order_by(Product.created_at.desc()).limit(8).all()
+                                 .order_by(Product.created_at.desc()).limit(10).all()
     categories    = Category.query.filter_by(is_active=True).order_by(Category.sort_order).all()
     reviews       = Review.query.filter_by(is_approved=True)\
-                                .order_by(Review.created_at.desc()).limit(6).all()
+                                .order_by(Review.created_at.desc()).limit(20).all()
     prebook_offers_data = PreBookOffer.query.filter_by(is_active=True)\
-                                           .order_by(PreBookOffer.sort_order).limit(6).all()
+                                           .order_by(PreBookOffer.sort_order).limit(10).all()
     return render_template('index.html',
                            hot_products=hot_products,
                            new_arrivals=new_arrivals,
