@@ -30,7 +30,8 @@ app = Flask(__name__)
 
 # Config
 app.config['SECRET_KEY']           = os.getenv('SECRET_KEY', 'dev-secret-key-change-me')
-app.config['SQLALCHEMY_DATABASE_URI'] = (
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'DATABASE_URL',
     f"postgresql://{os.getenv('DB_USER','postgres')}:"
     f"{os.getenv('DB_PASSWORD','')}@"
     f"{os.getenv('DB_HOST','localhost')}:"
