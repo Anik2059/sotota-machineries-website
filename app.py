@@ -884,11 +884,11 @@ def migrate_add_image_columns():
     except Exception as e:
         return f"Error: {e}"
 
-@app.route('/seed-reviews-once')
-def seed_reviews():
+@app.route('/reset-and-reseed-reviews')
+def reset_reseed_reviews():
     from models import Review
-    if Review.query.count() > 0:
-        return "Already seeded!"
+    Review.query.delete()
+    db.session.commit()
     reviews = [
         Review(reviewer_name='Md. Karim Hossain', reviewer_location='জামালপুর সদর', review_text='Changchai S1100A2 ইঞ্জিন কিনেছি। প্রথমে একটু সন্দেহ ছিল কিন্তু দোকানে এসে দেখলাম সব আসল মাল। দাম নিয়ে একটু কথা বললাম, ভালোই দিল। এখন ৬ মাস হলো, ইঞ্জিন একদম ঠিকঠাক চলছে।', rating=5, is_approved=True),
         Review(reviewer_name='Abdul Mannan Mia', reviewer_location='ইসলামপুর, জামালপুর', review_text='LEO 1HP পাম্প নিয়েছিলাম সেচের জন্য। অনেক দোকান ঘুরেছি, এখানেই সবচেয়ে কম দামে পেলাম। তবে দোকানে একটু ভিড় ছিল, একটু অপেক্ষা করতে হয়েছে। মোটামুটি ভালো অভিজ্ঞতা।', rating=4, is_approved=True),
@@ -913,8 +913,7 @@ def seed_reviews():
     ]
     db.session.add_all(reviews)
     db.session.commit()
-    return "Reviews seeded successfully!"      
-
+    return "20 reviews seeded successfully!"
 
 # ──────────────────────────────────────────────────────────────────────
 # ERROR HANDLERS
