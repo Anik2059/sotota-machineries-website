@@ -51,27 +51,6 @@ PHONE       = os.getenv('PHONE_NUMBER',   '+8801771110646')
 Path(app.config['UPLOAD_FOLDER']).mkdir(parents=True, exist_ok=True)
 
 db.init_app(app)
-
-with app.app_context():
-    try:
-        db.create_all()
-        from models import Category
-        if Category.query.count() == 0:
-            categories = [
-                Category(name='Machines & Engines', slug='machines', icon='⚙️', description='Diesel engines, power tillers, harvesters', sort_order=1, is_active=True),
-                Category(name='Generators & Power', slug='generators', icon='⚡', description='Generator sets, shallow machines, alternators', sort_order=2, is_active=True),
-                Category(name='Motors & Pumps', slug='motors', icon='🔧', description='Jet pumps, centrifugal, submersible, electric motors', sort_order=3, is_active=True),
-                Category(name='Oils & Lubricants', slug='oils', icon='🛢️', description='Engine oil, gear oil for machines', sort_order=4, is_active=True),
-                Category(name='Home & Kitchen', slug='home-kitchen', icon='🏠', description='Doors, bathtubs, basins, taps, gas stoves, tanks', sort_order=5, is_active=True),
-                Category(name='Fittings', slug='fittings', icon='🔩', description='All plumbing and hardware fittings', sort_order=6, is_active=True),
-                Category(name='Pipes', slug='pipes', icon='\U0001F6B0', description='PVC, HDPE, GI and metal pipes', sort_order=7, is_active=True),
-                Category(name='Tubewell', slug='tubewell', icon='\U0001F4A7', description='Hand tubewells, shallow, deep, all types', sort_order=8, is_active=True),
-            ]
-            db.session.add_all(categories)
-            db.session.commit()
-    except Exception as e:
-        print(f"Auto seed skipped: {e}")
-
 # ──────────────────────────────────────────────────────────────────────
 # HELPERS
 # ──────────────────────────────────────────────────────────────────────
