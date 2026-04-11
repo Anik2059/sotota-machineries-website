@@ -98,11 +98,12 @@ class PreBookOffer(db.Model):
     sort_order      = db.Column(db.Integer,       default=0)
     created_at      = db.Column(db.DateTime,      default=datetime.utcnow)
 
-    def image(self):
-        if self.image_file:
-            return f"/static/uploads/{self.image_file}"
-        return self.image_url or ""
-
+def image(self):
+    if self.image_file:
+        if self.image_file.startswith('http'):
+            return self.image_file
+        return f"/static/uploads/{self.image_file}"
+    return self.image_url or ""
 
 # ── NEW: Pre-Book Booking (customer books a PreBookOffer) ─────────────
 class PreBooking(db.Model):

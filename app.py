@@ -18,6 +18,8 @@ from flask import (Flask, render_template, request, redirect,
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from PIL import Image
+import cloudinary
+import cloudinary.uploader
 
 from models import db, Category, Product, Review, Video, PreBooking, PreOrder, PreBookOffer
 
@@ -25,6 +27,11 @@ from models import db, Category, Product, Review, Video, PreBooking, PreOrder, P
 # SETUP
 # ──────────────────────────────────────────────────────────────────────
 load_dotenv()
+cloudinary.config(
+    cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key    = os.getenv('CLOUDINARY_API_KEY'),
+    api_secret = os.getenv('CLOUDINARY_API_SECRET'),
+)
 
 app = Flask(__name__)
 
@@ -51,6 +58,33 @@ PHONE       = os.getenv('PHONE_NUMBER',   '+8801771110646')
 Path(app.config['UPLOAD_FOLDER']).mkdir(parents=True, exist_ok=True)
 
 db.init_app(app)
+
+_seeded = False
+
+@app.before_request
+def auto_seed():
+    global _seeded
+    if _seeded:
+        return
+    _seeded = True
+    try:
+        db.create_all()
+        from models import Category
+        if Category.query.count() == 0:
+            categories = [
+                Category(name='Machines & Engines', slug='machines', icon='⚙️', description='Diesel engines, power tillers, harvesters', sort_order=1, is_active=True),
+                Category(name='Generators & Power', slug='generators', icon='⚡', description='Generator sets, shallow machines, alternators', sort_order=2, is_active=True),
+                Category(name='Motors & Pumps', slug='motors', icon='🔧', description='Jet pumps, centrifugal, submersible, electric motors', sort_order=3, is_active=True),
+                Category(name='Oils & Lubricants', slug='oils', icon='🛢️', description='Engine oil, gear oil for machines', sort_order=4, is_active=True),
+                Category(name='Home & Kitchen', slug='home-kitchen', icon='🏠', description='Doors, bathtubs, basins, taps, gas stoves, tanks', sort_order=5, is_active=True),
+                Category(name='Fittings', slug='fittings', icon='🔩', description='All plumbing and hardware fittings', sort_order=6, is_active=True),
+                Category(name='Pipes', slug='pipes', icon='\U0001F6B0', description='PVC, HDPE, GI and metal pipes', sort_order=7, is_active=True),
+                Category(name='Tubewell', slug='tubewell', icon='\U0001F4A7', description='Hand tubewells, shallow, deep, all types', sort_order=8, is_active=True),
+            ]
+            db.session.add_all(categories)
+            db.session.commit()
+    except Exception as e:
+        print(f"Auto seed skipped: {e}")
 # ──────────────────────────────────────────────────────────────────────
 # HELPERS
 # ──────────────────────────────────────────────────────────────────────
@@ -59,19 +93,16 @@ def allowed_file(filename):
 
 
 def save_uploaded_image(file):
-    """Save uploaded image, resize to max 800px wide, return filename."""
-    ext      = file.filename.rsplit('.', 1)[1].lower()
-    filename = f"{uuid.uuid4().hex}.{ext}"
-    save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-    img = Image.open(file)
-    img.convert('RGB')                     # strip alpha for jpg compatibility
-    if img.width > 800:
-        ratio = 800 / img.width
-        img = img.resize((800, int(img.height * ratio)), Image.LANCZOS)
-    img.save(save_path, optimize=True, quality=85)
-    return filename
-
+    """Upload image to Cloudinary and return the secure URL."""
+    try:
+        result = cloudinary.uploader.upload(
+            file,
+            folder='sotota-machineries',
+            transformation=[{'width': 800, 'crop': 'limit', 'quality': 85}]
+        )
+        return result['secure_url']
+    except Exception as e:
+        raise Exception(f"Cloudinary upload failed: {e}")
 
 def get_nav_categories():
     return Category.query.filter_by(is_active=True).order_by(Category.sort_order).all()
