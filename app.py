@@ -95,12 +95,12 @@ def allowed_file(filename):
 def save_uploaded_image(file):
     """Upload image to Cloudinary and return the secure URL."""
     try:
-        result = cloudinary.uploader.upload(file)
-
-        url = result['secure_url']
-        print("IMAGE URL:", url)
-
-        return url
+        result = cloudinary.uploader.upload(
+            file,
+            folder='sotota-machineries',
+            transformation=[{'width': 1200, 'crop': 'limit', 'quality': 'auto'}]
+        )
+        return result['secure_url']
     except Exception as e:
         raise Exception(f"Cloudinary upload failed: {e}")
 

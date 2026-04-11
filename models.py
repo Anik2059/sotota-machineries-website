@@ -208,10 +208,27 @@ class Product(db.Model):
         imgs = []
         main = self.image()
         if main: imgs.append(main)
-        img2 = f"/static/uploads/{self.image_file_2}" if self.image_file_2 else (self.image_url_2 or "")
+
+        # image_file_2
+        if self.image_file_2:
+            if self.image_file_2.startswith("http://") or self.image_file_2.startswith("https://"):
+                img2 = self.image_file_2
+            else:
+                img2 = f"/static/uploads/{self.image_file_2}"
+        else:
+            img2 = self.image_url_2 or ""
         if img2: imgs.append(img2)
-        img3 = f"/static/uploads/{self.image_file_3}" if self.image_file_3 else (self.image_url_3 or "")
+
+        # image_file_3
+        if self.image_file_3:
+            if self.image_file_3.startswith("http://") or self.image_file_3.startswith("https://"):
+                img3 = self.image_file_3
+            else:
+                img3 = f"/static/uploads/{self.image_file_3}"
+        else:
+            img3 = self.image_url_3 or ""
         if img3: imgs.append(img3)
+
         return imgs
 
     def to_dict(self):
