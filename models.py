@@ -197,10 +197,11 @@ class Product(db.Model):
                                                onupdate=datetime.utcnow)
 
     def image(self):
-        """Return the best available image source."""
-        if self.image_file:
-            return f"/static/uploads/{self.image_file}"
-        return self.image_url or ""
+     if self.image_file:
+        if self.image_file.startswith("http://") or self.image_file.startswith("https://"):
+            return self.image_file
+        return f"/static/uploads/{self.image_file}"
+     return self.image_url or ""
 
     def all_images(self):
         """Return list of all available image URLs (up to 3)."""
