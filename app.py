@@ -49,7 +49,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER']        = os.path.join('static', 'uploads')
 app.config['MAX_CONTENT_LENGTH']   = 150 * 1024 * 1024  # 150MB for video uploads
 
-ALLOWED_EXT = {'jpg', 'jpeg', 'png', 'webp', 'gif'}
+ALLOWED_EXT = {'jpg', 'jpeg', 'png', 'webp', 'gif', 'jfif'}
 ADMIN_PASS  = os.getenv('ADMIN_PASSWORD', 'sotota2024')
 WHATSAPP    = os.getenv('WHATSAPP_NUMBER', '8801771110646')
 PHONE       = os.getenv('PHONE_NUMBER',   '+8801771110646')
