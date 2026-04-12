@@ -141,6 +141,8 @@ def index():
                                  .order_by(Product.created_at.desc()).limit(10).all()
     new_arrivals  = Product.query.filter_by(is_active=True, is_new_arrival=True)\
                                  .order_by(Product.created_at.desc()).limit(10).all()
+    featured_products = Product.query.filter_by(is_active=True, is_featured=True)\
+                                     .order_by(Product.created_at.desc()).limit(10).all()
     categories    = Category.query.filter_by(is_active=True).order_by(Category.sort_order).all()
     reviews       = Review.query.filter_by(is_approved=True)\
                                 .order_by(Review.created_at.desc()).limit(8).all()
@@ -149,6 +151,7 @@ def index():
     return render_template('index.html',
                            hot_products=hot_products,
                            new_arrivals=new_arrivals,
+                           featured_products=featured_products,
                            categories=categories,
                            reviews=reviews,
                            prebook_offers_data=prebook_offers_data)
@@ -418,7 +421,8 @@ def submit_review():
 # ──────────────────────────────────────────────────────────────────────
 @app.route('/reviews')
 def all_reviews():
-    reviews = Review.query.filter_by(is_approved=True)                          .order_by(Review.created_at.desc()).all()
+    reviews = Review.query.filter_by(is_approved=True)\
+                          .order_by(Review.created_at.desc()).all()
     return render_template('reviews.html', reviews=reviews)
 
 
@@ -612,11 +616,6 @@ def admin_edit_product(pid):
             f = request.files.get(fname)
             if f and f.filename and allowed_file(f.filename):
                 try:
-                    old_val = getattr(product, attr)
-                    if old_val:
-                        old_path = os.path.join(app.config['UPLOAD_FOLDER'], old_val)
-                        if os.path.exists(old_path):
-                            os.remove(old_path)
                     setattr(product, attr, save_uploaded_image(f))
                 except Exception as e:
                     flash(f'Image upload failed: {e}', 'warning')
@@ -632,11 +631,6 @@ def admin_edit_product(pid):
 @login_required
 def admin_delete_product(pid):
     product = Product.query.get_or_404(pid)
-    # Remove uploaded image file if exists
-    if product.image_file:
-        img_path = os.path.join(app.config['UPLOAD_FOLDER'], product.image_file)
-        if os.path.exists(img_path):
-            os.remove(img_path)
     name = product.name
     db.session.delete(product)
     db.session.commit()
@@ -880,7 +874,6 @@ def admin_delete_prebook_offer(oid):
 
 
 # ──────────────────────────────────────────────────────────────────────
-# ──────────────────────────────────────────────────────────────────────
 # MIGRATION & SEED ROUTES (run once)
 # ──────────────────────────────────────────────────────────────────────
 
@@ -904,6 +897,7 @@ def migrate_gallery():
         return "Migration done! Gallery columns added."
     except Exception as e:
         return f"Error: {e}"
+
 @app.route('/seed-categories-once')
 def seed_categories():
     from models import Category
@@ -986,7 +980,6 @@ def too_large(e):
 # RUN
 # ──────────────────────────────────────────────────────────────────────
 
-# ── BACKWARD COMPATIBILITY — old /order routes redirect to new ones ───
 @app.route('/order', methods=['GET', 'POST'])
 def order():
     if request.method == 'POST':
@@ -1005,7 +998,7 @@ def order_track():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()   # creates all tables including videos and prebookings
+        db.create_all()
     app.run(
         debug=os.getenv('FLASK_DEBUG', 'True') == 'True',
         host='0.0.0.0',
