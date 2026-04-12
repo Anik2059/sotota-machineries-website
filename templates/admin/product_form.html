@@ -115,7 +115,7 @@
           <img id="img-preview" class="img-preview"
                {% if product and product.image_file %}src="{{ product.image() }}" style="display:block;"{% endif %}
                alt="Image preview"/>
-          <small style="color:var(--tlt);">JPG, PNG, WEBP — max 5MB. Will be resized to 800px width automatically.</small>
+          <small style="color:var(--tlt);">JPG, PNG, WEBP, JFIF — max 5MB. Uploaded to Cloudinary automatically.</small>
         </div>
 
         <!-- Image URL -->
@@ -123,7 +123,7 @@
           <label>OR — Paste External Image URL</label>
           <div style="display:flex;gap:8px;">
             <input type="text" id="image_url" name="image_url"
-                   value="{{ product.image_url if product else '' }}"
+                   value="{{ product.image_url or '' if product else '' }}"
                    placeholder="https://example.com/product-image.jpg"
                    oninput="previewImageUrl()"/>
             <button type="button" onclick="previewImageUrl()" class="btn btn-sm btn-green">
@@ -139,32 +139,36 @@
         <div class="form-group">
           <label>Extra Image 2 — Upload</label>
           <input type="file" name="image_file_2" accept="image/*" onchange="previewExtra(this,'prev2')" style="padding:8px;background:var(--gray1);border-radius:7px;cursor:pointer;"/>
-          <img id="prev2" class="img-preview" {% if product and product.image_file_2 %}src="/static/uploads/{{ product.image_file_2 }}" style="display:block;"{% endif %} alt=""/>
+          <img id="prev2" class="img-preview"
+               {% if product and product.image_file_2 %}src="{{ product.image_file_2 if product.image_file_2.startswith('http') else '/static/uploads/' + product.image_file_2 }}" style="display:block;"{% endif %}
+               alt=""/>
         </div>
 
         <!-- Extra Image 2 URL -->
         <div class="form-group">
           <label>OR Extra Image 2 URL</label>
-          <input type="text" name="image_url_2" value="{{ product.image_url_2 if product else '' }}" placeholder="https://..."/>
+          <input type="text" name="image_url_2" value="{{ product.image_url_2 or '' if product else '' }}" placeholder="https://..."/>
         </div>
 
         <!-- Extra Image 3 -->
         <div class="form-group">
           <label>Extra Image 3 — Upload</label>
           <input type="file" name="image_file_3" accept="image/*" onchange="previewExtra(this,'prev3')" style="padding:8px;background:var(--gray1);border-radius:7px;cursor:pointer;"/>
-          <img id="prev3" class="img-preview" {% if product and product.image_file_3 %}src="/static/uploads/{{ product.image_file_3 }}" style="display:block;"{% endif %} alt=""/>
+          <img id="prev3" class="img-preview"
+               {% if product and product.image_file_3 %}src="{{ product.image_file_3 if product.image_file_3.startswith('http') else '/static/uploads/' + product.image_file_3 }}" style="display:block;"{% endif %}
+               alt=""/>
         </div>
 
         <!-- Extra Image 3 URL -->
         <div class="form-group">
           <label>OR Extra Image 3 URL</label>
-          <input type="text" name="image_url_3" value="{{ product.image_url_3 if product else '' }}" placeholder="https://..."/>
+          <input type="text" name="image_url_3" value="{{ product.image_url_3 or '' if product else '' }}" placeholder="https://..."/>
         </div>
 
         <!-- Custom WhatsApp Message -->
         <div class="form-group full">
           <label>Custom WhatsApp Message (optional)</label>
-          <input type="text" name="wa_message" value="{{ product.wa_message if product else '' }}"
+          <input type="text" name="wa_message" value="{{ product.wa_message or '' if product else '' }}"
                  placeholder="Leave blank to auto-generate from product name"/>
         </div>
 
@@ -233,7 +237,6 @@ function toggleSubCategory() {
   wrap.style.display = slug === 'machines' ? 'block' : 'none';
 }
 
-// Run on page load so edit form shows sub-category if machines is selected
 document.addEventListener('DOMContentLoaded', toggleSubCategory);
 </script>
 </body>
