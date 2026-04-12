@@ -51,7 +51,7 @@ function filterProducts() {
     const model = (card.dataset.model || '').toLowerCase();
     const b     = card.dataset.badge || '';
     const matchQ = !q    || name.includes(q) || brand.includes(q) || model.includes(q);
-    const matchB = !badge || b === badge;
+    const matchB = !badge || b.toLowerCase() === badge.toLowerCase();
     card.style.display = (matchQ && matchB) ? '' : 'none';
   });
 }

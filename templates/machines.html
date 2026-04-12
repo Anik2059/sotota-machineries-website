@@ -33,42 +33,50 @@
       <button class="sub-tab" onclick="switchTab(this,'panel-other')">🌾 Harvesters & Other</button>
     </div>
 
-    {% set diesel_brands = ['Changchai','Jiangdong','Sifang'] %}
-    {% set tiller_brands = ['ACI Motors','CBM Builders'] %}
-    {% set other_brands  = ['CBM'] %}
+    {% set diesel_brands = ['changchai','jiangdong','sifang','diamond','changfa','laidong'] %}
+    {% set tiller_brands = ['aci motors','cbm builders','cbm','dong feng','fmtv','kubota','yanmar','tafe','mahindra'] %}
 
-    <!-- Diesel Engines -->
+    <!-- Diesel Engines — products with sub_category='diesel', or brand-based fallback for old products -->
     <div id="panel-diesel" class="sub-panel active">
-      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Diesel Engines (ডিজেল ইঞ্জিন)</h2><p>Changchai, Jiangdong, Sifang — full range stocked at Jamalpur Station Road</p></div>
+      <div class="sec-head" style="margin-bottom:20px;">
+        <h2 style="font-size:1.45rem;color:var(--g1);">Diesel Engines (ডিজেল ইঞ্জিন)</h2>
+        <p>Changchai, Jiangdong, Sifang, Changfa &amp; all brands — full range stocked at Jamalpur Station Road</p>
+      </div>
       <div class="prod-grid">
-        {% for p in products if p.brand in diesel_brands %}
+        {% for p in products if p.sub_category == 'diesel' or not p.sub_category %}
           {% include "_product_card.html" %}
         {% else %}
-        <p style="color:var(--tlt);padding:20px;">No diesel engines in database yet.</p>
+          <p style="color:var(--tlt);padding:20px;">No diesel engines added yet.</p>
         {% endfor %}
       </div>
     </div>
 
     <!-- Power Tillers -->
     <div id="panel-tiller" class="sub-panel">
-      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Power Tillers (পাওয়ার টিলার)</h2></div>
+      <div class="sec-head" style="margin-bottom:20px;">
+        <h2 style="font-size:1.45rem;color:var(--g1);">Power Tillers (পাওয়ার টিলার)</h2>
+        <p>ACI, CBM, Dong Feng &amp; other tillers in stock</p>
+      </div>
       <div class="prod-grid">
-        {% for p in products if p.brand in tiller_brands %}
+        {% for p in products if p.sub_category == 'tiller' %}
           {% include "_product_card.html" %}
         {% else %}
-        <p style="color:var(--tlt);padding:20px;">No power tillers in database yet.</p>
+          <p style="color:var(--tlt);padding:20px;">No power tillers added yet.</p>
         {% endfor %}
       </div>
     </div>
 
-    <!-- Other -->
+    <!-- Harvesters & Other -->
     <div id="panel-other" class="sub-panel">
-      <div class="sec-head" style="margin-bottom:20px;"><h2 style="font-size:1.45rem;color:var(--g1);">Harvesters & Other Machines</h2></div>
+      <div class="sec-head" style="margin-bottom:20px;">
+        <h2 style="font-size:1.45rem;color:var(--g1);">Harvesters &amp; Other Machines</h2>
+        <p>All other agricultural and industrial machines</p>
+      </div>
       <div class="prod-grid">
-        {% for p in products if p.brand in other_brands %}
+        {% for p in products if p.sub_category == 'harvester' %}
           {% include "_product_card.html" %}
         {% else %}
-        <p style="color:var(--tlt);padding:20px;">No other machines in database yet.</p>
+          <p style="color:var(--tlt);padding:20px;">No harvesters added yet.</p>
         {% endfor %}
       </div>
     </div>

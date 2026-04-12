@@ -91,30 +91,7 @@
     </div>
     <div class="prod-grid">
       {% for p in hot_products %}
-      <article class="prod-card reveal" data-name="{{ p.name }}" data-brand="{{ p.brand or '' }}" data-badge="{{ p.badge or '' }}">
-        <div class="prod-img">
-          {% if p.badge %}<span class="badge badge-{{ p.badge|lower }}">{{ p.badge }}</span>{% endif %}
-          {% if p.image() %}
-            <img src="{{ p.image() }}" alt="{{ p.name }}" loading="lazy"/>
-          {% else %}
-            <div class="no-img">📦</div>
-          {% endif %}
-        </div>
-        <div class="prod-body">
-          <div class="prod-brand">{{ p.brand or '' }}</div>
-          <h3 class="prod-name">{{ p.name }}</h3>
-          {% if p.model_no %}<div class="prod-model">Model: {{ p.model_no }}</div>{% endif %}
-          <p class="prod-desc">{{ p.description or '' }}</p>
-          <div class="prod-no-price"><i class="fas fa-tag"></i> Contact for price & availability</div>
-        </div>
-        <div class="prod-actions">
-          <a href="https://wa.me/{{ whatsapp }}?text={{ (p.wa_message or (p.name + ' সম্পর্কে দাম ও স্টক জানতে চাই।'))|urlencode }}"
-             class="p-wa" target="_blank" rel="noopener">
-            <i class="fab fa-whatsapp"></i> Get Price
-          </a>
-          <a href="tel:{{ phone }}" class="p-call"><i class="fas fa-phone"></i></a>
-        </div>
-      </article>
+        {% include "_product_card.html" %}
       {% else %}
       <p style="color:var(--tlt);padding:20px;">No hot products yet. Add them from the admin panel.</p>
       {% endfor %}
@@ -135,29 +112,7 @@
     </div>
     <div class="prod-grid">
       {% for p in new_arrivals %}
-      <article class="prod-card reveal">
-        <div class="prod-img">
-          <span class="badge badge-new">🆕 New</span>
-          {% if p.image() %}
-            <img src="{{ p.image() }}" alt="{{ p.name }}" loading="lazy"/>
-          {% else %}
-            <div class="no-img">📦</div>
-          {% endif %}
-        </div>
-        <div class="prod-body">
-          <div class="prod-brand">{{ p.brand or '' }}</div>
-          <h3 class="prod-name">{{ p.name }}</h3>
-          <p class="prod-desc">{{ p.description or '' }}</p>
-          <div class="prod-no-price"><i class="fas fa-tag"></i> Contact for price & availability</div>
-        </div>
-        <div class="prod-actions">
-          <a href="https://wa.me/{{ whatsapp }}?text={{ (p.name + ' নতুন স্টক — দাম জানতে চাই।')|urlencode }}"
-             class="p-wa" target="_blank" rel="noopener">
-            <i class="fab fa-whatsapp"></i> Get Price
-          </a>
-          <a href="tel:{{ phone }}" class="p-call"><i class="fas fa-phone"></i></a>
-        </div>
-      </article>
+        {% include "_product_card.html" %}
       {% else %}
       <p style="color:var(--tlt);padding:20px;">No new arrivals yet.</p>
       {% endfor %}

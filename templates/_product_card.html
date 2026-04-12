@@ -1,7 +1,11 @@
 {# Reusable product card — include as: {% include "_product_card.html" %} #}
 {# Variable `p` must be a Product object in context #}
 <article class="prod-card reveal"
-         data-product='{"name":"{{ p.name|e }}","brand":"{{ (p.brand or "")|e }}","model":"{{ (p.model_no or "")|e }}","desc":"{{ (p.description or "")|e }}","badge":"{{ (p.badge or "")|e }}","image":"{{ p.image() or "" }}","images":{{ p.all_images()|tojson }},"waMsg":"{{ (p.wa_message or (p.name ~ " সম্পর্কে দাম ও স্টক জানতে চাই।"))|urlencode }}"}'
+         data-name="{{ p.name|e }}"
+         data-brand="{{ (p.brand or '')|e }}"
+         data-model="{{ (p.model_no or '')|e }}"
+         data-badge="{{ (p.badge or '')|e }}"
+         data-product='{{ {"name": p.name, "brand": p.brand or "", "model": p.model_no or "", "desc": p.description or "", "badge": p.badge or "", "image": p.image() or "", "images": p.all_images(), "waMsg": p.wa_message or (p.name ~ " সম্পর্কে দাম ও স্টক জানতে চাই।")} | tojson }}'
          itemscope itemtype="https://schema.org/Product">
   <div class="prod-img">
     {% if p.badge %}

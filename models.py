@@ -185,6 +185,7 @@ class Product(db.Model):
     image_file_2   = db.Column(db.String(200)) # extra image 2 (uploaded)
     image_url_3    = db.Column(db.Text)        # extra image 3 (URL)
     image_file_3   = db.Column(db.String(200)) # extra image 3 (uploaded)
+    sub_category   = db.Column(db.String(50))  # e.g. diesel | tiller | harvester
     badge          = db.Column(db.String(20))  # Hot | New | Sale | Popular
     is_featured    = db.Column(db.Boolean,     default=False)
     is_new_arrival = db.Column(db.Boolean,     default=False)

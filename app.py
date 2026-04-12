@@ -69,6 +69,10 @@ def auto_seed():
     _seeded = True
     try:
         db.create_all()
+        # Auto-migrate: add sub_category column if it does not exist yet
+        with db.engine.connect() as conn:
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS sub_category VARCHAR(50)"))
+            conn.commit()
         from models import Category
         if Category.query.count() == 0:
             categories = [
@@ -134,7 +138,7 @@ def inject_globals():
 @app.route('/')
 def index():
     hot_products  = Product.query.filter_by(is_active=True, is_hot=True)\
-                                 .order_by(Product.sort_order).limit(10).all()
+                                 .order_by(Product.created_at.desc()).limit(10).all()
     new_arrivals  = Product.query.filter_by(is_active=True, is_new_arrival=True)\
                                  .order_by(Product.created_at.desc()).limit(10).all()
     categories    = Category.query.filter_by(is_active=True).order_by(Category.sort_order).all()
@@ -155,7 +159,7 @@ def machines():
     cat = Category.query.filter_by(slug='machines').first_or_404()
     all_products = Product.query.filter_by(
         category_id=cat.id, is_active=True
-    ).order_by(Product.sort_order).all()
+    ).order_by(Product.created_at.desc()).all()
     return render_template('machines.html', cat=cat, products=all_products)
 
 
@@ -164,7 +168,7 @@ def generators():
     cat = Category.query.filter_by(slug='generators').first_or_404()
     products = Product.query.filter_by(
         category_id=cat.id, is_active=True
-    ).order_by(Product.sort_order).all()
+    ).order_by(Product.created_at.desc()).all()
     return render_template('generators.html', cat=cat, products=products)
 
 
@@ -173,7 +177,7 @@ def motors():
     cat = Category.query.filter_by(slug='motors').first_or_404()
     products = Product.query.filter_by(
         category_id=cat.id, is_active=True
-    ).order_by(Product.sort_order).all()
+    ).order_by(Product.created_at.desc()).all()
     return render_template('motors.html', cat=cat, products=products)
 
 
@@ -182,7 +186,7 @@ def oils():
     cat = Category.query.filter_by(slug='oils').first_or_404()
     products = Product.query.filter_by(
         category_id=cat.id, is_active=True
-    ).order_by(Product.sort_order).all()
+    ).order_by(Product.created_at.desc()).all()
     return render_template('oils.html', cat=cat, products=products)
 
 
@@ -191,7 +195,7 @@ def home_kitchen():
     cat = Category.query.filter_by(slug='home-kitchen').first_or_404()
     products = Product.query.filter_by(
         category_id=cat.id, is_active=True
-    ).order_by(Product.sort_order).all()
+    ).order_by(Product.created_at.desc()).all()
     return render_template('home_kitchen.html', cat=cat, products=products)
 
 
@@ -200,7 +204,7 @@ def fittings():
     cat = Category.query.filter_by(slug='fittings').first_or_404()
     products = Product.query.filter_by(
         category_id=cat.id, is_active=True
-    ).order_by(Product.sort_order).all()
+    ).order_by(Product.created_at.desc()).all()
     return render_template('fittings.html', cat=cat, products=products)
 
 
@@ -537,6 +541,7 @@ def admin_add_product():
         model_no    = request.form.get('model_no', '').strip()
         description = request.form.get('description', '').strip()
         category_id = request.form.get('category_id', type=int)
+        sub_category= request.form.get('sub_category', '').strip() or None
         badge       = request.form.get('badge', '') or None
         is_hot      = bool(request.form.get('is_hot'))
         is_new      = bool(request.form.get('is_new_arrival'))
@@ -565,6 +570,7 @@ def admin_add_product():
         product = Product(
             name=name, brand=brand, model_no=model_no,
             description=description, category_id=category_id,
+            sub_category=sub_category,
             badge=badge, is_hot=is_hot, is_new_arrival=is_new,
             is_featured=is_featured, image_url=image_url,
             image_file=image_file, wa_message=wa_message,
@@ -591,6 +597,7 @@ def admin_edit_product(pid):
         product.model_no    = request.form.get('model_no', '').strip()
         product.description = request.form.get('description', '').strip()
         product.category_id = request.form.get('category_id', type=int)
+        product.sub_category= request.form.get('sub_category', '').strip() or None
         product.badge       = request.form.get('badge', '') or None
         product.is_hot      = bool(request.form.get('is_hot'))
         product.is_new_arrival = bool(request.form.get('is_new_arrival'))
@@ -876,6 +883,16 @@ def admin_delete_prebook_offer(oid):
 # ──────────────────────────────────────────────────────────────────────
 # MIGRATION & SEED ROUTES (run once)
 # ──────────────────────────────────────────────────────────────────────
+
+@app.route('/migrate-add-subcategory')
+def migrate_add_subcategory():
+    try:
+        with db.engine.connect() as conn:
+            conn.execute(db.text("ALTER TABLE products ADD COLUMN IF NOT EXISTS sub_category VARCHAR(50)"))
+            conn.commit()
+        return "Migration done! sub_category column added."
+    except Exception as e:
+        return f"Error: {e}"
 
 @app.route('/migrate-add-gallery-columns')
 def migrate_gallery():

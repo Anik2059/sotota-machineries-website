@@ -66,13 +66,24 @@
         <!-- Category -->
         <div class="form-group">
           <label>Category *</label>
-          <select name="category_id" required>
+          <select name="category_id" id="category_id" required onchange="toggleSubCategory()">
             <option value="">— Select Category —</option>
             {% for c in categories %}
-            <option value="{{ c.id }}" {{ 'selected' if product and product.category_id == c.id }}>
+            <option value="{{ c.id }}" data-slug="{{ c.slug }}" {{ 'selected' if product and product.category_id == c.id }}>
               {{ c.icon }} {{ c.name }}
             </option>
             {% endfor %}
+          </select>
+        </div>
+
+        <!-- Sub-Category (shown only for Machines & Engines) -->
+        <div class="form-group" id="sub-category-wrap" style="{{ 'display:block' if product and product.category and product.category.slug == 'machines' else 'display:none' }};">
+          <label>Sub-Category (Section) *</label>
+          <select name="sub_category" id="sub_category">
+            <option value="">— Select Section —</option>
+            <option value="diesel" {{ 'selected' if product and product.sub_category == 'diesel' }}>⚙️ Diesel Engines</option>
+            <option value="tiller" {{ 'selected' if product and product.sub_category == 'tiller' }}>🚜 Power Tillers</option>
+            <option value="harvester" {{ 'selected' if product and product.sub_category == 'harvester' }}>🌾 Harvesters & Other</option>
           </select>
         </div>
 
@@ -213,6 +224,17 @@ function previewExtra(input, previewId) {
   };
   reader.readAsDataURL(file);
 }
+
+function toggleSubCategory() {
+  const sel = document.getElementById('category_id');
+  const opt = sel.options[sel.selectedIndex];
+  const slug = opt ? opt.dataset.slug : '';
+  const wrap = document.getElementById('sub-category-wrap');
+  wrap.style.display = slug === 'machines' ? 'block' : 'none';
+}
+
+// Run on page load so edit form shows sub-category if machines is selected
+document.addEventListener('DOMContentLoaded', toggleSubCategory);
 </script>
 </body>
 </html>
