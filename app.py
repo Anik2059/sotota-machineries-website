@@ -37,14 +37,24 @@ app = Flask(__name__)
 
 # Config
 app.config['SECRET_KEY']           = os.getenv('SECRET_KEY', 'dev-secret-key-change-me')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'DATABASE_URL',
-    f"postgresql://{os.getenv('DB_USER','postgres')}:"
-    f"{os.getenv('DB_PASSWORD','')}@"
-    f"{os.getenv('DB_HOST','localhost')}:"
-    f"{os.getenv('DB_PORT','5432')}/"
-    f"{os.getenv('DB_NAME','sotota_machineries')}"
-)
+db_url = os.getenv('DATABASE_URL')
+if db_url:
+    db_url = db_url.strip()
+    db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    db_url = db_url.replace('postgresql+psycopg://', 'postgresql://', 1)
+else:
+    db_url = (
+        f"postgresql://{os.getenv('DB_USER','postgres')}:"
+        f"{os.getenv('DB_PASSWORD','')}@"
+        f"{os.getenv('DB_HOST','localhost')}:"
+        f"{os.getenv('DB_PORT','5432')}/"
+        f"{os.getenv('DB_NAME','sotota_machineries')}"
+    )
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,
+    'pool_recycle': 300,
+}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER']        = os.path.join('static', 'uploads')
 app.config['MAX_CONTENT_LENGTH']   = 150 * 1024 * 1024  # 150MB for video uploads
@@ -88,6 +98,7 @@ def auto_seed():
             db.session.add_all(categories)
             db.session.commit()
     except Exception as e:
+        db.session.rollback()
         print(f"Auto seed skipped: {e}")
 # ──────────────────────────────────────────────────────────────────────
 # HELPERS
