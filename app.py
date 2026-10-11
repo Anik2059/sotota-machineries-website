@@ -40,11 +40,13 @@ app.config['SECRET_KEY']           = os.getenv('SECRET_KEY', 'dev-secret-key-cha
 db_url = os.getenv('DATABASE_URL')
 if db_url:
     db_url = db_url.strip()
-    db_url = db_url.replace('postgres://', 'postgresql://', 1)
-    db_url = db_url.replace('postgresql+psycopg://', 'postgresql://', 1)
+    for prefix in ('postgres://', 'postgresql://', 'postgresql+psycopg://'):
+        if db_url.startswith(prefix):
+            db_url = 'postgresql+psycopg2://' + db_url[len(prefix):]
+            break
 else:
     db_url = (
-        f"postgresql://{os.getenv('DB_USER','postgres')}:"
+        f"postgresql+psycopg2://{os.getenv('DB_USER','postgres')}:"
         f"{os.getenv('DB_PASSWORD','')}@"
         f"{os.getenv('DB_HOST','localhost')}:"
         f"{os.getenv('DB_PORT','5432')}/"
